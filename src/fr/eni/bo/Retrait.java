@@ -1,20 +1,20 @@
-﻿package fr.eni.bo;
+package fr.eni.bo;
 
 public class Retrait {
 /*
     private ArticleVendu article;
     private String rue;
-    private String code_postal;
+    private String codePostal;
     private String ville;
 
 
     public Retrait() {
     }
 
-    public Retrait(ArticleVendu article, String rue, String code_postal, String ville) {
+    public Retrait(ArticleVendu article, String rue, String codePostal, String ville) {
         this.article = article;
         this.rue = rue;
-        this.code_postal = code_postal;
+        this.codePostal = codePostal;
         this.ville = ville;
     }
 
@@ -34,12 +34,12 @@ public class Retrait {
         this.rue = rue;
     }
 
-    public String getCode_postal() {
-        return code_postal;
+    public String getCodePostal() {
+        return codePostal;
     }
 
-    public void setCode_postal(String code_postal) {
-        this.code_postal = code_postal;
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
     }
 
     public String getVille() {
@@ -49,5 +49,6 @@ public class Retrait {
     public void setVille(String ville) {
         this.ville = ville;
     }
-    */
+
+ */
 }

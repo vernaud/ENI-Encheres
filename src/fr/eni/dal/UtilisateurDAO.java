@@ -1,7 +1,12 @@
-﻿package fr.eni.dal;
+package fr.eni.dal;
+
+import fr.eni.bo.Utilisateur;
 
 public interface UtilisateurDAO {
 
-    public boolean connecterUtilisateur(String user, String pass);
+    static UtilisateurDAO getUtilisateurDAO(){
+        return new UtilisateurDAOJdbcImpl();
+    }
+    Utilisateur connecterUtilisateur(String user, String pass) throws DALException;
 
 }

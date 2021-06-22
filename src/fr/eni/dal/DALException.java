@@ -1,4 +1,4 @@
-﻿package fr.eni.dal;
+package fr.eni.dal;
 
 public class DALException extends Exception {
 
