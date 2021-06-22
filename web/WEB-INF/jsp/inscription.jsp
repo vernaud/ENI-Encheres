@@ -16,6 +16,8 @@
             <input type="text" id="nom">
             <label for="prenom">Prénom</label>
             <input type="text" id="prenom">
+            <label for="email">Email</label>
+            <input type="email" id="email">
             <label for="tel">Téléphone</label>
             <input type="tel" id="tel">
             <label for="rue">Rue</label>

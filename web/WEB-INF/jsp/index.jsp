@@ -5,7 +5,7 @@
   </head>
   <body>
   <header>
-    <div id="logo"></div>
+    <div id="logo">ENI-Enchères</div>
     <p><a href="connexion">S'inscrire - Se connecter</a></p>
   </header>
   <main>
