@@ -27,7 +27,3 @@ hs_err_pid*
 META-INF/
 out/
 /ENI-Encheres.iml
-/src/fr/eni/servlets/ServletTestConnect.java
-/src/fr/eni/servlets/ServletAccueil.java
-/web/WEB-INF/accueil.jsp
-/web/WEB-INF/testConnect.jsp
