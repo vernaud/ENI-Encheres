@@ -14,7 +14,6 @@ public class Utilisateur {
     public Integer getNoUtilisateur() {
         return noUtilisateur;
     }
-
     public void setNoUtilisateur(Integer noUtilisateur) {
         this.noUtilisateur = noUtilisateur;
     }
@@ -81,14 +80,6 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
-    public Integer getNo_utilisateur() {
-        return noUtilisateur;
-    }
-
-    public void setNo_utilisateur(Integer no_utilisateur) {
-        this.noUtilisateur = noUtilisateur;
-    }
-
     public String getPseudo() {
         return pseudo;
     }
@@ -137,13 +128,6 @@ public class Utilisateur {
         this.rue = rue;
     }
 
-    public String getCode_postal() {
-        return codePostal;
-    }
-
-    public void setCode_postal(String code_postal) {
-        this.codePostal = code_postal;
-    }
 
     public String getVille() {
         return ville;

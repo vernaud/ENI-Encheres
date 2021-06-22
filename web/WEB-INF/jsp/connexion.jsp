@@ -10,11 +10,12 @@
         </div>
     </header>
     <main>
-        <form action="">
+        <form action="${pageContext.request.contextPath}/connexion" method="post">
+            <p>${message}</p>
             <label for="identifiant">Identifiant </label>
-            <input type="text" id="identifiant">
+            <input type="text" id="identifiant" name="identifiant">
             <label for="password">Mot de passe </label>
-            <input type="password" id="password">
+            <input type="password" id="password" name="password">
 
             <input type="submit" value="Se connecter">
             <input type="checkbox" id="rememberme">
