@@ -9,8 +9,9 @@ public class UtilisateurManager {
 
     UtilisateurDAO utilisateurDAO;
 
-    public UtilisateurManager() {
+    public UtilisateurManager(){
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
+
     }
 
     public void inscrireUtilisateur(Utilisateur utilisateur) throws BLLException {
@@ -106,4 +107,14 @@ public class UtilisateurManager {
 
     }
 
+    public Utilisateur afficherProfil(int idProfil) throws BLLException {
+        Utilisateur user = null;
+        try {
+            user = utilisateurDAO.selectById(idProfil);
+        }catch (DALException e){
+            e.printStackTrace();
+            throw new BLLException("BLL - Affichage du profil a échoué");
+        }
+        return user;
+    }
 }
