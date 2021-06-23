@@ -19,8 +19,10 @@
   <p>${message}</p>
   <form action="${pageContext.request.contextPath}/majprofil" method="post">
 
-    <label for="id"></label>
-    <input type="text" id="id" name="id" value="${utilisateur.getNoUtilisateur()} ">
+    <label for="oldPseudo"></label>
+    <input type="text" id="oldPseudo" name="oldPseudo" value="${utilisateur.getPseudo()}" hidden>
+<%--    <label for="id"></label>--%>
+<%--    <input type="text" id="id" name="id" value="${utilisateur.getNoUtilisateur()}">--%>
     <label for="pseudo">Pseudo*</label>
     <input type="text" id="pseudo" name="pseudo" value="${utilisateur.getPseudo()}">
     <label for="nom">Nom*</label>
@@ -37,7 +39,7 @@
     <input type="text" id="codepostal" name="codepostal" value="${utilisateur.getCodePostal()}">
     <label for="ville">Ville*</label>
     <input type="text" id="ville" name="ville" value="${utilisateur.getVille()}">
-    <label for="oldpassword">Mot de passe*</label>
+    <label for="oldpassword">Mot de passe actuel*</label>
     <input type="password" id="oldpassword" name="oldpassword">
     <label for="newpassword">Mot de passe*</label>
     <input type="password" id="newpassword" name="newpassword">
@@ -45,7 +47,7 @@
     <input type="password" id="confirmpass" name="confirmpass">
 
     <label for="credit">Credit*</label>
-    <p type="" id="credit" name="credit">Nombre de crédit</p>
+    <p type="" id="credit" name="credit">${Utilisateur.getCredit()}</p>
 
     <input type="submit" value="Enregistrer">
     <input type="reset" value="Supprimer mon compte">

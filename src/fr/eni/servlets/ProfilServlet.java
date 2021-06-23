@@ -24,7 +24,7 @@ public class ProfilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des champs par selectById
-        int idProfil = 1;
+        int idProfil = 3;
         Utilisateur user = null;
         try {
             user = utilisateurManager.afficherProfil(idProfil);

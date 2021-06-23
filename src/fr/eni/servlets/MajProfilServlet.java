@@ -25,6 +25,8 @@ public class MajProfilServlet extends HttpServlet {
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur utilisateur;
         try {
+
+            String oldPseudo = req.getParameter("oldPseudo");
             String pseudo = req.getParameter("pseudo");
             String nom = req.getParameter("nom");
             String prenom = req.getParameter("prenom");
@@ -36,10 +38,10 @@ public class MajProfilServlet extends HttpServlet {
             String oldpassword = req.getParameter("oldpassword");
             String newpassword = req.getParameter("newpassword");
             String confirmpass = req.getParameter("confirmpass");
-            if(confirmpass.trim().equals(newpassword)) {
+            if(confirmpass.equals(newpassword)) {
                 utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, codepostal, ville, newpassword);
 
-                utilisateurManager.mettreAJourProfil(utilisateur, oldpassword);
+                utilisateurManager.mettreAJourProfil(utilisateur, oldPseudo, oldpassword);
                 HttpSession session = req.getSession();
                 session.setAttribute("utilisateur", utilisateur);
                 session.setAttribute("connecte", true);

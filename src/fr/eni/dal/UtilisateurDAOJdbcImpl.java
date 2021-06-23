@@ -126,7 +126,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 
     @Override
     public void UpdateProfil(Utilisateur utilisateur) throws DALException {
-        //"UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=?, credit=?, administrateur=?  WHERE no_utilisateur=?;"
+        //"UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE no_utilisateur=?;"
         Boolean profilAJour = false;
         try (Connection cnx = ConnectionProvider.getConnection();
              PreparedStatement pstt = cnx.prepareStatement(UPDATE_UTILISATEUR)) {
@@ -139,15 +139,16 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             pstt.setString(7, utilisateur.getCodePostal());
             pstt.setString(8, utilisateur.getVille());
             pstt.setString(9, utilisateur.getMotDePasse());
-            pstt.setInt(10, utilisateur.getCredit());
-            pstt.setBoolean(11, utilisateur.isAdministrateur());
-            pstt.setInt(12, utilisateur.getNoUtilisateur());
+//            pstt.setInt(10, utilisateur.getCredit());
+////            pstt.setBoolean(11, utilisateur.isAdministrateur());
+            pstt.setInt(10, utilisateur.getNoUtilisateur());
 
             pstt.executeUpdate();
             cnx.commit();
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la MAJ du profil");
         }
     }
 }
