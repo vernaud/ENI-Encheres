@@ -13,6 +13,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
             "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur     " +
             "FROM UTILISATEURS WHERE pseudo=? AND mot_de_passe=?";
 
+    private static final String SELECT_BY_ID = "";
 
     @Override
     public Utilisateur connecterUtilisateur(String pseudoOuMail, String motDePasse) throws DALException {
@@ -54,4 +55,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
         return utilisateur;
     }
+
+    @Override
+    public Utilisateur selectById(int id) throws DALException {
+        return null;
+    }
+
+
 }
