@@ -16,6 +16,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
     private static final String INSERT_UTLISATEUR = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, " +
             "rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    private static final String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, " +
+            "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " +
+            "FROM UTILISATEURS WHERE no_utilisateur=?";
 
     @Override
     public Utilisateur connecterUtilisateur(String pseudoOuMail, String motDePasse) throws DALException {
@@ -88,4 +91,37 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
             throw new DALException("L'inscription a échouée");
         }
     }
+
+    @Override
+    public Utilisateur selectById(int id) throws DALException {
+        Utilisateur utilisateur = new Utilisateur();
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
+            psmt.setInt(1, id);
+            ResultSet rs = psmt.executeQuery();
+
+            while (rs.next()) {
+                utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+                utilisateur.setPseudo(rs.getString("pseudo"));
+                utilisateur.setNom(rs.getString("nom"));
+                utilisateur.setPrenom(rs.getString("prenom"));
+                utilisateur.setEmail(rs.getString("email"));
+                utilisateur.setTelephone(rs.getString("telephone"));
+                utilisateur.setRue(rs.getString("rue"));
+                utilisateur.setCodePostal(rs.getString("code_postal"));
+                utilisateur.setVille(rs.getString("ville"));
+                utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+                utilisateur.setCredit(rs.getInt("credit"));
+                utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DALException("Impossible de récupérer l'utilisateur de cet ID.");
+        }
+
+        return utilisateur;
+    }
+
+
 }

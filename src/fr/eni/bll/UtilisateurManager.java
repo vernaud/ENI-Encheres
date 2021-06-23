@@ -2,14 +2,15 @@ package fr.eni.bll;
 
 import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DALException;
+import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 public class UtilisateurManager {
 
     UtilisateurDAO utilisateurDAO;
 
-    public UtilisateurManager() {
-        utilisateurDAO = UtilisateurDAO.getUtilisateurDAO();
+    public UtilisateurManager(){
+        utilisateurDAO = DAOFactory.getUtilisateurDAO();
 
     }
 
