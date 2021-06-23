@@ -12,14 +12,14 @@
     <main>
         <article>
             <ul>
-                <li>Pseudo : infos data</li>
-                <li>Nom : infos data</li>
-                <li>Prénom : infos data</li>
-                <li>Email : infos data</li>
-                <li>Téléphone : infos data</li>
-                <li>Rue : infos data</li>
-                <li>Code postal : infos data</li>
-                <li>Ville : infos data</li>
+                <li>Pseudo : ${userprofil.pseudo}</li>
+                <li>Nom : ${userprofil.nom}</li>
+                <li>Prénom : ${userprofil.prenom}</li>
+                <li>Email : ${userprofil.email}</li>
+                <li>Téléphone : ${userprofil.telephone}</li>
+                <li>Rue : ${userprofil.rue}</li>
+                <li>Code postal : ${userprofil.codePostal}</li>
+                <li>Ville : ${userprofil.ville}</li>
             </ul>
         </article>
     </main>
