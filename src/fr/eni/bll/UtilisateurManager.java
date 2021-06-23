@@ -16,23 +16,23 @@ public class UtilisateurManager {
 
     public void inscrireUtilisateur(Utilisateur utilisateur) throws BLLException {
         try {
-            if (utilisateur.getPseudo().trim() == null) {
+            if (utilisateur.getPseudo().trim().isEmpty()) {
                 throw new BLLException("Le pseudo est obligatoire");
-            } else if (utilisateur.getNom().trim() == null) {
+            } else if (utilisateur.getNom().trim().isEmpty()) {
                 throw new BLLException("Le nom est obligatoire");
-            } else if (utilisateur.getPrenom().trim() == null) {
+            } else if (utilisateur.getPrenom().trim().isEmpty()) {
                 throw new BLLException("Le prénom est obligatoire");
-            } else if (utilisateur.getEmail().trim() == null) {
+            } else if (utilisateur.getEmail().trim().isEmpty()) {
                 throw new BLLException("L'email est obligatoire");
-            } else if (utilisateur.getRue().trim() == null) {
+            } else if (utilisateur.getRue().trim().isEmpty()) {
                 throw new BLLException("La rue est obligatoire");
-            } else if (utilisateur.getCodePostal().trim() == null) {
+            } else if (utilisateur.getCodePostal().trim().isEmpty()) {
                 throw new BLLException("Le code postal est obligatoire");
-            } else if (utilisateur.getVille().trim() == null) {
+            } else if (utilisateur.getVille().trim().isEmpty()) {
                 throw new BLLException("La ville est obligatoire");
-            } else if (utilisateur.getMotDePasse().trim() == null) {
+            } else if (utilisateur.getMotDePasse().trim().isEmpty()) {
                 throw new BLLException("Le mot de passe est obligatoire");
-            } else if (utilisateur.getEmail().trim() == null) {
+            } else if (utilisateur.getEmail().trim().isEmpty()) {
                 throw new BLLException("La confirmation du mot de passe est obligatoire");
             } else {
                 this.utilisateurDAO.inscrireUtilisateur(utilisateur);
