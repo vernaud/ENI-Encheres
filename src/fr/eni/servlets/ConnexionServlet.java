@@ -20,6 +20,7 @@ public class ConnexionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String identifiant = request.getParameter("identifiant");
         String password = request.getParameter("password");
+        Boolean connecte = false;
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur utilisateur;
         try {
@@ -28,6 +29,7 @@ public class ConnexionServlet extends HttpServlet {
                 System.out.println("Utilisateur : " + utilisateur.getNom() + " Mot de Passe : " + utilisateur.getMotDePasse());
                 HttpSession session = request.getSession();
                 session.setAttribute("utilisateur", utilisateur);
+                session.setAttribute("connecte", true);
                 response.sendRedirect(request.getContextPath()+"/accueil");
             }
     } catch (BLLException e) {

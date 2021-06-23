@@ -9,11 +9,17 @@ import java.io.IOException;
 public class AccueilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request,response);
+//        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
+//        request.getSession().setAttribute("modeConnecte", modeConnecte);
+        request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        if (request.getParameter("Deconnexion") != null) {
+            request.getSession().setAttribute("utilisateur", null);
+            request.getSession().setAttribute("connecte", false);
+            doGet(request, response);
+        }
     }
 }

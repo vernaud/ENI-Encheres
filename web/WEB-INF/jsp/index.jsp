@@ -5,8 +5,7 @@
   </head>
   <body>
   <header>
-    <div id="logo">ENI-Enchères</div>
-    <p><a href="connexion">S'inscrire - Se connecter</a></p>
+    <jsp:include page="/WEB-INF/fragments/header.jsp"/>
   </header>
   <main>
     <form action="">

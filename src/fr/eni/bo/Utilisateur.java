@@ -14,6 +14,7 @@ public class Utilisateur {
     public Integer getNoUtilisateur() {
         return noUtilisateur;
     }
+
     public void setNoUtilisateur(Integer noUtilisateur) {
         this.noUtilisateur = noUtilisateur;
     }
