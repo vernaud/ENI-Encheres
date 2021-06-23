@@ -5,5 +5,6 @@ public class DAOFactory {
     public static UtilisateurDAO getUtilisateurDAO(){
         return new UtilisateurDAOJdbcImpl();
     }
+    public static ArticleVenduDAO getArticleDAO() { return new ArticleDAOimpl(); }
 
 }
