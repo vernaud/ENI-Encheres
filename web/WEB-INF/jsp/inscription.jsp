@@ -12,25 +12,25 @@
         <p>${message}</p>
         <form action="${pageContext.request.contextPath}/inscription" method="post">
 
-            <label for="pseudo">Pseudo</label>
+            <label for="pseudo">Pseudo*</label>
             <input type="text" id="pseudo" name="pseudo" required>
-            <label for="nom">Nom</label>
+            <label for="nom">Nom*</label>
             <input type="text" id="nom" name="nom" required>
-            <label for="prenom">Prénom</label>
+            <label for="prenom">Prénom*</label>
             <input type="text" id="prenom" name="prenom" required>
-            <label for="email">Email</label>
+            <label for="email">Email*</label>
             <input type="email" id="email" name="email" required>
             <label for="tel">Téléphone</label>
             <input type="tel" id="tel" name="tel">
-            <label for="rue">Rue</label>
+            <label for="rue">Rue*</label>
             <input type="text" id="rue" name="rue" required>
-            <label for="codepostal">Code postal</label>
+            <label for="codepostal">Code postal*</label>
             <input type="text" id="codepostal" name="codepostal" required>
-            <label for="ville">Ville</label>
+            <label for="ville">Ville*</label>
             <input type="text" id="ville" name="ville" required>
-            <label for="password">Mot de passe</label>
+            <label for="password">Mot de passe*</label>
             <input type="password" id="password" name="password" required>
-            <label for="confirmpass">Confirmation</label>
+            <label for="confirmpass">Confirmation*</label>
             <input type="password" id="confirmpass" name="confirmpass" required>
 
             <input type="submit" value="Créer">

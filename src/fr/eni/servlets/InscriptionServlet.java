@@ -35,6 +35,7 @@ public class InscriptionServlet extends HttpServlet {
                 utilisateurManager.inscrireUtilisateur(utilisateur);
                 HttpSession session = request.getSession();
                 session.setAttribute("utilisateur", utilisateur);
+                session.setAttribute("connecte", true);
                 response.sendRedirect(request.getContextPath()+"/accueil");
             } else {
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");
