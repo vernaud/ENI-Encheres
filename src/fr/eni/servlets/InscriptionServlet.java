@@ -33,17 +33,18 @@ public class InscriptionServlet extends HttpServlet {
                 UtilisateurManager utilisateurManager = new UtilisateurManager();
                 Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, codepostal, ville, password);
                 utilisateurManager.inscrireUtilisateur(utilisateur);
-                request.setAttribute("message", "Inscription effectuée");
+                HttpSession session = request.getSession();
+                session.setAttribute("utilisateur", utilisateur);
+                response.sendRedirect(request.getContextPath()+"/accueil");
             } else {
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");
+                request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
             }
-            request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
         } catch(BLLException e){
                 request.setAttribute("message", "erreur lors de l'ajout utilisateur");
                 request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
 //            e.printStackTrace();
             }
-            request.getRequestDispatcher("WEB-INF/jsp/connexion.jsp").forward(request, response);
 
         }
     }
