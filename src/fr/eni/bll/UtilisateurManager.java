@@ -11,7 +11,6 @@ public class UtilisateurManager {
 
     public UtilisateurManager() {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
-
     }
 
     public void inscrireUtilisateur(Utilisateur utilisateur) throws BLLException {
@@ -47,13 +46,64 @@ public class UtilisateurManager {
     public Utilisateur connecterUtilisateur(String pseudoOuMail, String mdp) throws BLLException {
         Utilisateur utilisateur;
         try {
+            if (pseudoOuMail.trim().isEmpty()) {
+                throw new BLLException("L'identifiant est obligatoire");
+            } else if (mdp.trim().isEmpty()) {
+                throw new BLLException("Le mot de passe est obligatoire");
+            }
             utilisateur = this.utilisateurDAO.connecterUtilisateur(pseudoOuMail, mdp);
         } catch (DALException e) {
             e.printStackTrace();
-            throw new BLLException("Utilisateur ou MDP non trouvé");
+            throw new BLLException("Utilisateur introuvable ou mot de passe incorrecte");
 
         }
         return utilisateur;
+    }
+
+    public void mettreAJourProfil(Utilisateur utilisateur, String ancienMdP) throws BLLException {
+        try {
+            //récupération de l'utilisateur ancienne version
+            Utilisateur ancienUtilisateur = DAOFactory.getUtilisateurDAO().selectById(utilisateur.getNoUtilisateur());
+            // Si l'ancien mot de passe est différent du mot de passe actuel
+            if (!ancienUtilisateur.getMotDePasse().equals(ancienMdP)) {
+                throw new BLLException("La saisie du mot de passe actuel est incorrecte");
+            } else {
+                //Vérifcation de la saisie des nouveaux champs
+                if (utilisateur.getPseudo().trim().isEmpty()) {
+                    utilisateur.setPseudo(ancienUtilisateur.getPseudo());
+                }
+                if (utilisateur.getPrenom().trim().isEmpty()) {
+                    utilisateur.setPrenom(ancienUtilisateur.getPrenom());
+                }
+                if (utilisateur.getNom().trim().isEmpty()) {
+                    utilisateur.setNom(ancienUtilisateur.getNom());
+                }
+                if (utilisateur.getEmail().trim().isEmpty()) {
+                    utilisateur.setEmail(ancienUtilisateur.getEmail());
+                }
+                if (utilisateur.getRue().trim().isEmpty()) {
+                    utilisateur.setRue(ancienUtilisateur.getRue());
+                }
+                if (utilisateur.getCodePostal().trim().isEmpty()) {
+                    utilisateur.setCodePostal(ancienUtilisateur.getCodePostal());
+                }
+                if (utilisateur.getVille().trim().isEmpty()) {
+                    utilisateur.setVille(ancienUtilisateur.getVille());
+                }
+                if (utilisateur.getMotDePasse().trim().isEmpty()) {
+                    utilisateur.setMotDePasse(ancienUtilisateur.getMotDePasse());
+                }
+            }
+            //Vérification du montant crédit
+            if (utilisateur.getCredit() < 0) {
+                utilisateur.setCredit(ancienUtilisateur.getCredit());
+            }
+
+            DAOFactory.getUtilisateurDAO().UpdateProfil(utilisateur);
+        } catch (DALException e) {
+            throw new BLLException("Erreur lors de la modification du profil");
+        }
+
     }
 
 }

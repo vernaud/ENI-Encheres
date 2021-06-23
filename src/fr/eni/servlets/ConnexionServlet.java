@@ -23,6 +23,7 @@ public class ConnexionServlet extends HttpServlet {
         Boolean connecte = false;
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur utilisateur;
+
         try {
             utilisateur = utilisateurManager.connecterUtilisateur(identifiant, password);
             if(utilisateur.getNoUtilisateur()!=null) {
@@ -33,7 +34,8 @@ public class ConnexionServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/accueil");
             }
     } catch (BLLException e) {
-            request.setAttribute("message", "Nom d'utilisateur ou mot de passe incorrect");
+
+            request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/connexion.jsp").forward(request, response);
 //            e.printStackTrace();
         }
