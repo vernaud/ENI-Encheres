@@ -1,6 +1,7 @@
 package fr.eni.dal;
 
 import fr.eni.bo.ArticleVendu;
+import fr.eni.dal.DALException;
 
 import java.util.List;
 

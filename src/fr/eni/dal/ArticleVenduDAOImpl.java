@@ -1,12 +1,20 @@
 package fr.eni.dal;
 
 import fr.eni.bo.ArticleVendu;
+import fr.eni.bo.Utilisateur;
+import fr.eni.bo.Categorie;
 import fr.eni.dal.ArticleVenduDAO;
+import fr.eni.dal.ConnectionProvider;
 import fr.eni.dal.DALException;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
@@ -39,9 +47,59 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
             }
 
         } catch (SQLException e) {
-            throw new DALException("Erreur à l'ajout d'un article à vendre: " + articleVendu, e);
+            throw new DALException("Erreur à l'ajout d'un article à vendre: " + articleVendu);
         }
     }
 
+    @Override
+    public List<ArticleVendu> selectAll() throws DALException {
+        List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
+        ;
+        final String SELECT_ALL = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
+                "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
+                "FROM ARTICLES_VENDUS a "           // + "INNER JOIN (table 2) t2 " + "ON a. ... = t2. ... " +
+                + "ORDER BY a.date_debut_encheres ASC, a.date_fin_encheres ASC";
+
+        try (
+                Connection connection = ConnectionProvider.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(SELECT_ALL);
+        ) {
+
+            while (rs.next()) {
+                ArticleVendu article = new ArticleVendu();
+                   /* Rappel :
+                    ArticleVendu :
+                    int noArticle; String nomArticle; String description; LocalDate dateDebutEncheres; LocalDate dateFinEncheres;
+                    int prixInitial; int prixVente; Utilisateur utilisateur; Categorie categorie;
+                    */
+
+                article.setNoArticle(rs.getInt(1));
+                article.setNomArticle(rs.getString(2));
+                article.setDescription(rs.getString(3));
+                article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+                article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+                article.setPrixInitial(rs.getInt(6));
+                article.setPrixVente(rs.getInt(7));
+
+                UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur = utilisateurDAO.selectById(rs.getInt(8));
+                article.setUtilisateur(utilisateur);
+
+                CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
+                Categorie cat = new Categorie();
+                cat = categorieDAO.selectById(rs.getInt(9));
+                article.setCategorie(cat);
+
+                listeArticlesVendus.add(article);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new DALException("Erreur à la sélection des articles vendus.");
+        }
+
+        return listeArticlesVendus;
+    }
 
 }

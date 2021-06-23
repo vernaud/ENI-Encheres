@@ -1,6 +1,8 @@
 package fr.eni.bo;
 
 import java.time.LocalDate;
+import fr.eni.bo.Utilisateur;
+import fr.eni.bo.Categorie;
 
 public class ArticleVendu {
 
@@ -16,7 +18,6 @@ public class ArticleVendu {
     private Categorie categorie;
 
     public ArticleVendu() {
-
     }
 
     public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
