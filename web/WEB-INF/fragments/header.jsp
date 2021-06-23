@@ -16,7 +16,7 @@
     <c:if test="${connecte}">
         <p><a id="encheres" href="#">Encheres</a></p>
         <p><a id="VentreArticle" href="#">Vendre un article</a></p>
-        <p><a id="Mon Profil" href="${pageContext.request.contextPath}/majprofil">Mon profil</a></p>
+        <p><a id="Mon Profil" href="${pageContext.request.contextPath}/profil">Mon profil</a></p>
         <form action="${pageContext.request.contextPath}/accueil" method="post">
             <input type="submit" name="Deconnexion" id="Deconnexion" value="Deconnexion">
         </form>
