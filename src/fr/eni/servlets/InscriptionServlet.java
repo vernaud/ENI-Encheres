@@ -42,7 +42,7 @@ public class InscriptionServlet extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
             }
         } catch(BLLException e){
-                request.setAttribute("message", "erreur lors de l'ajout utilisateur");
+                request.setAttribute("message", e.getMessage());
                 request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
 //            e.printStackTrace();
             }
