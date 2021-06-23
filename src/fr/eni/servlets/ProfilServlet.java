@@ -1,5 +1,7 @@
 package fr.eni.servlets;
 
+import fr.eni.bll.BLLException;
+import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.Utilisateur;
 
 import javax.servlet.ServletException;
@@ -11,16 +13,28 @@ import java.io.IOException;
 
 @WebServlet("/profil")
 public class ProfilServlet extends HttpServlet {
+
+    private UtilisateurManager utilisateurManager;
+
+    @Override
+    public void init() throws ServletException {
+        utilisateurManager = new UtilisateurManager();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Quel Profil.id ?
-
-        // test affichage instance Utilisateur
-//        Utilisateur user = new Utilisateur(22, "Jeanou", "LAPEPETTE", "Jeanne", "jeanou", "0612234556",
-//                "12 rue des Gribouillages", "44000", "Nantes", "1234", 2, false);
-
         // Récupération des champs par selectById
+        int idProfil = 1;
+        Utilisateur user = null;
+        try {
+            user = utilisateurManager.afficherProfil(idProfil);
+        } catch (BLLException e) {
+            e.printStackTrace();
+            // TODO gérer l'exeption
+        }
 
+
+        // Redirection vers JSP
         request.setAttribute("userprofil", user);
         request.getRequestDispatcher("WEB-INF/jsp/profil.jsp").forward(request,response);
     }

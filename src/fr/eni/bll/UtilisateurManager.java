@@ -36,4 +36,14 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
+    public Utilisateur afficherProfil(int idProfil) throws BLLException {
+        Utilisateur user = null;
+        try {
+            user = utilisateurDAO.selectById(idProfil);
+        }catch (DALException e){
+            e.printStackTrace();
+            throw new BLLException("BLL - Affichage du profil a échoué");
+        }
+        return user;
+    }
 }
