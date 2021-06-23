@@ -8,15 +8,25 @@ public class UtilisateurManager {
 
     UtilisateurDAO utilisateurDAO;
 
-    public UtilisateurManager(){
+    public UtilisateurManager() {
         utilisateurDAO = UtilisateurDAO.getUtilisateurDAO();
+
+    }
+
+    public void inscrireUtilisateur(Utilisateur utilisateur) throws BLLException {
+        try {
+            this.utilisateurDAO.inscrireUtilisateur(utilisateur);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("L'inscription utilisateur a échoué");
+        }
 
     }
 
     public Utilisateur connecterUtilisateur(String pseudoOuMail, String mdp) throws BLLException {
         Utilisateur utilisateur;
         try {
-            utilisateur= this.utilisateurDAO.connecterUtilisateur(pseudoOuMail, mdp);
+            utilisateur = this.utilisateurDAO.connecterUtilisateur(pseudoOuMail, mdp);
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("Utilisateur ou MDP non trouvé");

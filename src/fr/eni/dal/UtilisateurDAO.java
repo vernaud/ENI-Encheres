@@ -8,5 +8,7 @@ public interface UtilisateurDAO {
         return new UtilisateurDAOJdbcImpl();
     }
     Utilisateur connecterUtilisateur(String user, String pass) throws DALException;
+    void inscrireUtilisateur(Utilisateur utilisateur) throws DALException;
+
 
 }
