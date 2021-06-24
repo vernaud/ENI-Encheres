@@ -14,37 +14,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategorieDAOImpl implements CategorieDAO {
+//    public static final String INSERT_CATEGORIE = "INSERT INTO CATEGORIES (libelle) VALUES (?);";
+    public static final String SELECT_ALL = "SELECT no_categorie, libelle FROM CATEGORIES ";
+    public static final String SELECT_BY_ID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?";
 
-    @Override
-    public void insert(Categorie cat) throws DALException {
-
-        final String INSERT_CATEGORIE = "INSERT INTO CATEGORIES (libelle) VALUES (?);";
-
-        try (
-                Connection connection = ConnectionProvider.getConnection();
-                PreparedStatement pStmt = connection.prepareStatement(INSERT_CATEGORIE,
-                        PreparedStatement.RETURN_GENERATED_KEYS);
-        )
-        {
-            // J'insere la categorie en base de données
-            pStmt.setString(1, cat.getLibelle());
-
-            pStmt.executeUpdate();
-            ResultSet rs = pStmt.getGeneratedKeys();
-            if (rs.next()) {
-                cat.setNoCategorie(rs.getInt(1));
-            }
-
-        } catch (SQLException e) {
-            throw new DALException("Erreur à l'ajout d'une categorie: " + cat);
-        }
-    }
+//    @Override
+//    public void insert(Categorie cat) throws DALException {
+//
+//
+//
+//        try (
+//                Connection connection = ConnectionProvider.getConnection();
+//                PreparedStatement pStmt = connection.prepareStatement(INSERT_CATEGORIE,
+//                        PreparedStatement.RETURN_GENERATED_KEYS);
+//        )
+//        {
+//            // J'insere la categorie en base de données
+//            pStmt.setString(1, cat.getLibelle());
+//
+//            pStmt.executeUpdate();
+//            ResultSet rs = pStmt.getGeneratedKeys();
+//            if (rs.next()) {
+//                cat.setNoCategorie(rs.getInt(1));
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new DALException("Erreur à l'ajout d'une categorie: " + cat);
+//        }
+//    }
 
     @Override
     public List<Categorie> selectAll() throws DALException {
         List<Categorie> listeCategories = new ArrayList<>();
 
-        final String SELECT_ALL = "SELECT no_categorie, libelle FROM CATEGORIES ";
+
 
         try (
                 Connection connection = ConnectionProvider.getConnection();
@@ -69,7 +72,7 @@ public class CategorieDAOImpl implements CategorieDAO {
 
     @Override
     public Categorie selectById(int numCat) throws DALException {
-        final String SELECT_BY_ID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?";
+
         ResultSet rs = null;
         Categorie cat = null;
 

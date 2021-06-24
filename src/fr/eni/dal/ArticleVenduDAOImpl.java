@@ -17,12 +17,17 @@ import java.util.List;
 
 
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
+    public static final String INSERT_ARTICLE_VENDU = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, " +
+            "prix_initial, prix_vente, no_utilisateur, no_categorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
+    public static final String SELECT_ALL = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
+            "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
+            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= GETDATE();";           // + "INNER JOIN (table 2) t2 " + "ON a. ... = t2. ... " +
+//            + "ORDER BY a.date_debut_encheres ASC, a.date_fin_encheres ASC";
 
     @Override
     public void insert(ArticleVendu articleVendu) throws DALException {
 
-        final String INSERT_ARTICLE_VENDU = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, " +
-                "prix_initial, prix_vente, no_utilisateur, no_categorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
         try (
                 Connection connection = ConnectionProvider.getConnection();
@@ -45,6 +50,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
             if (rs.next()) {
                 articleVendu.setNoArticle(rs.getInt(1));
             }
+            rs.close();
 
         } catch (SQLException e) {
             throw new DALException("Erreur à l'ajout d'un article à vendre: " + articleVendu);
@@ -55,10 +61,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
     public List<ArticleVendu> selectAll() throws DALException {
         List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
         ;
-        final String SELECT_ALL = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
-                "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
-                "FROM ARTICLES_VENDUS a "           // + "INNER JOIN (table 2) t2 " + "ON a. ... = t2. ... " +
-                + "ORDER BY a.date_debut_encheres ASC, a.date_fin_encheres ASC";
+
 
         try (
                 Connection connection = ConnectionProvider.getConnection();
