@@ -29,11 +29,11 @@ public class MajProfilServlet extends HttpServlet {
         // Récupère la valeur submit 'enregistrer' ou 'supprimer'
         String act = req.getParameter("act");
 
-        // Avant maj profil, test si 'delete'
+        // SUPPRIMER UN PROFIL
         if (act.equalsIgnoreCase("Supprimer mon compte")){
             try {
                 utilisateurManager.deleteProfil(id);
-                resp.sendRedirect(req.getContextPath()+"/accueil");
+                resp.sendRedirect(req.getContextPath()+"/accueil?deconnect=1");
             } catch (BLLException e) {
                 req.setAttribute("message", e.getMessage());
                 this.doGet(req, resp);
@@ -41,7 +41,7 @@ public class MajProfilServlet extends HttpServlet {
             }
         }
 
-        // maj du profil en base
+        // MISE A JOUR DU PROFIL
         if (act.equalsIgnoreCase("Enregistrer")){
 
             try {
