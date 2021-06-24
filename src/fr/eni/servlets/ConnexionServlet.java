@@ -27,7 +27,7 @@ public class ConnexionServlet extends HttpServlet {
         try {
             utilisateur = utilisateurManager.connecterUtilisateur(identifiant, password);
             if(utilisateur.getNoUtilisateur()!=null) {
-                System.out.println("Utilisateur : " + utilisateur.getNom() + " Mot de Passe : " + utilisateur.getMotDePasse());
+//                System.out.println("id : " + utilisateur.getNoUtilisateur() + " | nom : " + utilisateur.getNom() + " | pass : " + utilisateur.getMotDePasse());
                 HttpSession session = request.getSession();
                 session.setAttribute("utilisateur", utilisateur);
                 session.setAttribute("connecte", true);

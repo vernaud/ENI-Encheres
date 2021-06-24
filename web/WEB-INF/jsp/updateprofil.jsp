@@ -1,11 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fmorice2021
-  Date: 23/06/2021
-  Time: 14:26
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>MajProfil</title>
@@ -21,8 +14,8 @@
 
     <label for="oldPseudo"></label>
     <input type="text" id="oldPseudo" name="oldPseudo" value="${utilisateur.getPseudo()}" hidden>
-<%--    <label for="id"></label>--%>
-<%--    <input type="text" id="id" name="id" value="${utilisateur.getNoUtilisateur()}">--%>
+    <label for="id"></label>
+    <input type="text" id="id" name="id" value="${utilisateur.getNoUtilisateur()}" hidden>
     <label for="pseudo">Pseudo*</label>
     <input type="text" id="pseudo" name="pseudo" value="${utilisateur.getPseudo()}">
     <label for="nom">Nom*</label>
@@ -46,12 +39,12 @@
     <label for="confirmpass">Confirmation*</label>
     <input type="password" id="confirmpass" name="confirmpass">
 
-    <label for="credit">Credit*</label>
-    <p type="" id="credit" name="credit">${Utilisateur.getCredit()}</p>
+<%--    <label for="credit">Credit*</label>--%>
+<%--    <p type="" id="credit" name="credit">${utilisateur.getCredit()}</p>--%>
 
-    <input type="submit" value="Enregistrer">
-    <input type="reset" value="Supprimer mon compte">
-    <p>Les champs* sont obligatoires.</p>
+    <input type="submit" name="act" value="Enregistrer">
+    <input type="submit" name="act" value="Supprimer mon compte">
+    <p>Les champs* sont obligatoires.<br>En cas de suppression de votre profil, vous perdrez vos points.</p>
   </form>
 </main>
 

@@ -125,4 +125,19 @@ public class UtilisateurManager {
         }
         return user;
     }
+
+    public void deleteProfil(int id, String mdp) throws BLLException{
+        try {
+            Utilisateur userToDel = utilisateurDAO.selectById(id);
+            if (mdp.trim().isEmpty() || !(userToDel.getMotDePasse().equals(mdp)) ){
+                System.out.println("Saisie : " + mdp);
+                System.out.println("PassW DataB : " + userToDel.getMotDePasse() );
+                throw new BLLException("Erreur de saisie du mot de passe actuel!");
+            }
+            utilisateurDAO.deleteProfil(id);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("BLL - La suppression a échoué");
+        }
+    }
 }
