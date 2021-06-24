@@ -24,10 +24,11 @@ public class MajProfilServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur utilisateur;
-        int id = 1/*req.getParameter()*/; // TODO récupérer l'ID en session
-
+        Integer id = Integer.valueOf(req.getParameter("id"));
+//        System.out.println("delete userId " + id);
         // Récupère la valeur submit 'enregistrer' ou 'supprimer'
         String act = req.getParameter("act");
+
         // Avant maj profil, test si 'delete'
         if (act.equalsIgnoreCase("Supprimer mon compte")){
             try {
