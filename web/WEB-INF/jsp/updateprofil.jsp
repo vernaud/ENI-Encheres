@@ -44,7 +44,7 @@
 
     <input type="submit" name="act" value="Enregistrer">
     <input type="submit" name="act" value="Supprimer mon compte">
-    <p>Les champs* sont obligatoires.</p>
+    <p>Les champs* sont obligatoires.<br>En cas de suppression de votre profil, vous perdrez vos points.</p>
   </form>
 </main>
 

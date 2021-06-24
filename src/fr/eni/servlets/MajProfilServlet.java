@@ -26,13 +26,14 @@ public class MajProfilServlet extends HttpServlet {
         Utilisateur utilisateur;
         Integer id = Integer.valueOf(req.getParameter("id"));
 //        System.out.println("delete userId " + id);
+
         // Récupère la valeur submit 'enregistrer' ou 'supprimer'
         String act = req.getParameter("act");
-
+        String mdp = req.getParameter("oldpassword");
         // SUPPRIMER UN PROFIL
         if (act.equalsIgnoreCase("Supprimer mon compte")){
             try {
-                utilisateurManager.deleteProfil(id);
+                utilisateurManager.deleteProfil(id, mdp);
                 resp.sendRedirect(req.getContextPath()+"/accueil?deconnect=1");
             } catch (BLLException e) {
                 req.setAttribute("message", e.getMessage());
