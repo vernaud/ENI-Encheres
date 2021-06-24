@@ -17,6 +17,7 @@
     <c:if test="${connecte}">
         <p><a id="encheres" href="#">Encheres</a></p>
         <p><a id="VentreArticle" href="#">Vendre un article</a></p>
+<%--        Lien vers mon profil avec mon id profil passé en paramètre et envoyé à la servlet profil--%>
         <p><a id="Mon Profil" href="${pageContext.request.contextPath}/profil?id_profil=${utilisateur.getNoUtilisateur()}">Mon profil</a></p>
         <form action="${pageContext.request.contextPath}/accueil" method="post">
             <input type="submit" name="Deconnexion" id="Deconnexion" value="Deconnexion">
