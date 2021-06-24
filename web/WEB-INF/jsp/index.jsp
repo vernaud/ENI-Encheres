@@ -18,6 +18,7 @@
                    value="${nomArticle}">
             <label for="ListeCategories">Catégorie</label>
             <select name="ListeCategories" id="ListeCategories">
+                <option value="0" ></option>
                 <option value="0" >Toutes</option>
                 <c:forEach items="${listeCategories}" var="cat">
                     <option value="${cat.noCategorie}" >${cat.libelle}</option>
