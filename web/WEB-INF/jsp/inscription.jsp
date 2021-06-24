@@ -34,7 +34,7 @@
             <input type="password" id="confirmpass" name="confirmpass" required>
 
             <input type="submit" value="Créer">
-            <input type="reset" value="Annuler">
+            <button><a href="${pageContext.request.contextPath}/accueil" id=" retourAccueil">Annuler</a></button>
             <p>Les champs* sont obligatoires.</p>
         </form>
     </main>

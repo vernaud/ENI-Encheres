@@ -10,4 +10,6 @@ public interface UtilisateurDAO {
 
     Utilisateur selectById(int id) throws DALException;
 
+    void UpdateProfil(Utilisateur utilisateur) throws  DALException;
+
 }
