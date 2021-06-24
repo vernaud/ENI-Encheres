@@ -33,8 +33,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
             pStmt.setString(1, articleVendu.getNomArticle());
             pStmt.setString(2, articleVendu.getDescription());
-            pStmt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres());
-            pStmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres());
+            pStmt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
+            pStmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
             pStmt.setInt(5, articleVendu.getPrixInitial());
             pStmt.setInt(6, articleVendu.getPrixVente());
             pStmt.setInt(7, articleVendu.getUtilisateur().getNoUtilisateur());
