@@ -13,13 +13,11 @@
         <ul>
             <li><a id="encheres" href="#">Encheres</a></li>
             <li><a id="VentreArticle" href="#">Vendre un article</a></li>
-    <%--        Lien vers mon profil avec mon id profil passé en paramètre et envoyé à la servlet profil--%>
             <li><a id="Mon Profil" href="${pageContext.request.contextPath}/profil?id_profil=${utilisateur.getNoUtilisateur()}">Mon profil</a></li>
-
-            <li>
-            <form action="${pageContext.request.contextPath}/accueil" method="post">
+            <li><a href="${pageContext.request.contextPath}/accueil?deconnect=1">Déconnexion</a>
+            <%-- REFACTOR -- <form action="${pageContext.request.contextPath}/accueil" method="post">
                 <input type="submit" name="Deconnexion" id="Deconnexion" value="Deconnexion">
-            </form>
+            </form>--%>
             </li>
 
         </ul>
