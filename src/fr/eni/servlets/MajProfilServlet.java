@@ -24,36 +24,48 @@ public class MajProfilServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur utilisateur;
-        try {
 
-            String oldPseudo = req.getParameter("oldPseudo");
-            String pseudo = req.getParameter("pseudo");
-            String nom = req.getParameter("nom");
-            String prenom = req.getParameter("prenom");
-            String email = req.getParameter("email");
-            String tel = req.getParameter("tel");
-            String rue = req.getParameter("rue");
-            String codepostal = req.getParameter("codepostal");
-            String ville = req.getParameter("ville");
-            String oldpassword = req.getParameter("oldpassword");
-            String newpassword = req.getParameter("newpassword");
-            String confirmpass = req.getParameter("confirmpass");
-            if(confirmpass.equals(newpassword)) {
-                utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, codepostal, ville, newpassword);
+        // Récupère la valeur submit 'enregistrer' ou 'supprimer'
+        String act = req.getParameter("act");
+        // Avant maj profil, test si 'delete'
+        if (act.equalsIgnoreCase("Supprimer mon compte")){
+            utilisateurManager.deleteProfil();
+        }
 
-                utilisateurManager.mettreAJourProfil(utilisateur, oldPseudo, oldpassword);
-                HttpSession session = req.getSession();
-                session.setAttribute("utilisateur", utilisateur);
-                session.setAttribute("connecte", true);
-                resp.sendRedirect(req.getContextPath()+"/accueil");
-            }else{
-                req.setAttribute("message", "Le nouveau mot de passe et sa confirmation ne sont pas identitiques");
+        // maj du profil en base
+        if (act.equalsIgnoreCase("Enregistrer")){
+
+            try {
+
+                String oldPseudo = req.getParameter("oldPseudo");
+                String pseudo = req.getParameter("pseudo");
+                String nom = req.getParameter("nom");
+                String prenom = req.getParameter("prenom");
+                String email = req.getParameter("email");
+                String tel = req.getParameter("tel");
+                String rue = req.getParameter("rue");
+                String codepostal = req.getParameter("codepostal");
+                String ville = req.getParameter("ville");
+                String oldpassword = req.getParameter("oldpassword");
+                String newpassword = req.getParameter("newpassword");
+                String confirmpass = req.getParameter("confirmpass");
+                if(confirmpass.equals(newpassword)) {
+                    utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, codepostal, ville, newpassword);
+
+                    utilisateurManager.mettreAJourProfil(utilisateur, oldPseudo, oldpassword);
+                    HttpSession session = req.getSession();
+                    session.setAttribute("utilisateur", utilisateur);
+                    session.setAttribute("connecte", true);
+                    resp.sendRedirect(req.getContextPath()+"/accueil");
+                }else{
+                    req.setAttribute("message", "Le nouveau mot de passe et sa confirmation ne sont pas identitiques");
+                    this.doGet(req, resp);
+                }
+            } catch (BLLException e) {
+                req.setAttribute("message", e.getMessage());
                 this.doGet(req, resp);
+                e.printStackTrace();
             }
-        } catch (BLLException e) {
-            req.setAttribute("message", e.getMessage());
-            this.doGet(req, resp);
-            e.printStackTrace();
         }
 
 

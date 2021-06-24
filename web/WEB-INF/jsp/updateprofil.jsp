@@ -1,11 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fmorice2021
-  Date: 23/06/2021
-  Time: 14:26
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>MajProfil</title>
@@ -49,8 +42,8 @@
     <label for="credit">Credit*</label>
     <p type="" id="credit" name="credit">${Utilisateur.getCredit()}</p>
 
-    <input type="submit" value="Enregistrer">
-    <input type="reset" value="Supprimer mon compte">
+    <input type="submit" name="act" value="Enregistrer">
+    <input type="submit" name="act" value="Supprimer mon compte">
     <p>Les champs* sont obligatoires.</p>
   </form>
 </main>
