@@ -1,27 +1,28 @@
-<%@ page import="fr.eni.bo.Utilisateur" %><%--
-  Created by IntelliJ IDEA.
-  User: fmorice2021
-  Date: 23/06/2021
-  Time: 09:41
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="fr.eni.bo.Utilisateur" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
-    <div id="logo"><a href="${pageContext.request.contextPath}/accueil"></a>ENI-ENcheres</div>
+    <div id="logo"><a href="${pageContext.request.contextPath}/accueil"></a>ENI-Encheres</div>
     <% Boolean connecte = (Boolean) request.getSession().getAttribute("connecte");%>
     <% Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");%>
+    <nav>
     <c:if test="${!connecte}">
-        <p><a href="connexion">S'inscrire - Se connecter</a></p>
+        <li><a href="connexion">S'inscrire - Se connecter</a></li>
     </c:if>
     <c:if test="${connecte}">
-        <p><a id="encheres" href="#">Encheres</a></p>
-        <p><a id="VentreArticle" href="#">Vendre un article</a></p>
-<%--        Lien vers mon profil avec mon id profil passé en paramètre et envoyé à la servlet profil--%>
-        <p><a id="Mon Profil" href="${pageContext.request.contextPath}/profil?id_profil=${utilisateur.getNoUtilisateur()}">Mon profil</a></p>
-        <form action="${pageContext.request.contextPath}/accueil" method="post">
-            <input type="submit" name="Deconnexion" id="Deconnexion" value="Deconnexion">
-        </form>
+        <ul>
+            <li><a id="encheres" href="#">Encheres</a></li>
+            <li><a id="VentreArticle" href="#">Vendre un article</a></li>
+            <li><a id="Mon Profil" href="${pageContext.request.contextPath}/profil?id_profil=${utilisateur.getNoUtilisateur()}">Mon profil</a></li>
+            <li><a href="${pageContext.request.contextPath}/accueil?deconnect=1">Déconnexion</a>
+            <%-- REFACTOR -- <form action="${pageContext.request.contextPath}/accueil" method="post">
+                <input type="submit" name="Deconnexion" id="Deconnexion" value="Deconnexion">
+            </form>--%>
+            </li>
+
+        </ul>
+    </nav>
+
     </c:if>
     <div></div>
     <section>

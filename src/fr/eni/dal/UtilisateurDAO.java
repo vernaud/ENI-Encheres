@@ -6,10 +6,7 @@ public interface UtilisateurDAO {
 
     Utilisateur connecterUtilisateur(String user, String pass) throws DALException;
     void inscrireUtilisateur(Utilisateur utilisateur) throws DALException;
-
-
     Utilisateur selectById(int id) throws DALException;
-
     void UpdateProfil(Utilisateur utilisateur) throws  DALException;
-
+    void deleteProfil(int id) throws DALException;
 }
