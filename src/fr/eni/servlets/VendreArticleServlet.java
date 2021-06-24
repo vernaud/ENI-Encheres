@@ -57,8 +57,8 @@ public class VendreArticleServlet extends HttpServlet {
         } catch (DALException | BLLException e) {
             e.printStackTrace();
         }
-
-        req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath()+"/accueil");
+//        req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
 
 
     }

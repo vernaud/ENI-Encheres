@@ -5,7 +5,7 @@
   Time: 09:41
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
     <div id="logo"><a href="${pageContext.request.contextPath}/accueil"></a>ENI-ENcheres</div>
@@ -16,7 +16,7 @@
     </c:if>
     <c:if test="${connecte}">
         <p><a id="encheres" href="#">Encheres</a></p>
-        <p><a id="VentreArticle" href="#">Vendre un article</a></p>
+        <p><a id="VentreArticle" href="${pageContext.request.contextPath}/vendreArticle">Vendre un article</a></p>
 <%--        Lien vers mon profil avec mon id profil passé en paramètre et envoyé à la servlet profil--%>
         <p><a id="Mon Profil" href="${pageContext.request.contextPath}/profil?id_profil=${utilisateur.getNoUtilisateur()}">Mon profil</a></p>
         <form action="${pageContext.request.contextPath}/accueil" method="post">
