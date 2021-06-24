@@ -24,12 +24,20 @@ public class MajProfilServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur utilisateur;
+        int id = 1/*req.getParameter()*/; // TODO récupérer l'ID en session
 
         // Récupère la valeur submit 'enregistrer' ou 'supprimer'
         String act = req.getParameter("act");
         // Avant maj profil, test si 'delete'
         if (act.equalsIgnoreCase("Supprimer mon compte")){
-            utilisateurManager.deleteProfil();
+            try {
+                utilisateurManager.deleteProfil(id);
+                resp.sendRedirect(req.getContextPath()+"/accueil");
+            } catch (BLLException e) {
+                req.setAttribute("message", e.getMessage());
+                this.doGet(req, resp);
+                e.printStackTrace();
+            }
         }
 
         // maj du profil en base

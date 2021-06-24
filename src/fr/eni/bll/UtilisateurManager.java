@@ -125,4 +125,12 @@ public class UtilisateurManager {
         }
         return user;
     }
+
+    public void deleteProfil(int id) throws BLLException{
+        try {
+            utilisateurDAO.deleteProfil(id);
+        } catch (DALException e) {
+            e.printStackTrace();
+        }
+    }
 }
