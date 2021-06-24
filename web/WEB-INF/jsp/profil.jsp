@@ -1,3 +1,4 @@
+<%@ page import="fr.eni.bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -24,10 +25,12 @@
     </ul>
 </article>
 <% Boolean connecte = (Boolean) request.getSession().getAttribute("connecte");%>
-<c:if test="${!connecte}">
+    <% Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");%>
+<c:if test="${!(userprofil.noUtilisateur == utilisateur.noUtilisateur)}">
 
 </c:if>
-<c:if test="${connecte}">
+<%--    Si le profil de l'utilisateur à afficher est le même que l'utilisateur connecté, on autorise la modification--%>
+<c:if test="${userprofil.noUtilisateur == utilisateur.noUtilisateur}">
     <button><a href="${pageContext.request.contextPath}/majprofil" id="majprofil">Modifier</a></button>
 </c:if>
     </main>
