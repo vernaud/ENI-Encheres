@@ -17,15 +17,6 @@ public class ArticleVendu {
     private Utilisateur utilisateur;
     private Categorie categorie;
 
-    /*
-    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int prixInitial) {
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEncheres = dateFinEncheres;
-        this.prixInitial = prixInitial;
-    }*/
-
     public ArticleVendu() {
     }
 

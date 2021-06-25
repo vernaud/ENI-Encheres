@@ -35,7 +35,6 @@ public class VendreArticleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
         try {
             String nom = req.getParameter("nom_art");
             String description = req.getParameter("description_art");
@@ -54,11 +53,16 @@ public class VendreArticleServlet extends HttpServlet {
 
             articleVenduManager.ajouterArticleVendu(articleVendu);
 
-        } catch (DALException | BLLException e) {
-            e.printStackTrace();
+            //req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
+            // -> renvoie seulement le contenu de index.jsp, mais l'url reste celle de la servlet
+            resp.sendRedirect(req.getContextPath()+"/accueil"); // redirige vers l'url d'une nouvelle servlet
+
+        } catch (BLLException | DALException e) {
+            req.setAttribute("message_erreur", e.getMessage());
+            // req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
+//            resp.sendRedirect(req.getContextPath()+"/vendreArticle");
+            doGet(req, resp);
         }
-        resp.sendRedirect(req.getContextPath()+"/accueil");
-//        req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
 
 
     }
