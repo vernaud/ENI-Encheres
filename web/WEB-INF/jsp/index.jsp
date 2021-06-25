@@ -34,12 +34,12 @@
             <article>
                 <fieldset>
                     <img src="#" alt="Photo de l'article ${article.nomArticle}">
-                <h1>${article.nomArticle}</h1>
-                <br>
-                <p>Prix : ${article.prixVente}</p>
-                <p>Fin de l'enchère : ${article.dateFinEncheres}</p>
-                <br>
-                <p>Vendeur : ${article.utilisateur.pseudo}</p>
+                    <h1><a href="">${article.nomArticle}</a></h1>
+                    <ul>
+                        <li>Prix : ${article.prixVente}</li>
+                        <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
+                        <li>Vendeur : ${article.utilisateur.pseudo}</li>
+                    </ul>
                 </fieldset>
             </article>
             <br>
