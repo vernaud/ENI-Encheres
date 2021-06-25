@@ -21,15 +21,17 @@ public class AccueilServlet extends HttpServlet {
 //        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
         String selecteur = request.getParameter("radio");
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+        CategorieManager categorieManager = new CategorieManager();
+        ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+        List<ArticleVendu> articleVenduList;
+        List<ArticleVendu> listeAAfficher = new ArrayList<>();
+        List<ArticleVendu> listeprovisoire = new ArrayList<>();
+        int idUtilisateur = utilisateur.getNoUtilisateur();
         if (request.getParameter("deconnect") != null) {
             request.getSession().setAttribute("utilisateur", null);
             request.getSession().setAttribute("connecte", false);
         }
-        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
-        int idUtilisateur = utilisateur.getNoUtilisateur();
-        CategorieManager categorieManager = new CategorieManager();
-        ArticleVenduManager articleVenduManager = new ArticleVenduManager();
-        List<ArticleVendu> articleVenduList;
         try {
             request.setAttribute("listeCategories", categorieManager.selectAll());
             if (request.getParameter("ListeCategories") == null || Integer.parseInt(request.getParameter("ListeCategories")) == 0) {
@@ -38,16 +40,18 @@ public class AccueilServlet extends HttpServlet {
                 int idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));
                 articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect);
             }
-            //Si achat et enchèreouvertes
+            //Si achat sélectionné
             if (selecteur != null && selecteur.equals("achat")) {
-                //TODO Créer une méthode selectionAchat et selection ventes
-                //Récupération de l'id Utilisateur
-
-                articleVenduList = articleVenduManager.afficherAchats(idUtilisateur);
+                List<ArticleVendu> listeAchats = articleVenduManager.afficherAchats(idUtilisateur);
+                articleVenduList = listeAchats;
 
                 if (request.getParameter("CheckBoxEnchereOuverte") != null) {
                     //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                    articleVenduList = articleVenduManager.afficherEncheresOuvertes(articleVenduList);
+                    listeprovisoire = articleVenduManager.afficherEncheresOuvertes(articleVenduList);
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
                 }
                 //TODO Ajouter mes enchères en cours
                 //TODO Ajouter mes enchères remportées
@@ -58,8 +62,6 @@ public class AccueilServlet extends HttpServlet {
                 //Récupération de l'id Utilisateur
                 List<ArticleVendu> listeVentes = articleVenduManager.afficherventes(idUtilisateur);
                 articleVenduList = listeVentes;
-                List<ArticleVendu> listeAAfficher = new ArrayList<>();
-                List<ArticleVendu> listeprovisoire = new ArrayList<>();
 
                 if (request.getParameter("CheckBoxVentesEnCours") != null) {
                     //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
