@@ -164,7 +164,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
     }
 
     /**
-     *
+     * Récupère un Article en base par son id.
      * @param idArt
      * @return article
      */

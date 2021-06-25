@@ -16,15 +16,9 @@ public class ArticleVendu {
 
     private Utilisateur utilisateur;
     private Categorie categorie;
+    private Enchere enchere;
+    private Retrait retrait;
 
-    /*
-    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int prixInitial) {
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEncheres = dateFinEncheres;
-        this.prixInitial = prixInitial;
-    }*/
 
     public ArticleVendu() {
     }
@@ -52,6 +46,18 @@ public class ArticleVendu {
         setPrixVente(prixVente);
         setUtilisateur(utilisateur);
         setCategorie(categorie);
+    }
+
+    public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateFinEncheres, int prixInitial,
+                        Utilisateur utilisateur, Categorie categorie, Enchere enchere) {
+        this.noArticle = noArticle;
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateFinEncheres = dateFinEncheres;
+        this.prixInitial = prixInitial;
+        this.utilisateur = utilisateur;
+        this.categorie = categorie;
+        this.enchere = enchere;
     }
 
     public int getNoArticle() {
