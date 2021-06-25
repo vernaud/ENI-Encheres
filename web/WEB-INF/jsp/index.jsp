@@ -34,7 +34,7 @@
             <article>
                 <fieldset>
                     <img src="#" alt="Photo de l'article ${article.nomArticle}">
-                    <h1><a href="">${article.nomArticle}</a></h1>
+                    <h1><a href="${pageContext.request.contextPath}/enchere">${article.nomArticle}</a></h1>
                     <ul>
                         <li>Prix : ${article.prixVente}</li>
                         <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
