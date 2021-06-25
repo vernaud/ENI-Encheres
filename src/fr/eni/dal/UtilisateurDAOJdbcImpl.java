@@ -22,6 +22,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 
     private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE no_utilisateur=?;";
 
+    private static String DELETE_UTILISATEUR = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?;";
+
     @Override
     public Utilisateur connecterUtilisateur(String pseudoOuMail, String motDePasse) throws DALException {
         Utilisateur utilisateur = new Utilisateur();
@@ -150,5 +152,18 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la MAJ du profil");
         }
+    }
+
+    @Override
+    public void deleteProfil(int id) throws DALException{
+        try (Connection cnx = ConnectionProvider.getConnection();
+             PreparedStatement pstmt = cnx.prepareStatement(DELETE_UTILISATEUR)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la suppression du profil");
+        }
+
     }
 }

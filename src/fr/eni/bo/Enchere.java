@@ -3,7 +3,7 @@ package fr.eni.bo;
 import java.time.LocalDate;
 
 public class Enchere{
-/*
+
     private LocalDate dateEnchere;
     private int montantEnchere;
     private ArticleVendu articleVendu;
@@ -52,5 +52,4 @@ public class Enchere{
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
     }
-    */
 }

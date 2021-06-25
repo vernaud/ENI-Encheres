@@ -1,7 +1,7 @@
 package fr.eni.bo;
 
 public class Retrait {
-/*
+
     private ArticleVendu article;
     private String rue;
     private String codePostal;
@@ -50,5 +50,4 @@ public class Retrait {
         this.ville = ville;
     }
 
- */
 }

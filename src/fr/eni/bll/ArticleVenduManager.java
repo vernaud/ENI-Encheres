@@ -1,8 +1,11 @@
 package fr.eni.bll;
+
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.dal.DALException;
 import fr.eni.dal.DAOFactory;
+
+import java.util.List;
 
 public class ArticleVenduManager {
 
@@ -49,12 +52,37 @@ public class ArticleVenduManager {
                 throw new BLLException("Le prix initial ne peut pas être négatif");
             }
             this.articleVenduDAO.insert(articleVendu);
-        }
-        catch (DALException e) {
-            e.printStackTrace();
+        } catch (DALException e) {
             throw new BLLException("L'ajout d'un article à vendre a échoué");
         }
 
     }
 
+    public List<ArticleVendu> AfficherTouslesArticlesEnCours() throws BLLException {
+        List<ArticleVendu> articleVenduList = null;
+        try {
+            articleVenduList = this.articleVenduDAO.selectAll();
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Affichage des articles impossible");
+        }
+
+        return articleVenduList;
+    }
+
+    public List<ArticleVendu> AfficherArticlesParCategorie(Integer idCategorie) throws BLLException {
+        List<ArticleVendu> articleVenduList = null;
+        try {
+            articleVenduList = this.articleVenduDAO.selectByCategorieId(idCategorie);
+            //Si la liste est vide
+            if(articleVenduList.isEmpty()){
+                throw new BLLException("Il n'existe pas d'article pour cette catégorie");
+            }
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors du selectArticleByCategorieId");
+        }
+
+        return articleVenduList;
+    }
 }
