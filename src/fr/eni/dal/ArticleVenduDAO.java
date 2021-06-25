@@ -12,4 +12,6 @@ public interface ArticleVenduDAO {
     public List<ArticleVendu> selectByCategorieId(Integer idCategorie) throws DALException;
 
     List<ArticleVendu> selectAchats(int idUtilisateur) throws DALException;
+
+    List<ArticleVendu> selectVentes(int idUtilisateur) throws DALException;
 }

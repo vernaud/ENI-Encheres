@@ -78,4 +78,38 @@ public class ArticleVenduManager {
 
         return listeAchats;
     }
+
+    public List<ArticleVendu> afficherventes(int idUtilisateur) throws BLLException{
+        List<ArticleVendu> listeAchats = new ArrayList<>();
+        try {
+            listeAchats = articleVenduDAO.selectVentes(idUtilisateur);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Aucun article correspondant");
+        }
+
+        return listeAchats;
+    }
+
+    public List<ArticleVendu> afficherEncheresNonDébutees(List<ArticleVendu> articleVenduList) throws BLLException {
+        List<ArticleVendu> listeEncheresNonDebutees = new ArrayList<>();
+        for (ArticleVendu articlevendu : articleVenduList) {
+            if((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) > 0)){
+                listeEncheresNonDebutees.add(articlevendu);
+            }
+        }
+
+        return listeEncheresNonDebutees;
+    }
+
+    public List<ArticleVendu> afficherEncheresTerminees(List<ArticleVendu> articleVenduList) {
+        List<ArticleVendu> listeEnchereTerminees = new ArrayList<>();
+        for (ArticleVendu articlevendu : articleVenduList) {
+            if((articlevendu.getDateFinEncheres().compareTo(LocalDate.now()) <0)){
+                listeEnchereTerminees.add(articlevendu);
+            }
+        }
+
+        return listeEnchereTerminees;
+    }
 }

@@ -44,7 +44,7 @@
                             <div>
                                 <input type="checkbox" value="En cours" id="CheckBoxEnchereEnCours"
                                        name="CheckBoxEnchereEnCours">
-                                <label for="CheckBoxEnchereEnCours">enchères ouvertes</label>
+                                <label for="CheckBoxEnchereEnCours">enchères en cours</label>
                             </div>
                             <div>
                                 <input type="checkbox" value="remportees" id="checkBoxEnchereRemportees"
