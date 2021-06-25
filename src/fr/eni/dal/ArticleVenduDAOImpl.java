@@ -26,6 +26,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     public static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
 
+    public static final String SELECT_BY_ID =
+            "SELECT A.nom_article, A.description, C.no_categorie, E.montant_enchere, A.prix_initial, A.date_fin_encheres, R2.rue, R2.code_postal, R2.ville, U.pseudo\n" +
+                    "FROM ARTICLES_VENDUS A\n" +
+                    "INNER JOIN CATEGORIES C on A.no_categorie = C.no_categorie\n" +
+                    "INNER JOIN UTILISATEURS U on A.no_utilisateur = U.no_utilisateur\n" +
+                    "INNER JOIN ENCHERES E on A.no_article = E.no_article\n" +
+                    "INNER JOIN RETRAITS R2 on A.no_article = R2.no_article\n" +
+                    "WHERE A.no_article = 1;";
+
     @Override
     public void insert(ArticleVendu articleVendu) throws DALException {
 
@@ -162,6 +171,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
     @Override
     public ArticleVendu selectById(Integer idArt) {
         ArticleVendu article = null;
+        // requête SQL écrite (SELECT_BY_ID)
 
         return article;
     }
