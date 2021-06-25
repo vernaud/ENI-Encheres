@@ -70,7 +70,7 @@ public class ArticleVenduManager {
         return articleVenduList;
     }
 
-    public List<ArticleVendu> AfficherArticlesParCategorie(Integer idCategorie) throws BLLException {
+    public List<ArticleVendu> AfficherArticlesParCategorie(int idCategorie) throws BLLException {
         List<ArticleVendu> articleVenduList = null;
         try {
             articleVenduList = this.articleVenduDAO.selectByCategorieId(idCategorie);
@@ -85,4 +85,28 @@ public class ArticleVenduManager {
 
         return articleVenduList;
     }
+
+    public List<ArticleVendu> AfficherArticlesParNomEtCategorie(String nomArticleRecherche, int idCategorie) throws BLLException {
+        // TO DO
+        List<ArticleVendu> listeArticlesVendus = null;
+        try {
+            if (nomArticleRecherche.trim().isEmpty()) {
+                listeArticlesVendus = this.articleVenduDAO.selectByCategorieId(idCategorie);
+                if(listeArticlesVendus.isEmpty()){
+                    throw new BLLException("Il n'existe pas d'article pour cette catégorie");
+                }
+            }
+            else {
+                listeArticlesVendus = this.articleVenduDAO.selectByNameAndCategoryId(nomArticleRecherche, idCategorie);
+                if(listeArticlesVendus.isEmpty()){
+                    throw new BLLException("Il n'existe pas d'article correspondant à ce nom et cette catégorie");
+                }
+            }
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de la sélection d'articles par nom et categorie");
+        }
+        return listeArticlesVendus;
+    }
+
 }
