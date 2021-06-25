@@ -14,34 +14,54 @@
 </head>
 <body>
 <header> Nouvelle vente</header>
+<main>
+<p>${message_erreur}</p>
 
 <form action="${pageContext.request.contextPath}/vendreArticle" method="post">
 
-    <label for="nom_art"> Article : </label>
-    <input type="text" id="nom_art" name="nom_art" required>
+    <table summary="Caratéristiques de l'article à vendre">
+        <tbody>
 
-    <label for="description_art"> Description : </label>
-    <input type="text" id="description_art" name="description_art" required>
+            <tr>
+                <th><label for="nom_art"> Article : </label></th>
+                <td><input type="text" id="nom_art" name="nom_art" required></td>
+            </tr>
+            <br>
 
-    <label for="categorie_art"> Categorie : </label>
-    <select name="categorie_art" id="categorie_art">
-        <c:forEach items="${liste_categories}" var="cat">
-            <option value="${cat.noCategorie}">${cat.libelle}</option>
-        </c:forEach>
+            <tr>
+                <th><label for="description_art"> Description : </label></th>
+                <td><input type="text" id="description_art" name="description_art" required></td>
+            </tr><br>
 
-    </select>
+            <tr>
+                <th><label for="categorie_art"> Categorie : </label></th>
+                <td><select name="categorie_art" id="categorie_art">
+                    <c:forEach items="${liste_categories}" var="cat">
+                        <option value="${cat.noCategorie}">${cat.libelle}</option>
+                    </c:forEach>
+                </select></td>
+            </tr><br>
 
     <!-- <label for="photo_article"> Photo de l'article : </label>
             bouton "Uploader" -->
 
-    <label for="mise_a_prix_art"> Mise à prix : </label>
-    <input type="number" id="mise_a_prix_art" name="mise_a_prix_art" required>
+            <tr>
+                <th><label for="mise_a_prix_art"> Mise à prix : </label></th>
+                <td><input type="number" id="mise_a_prix_art" name="mise_a_prix_art" required></td>
+            </tr><br>
 
-    <label for="date_debut_enchere_art"> Début de l'enchère : </label>
-    <input type="date" id="date_debut_enchere_art" name="date_debut_enchere_art" required>
+            <tr>
+                <th><label for="date_debut_enchere_art"> Début de l'enchère : </label></th>
+                <td><input type="date" id="date_debut_enchere_art" name="date_debut_enchere_art" required></td>
+            </tr><br>
 
-    <label for="date_fin_enchere_art"> Fin de l'enchère : </label>
-    <input type="date" id="date_fin_enchere_art" name="date_fin_enchere_art" required>
+            <tr>
+                <th><label for="date_fin_enchere_art"> Fin de l'enchère : </label></th>
+                <td><input type="date" id="date_fin_enchere_art" name="date_fin_enchere_art" required></td>
+            <tr><br>
+
+        </tbody>
+    </table><br>
 
     <!--  TO DO Formulaire retrait   -->
 
@@ -53,6 +73,6 @@
 
 
 </form>
-
+</main>
 </body>
 </html>
