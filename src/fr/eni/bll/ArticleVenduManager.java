@@ -28,13 +28,10 @@ public class ArticleVenduManager {
 
     }
 
-    public List<ArticleVendu> afficherTouslesArticlesEnCours(Utilisateur utilisateur) throws BLLException {
+    public List<ArticleVendu> AfficherTouslesArticlesEnCours() throws BLLException {
         List<ArticleVendu> articleVenduList = null;
         try {
             articleVenduList = this.articleVenduDAO.selectAll();
-            if(utilisateur != null) {
-                articleVenduList = afficherAchats(utilisateur, articleVenduList);
-            }
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("Affichage des articles impossible");
@@ -43,7 +40,7 @@ public class ArticleVenduManager {
         return articleVenduList;
     }
 
-    public List<ArticleVendu> afficherArticlesParCategorie(Integer idCategorie) throws BLLException {
+    public List<ArticleVendu> AfficherArticlesParCategorie(Integer idCategorie) throws BLLException {
         List<ArticleVendu> articleVenduList = null;
         try {
             articleVenduList = this.articleVenduDAO.selectByCategorieId(idCategorie);
@@ -70,13 +67,13 @@ public class ArticleVenduManager {
 
     }
 
-    public List<ArticleVendu> afficherAchats(Utilisateur utilisateur, List<ArticleVendu> articleVenduList) {
+    public List<ArticleVendu> afficherAchats(int idUtilisateur) throws BLLException {
         List<ArticleVendu> listeAchats = new ArrayList<>();
-        //Afficher la liste de tous les achats
-        for (ArticleVendu articlevendu : articleVenduList) {
-            if (articlevendu.getUtilisateur().getNoUtilisateur() != utilisateur.getNoUtilisateur()) {
-                listeAchats.add(articlevendu);
-            }
+        try {
+            listeAchats = articleVenduDAO.selectAchats(idUtilisateur);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Aucun article correspondant");
         }
 
         return listeAchats;

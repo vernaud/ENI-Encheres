@@ -19,6 +19,7 @@ public class AccueilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
+        String selecteur = request.getParameter("radio");
         if (request.getParameter("deconnect") != null) {
             request.getSession().setAttribute("utilisateur", null);
             request.getSession().setAttribute("connecte", false);
@@ -28,20 +29,25 @@ public class AccueilServlet extends HttpServlet {
         List<ArticleVendu> articleVenduList;
         try {
             request.setAttribute("listeCategories", categorieManager.selectAll());
-            Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
-            articleVenduList = articleVenduManager.afficherTouslesArticlesEnCours(utilisateur);
-            if(request.getParameter("ListeCategories") == null || Integer.parseInt(request.getParameter("ListeCategories")) == 0){
-                articleVenduList = articleVenduManager.afficherTouslesArticlesEnCours(utilisateur);
-            } else{
+            if (request.getParameter("ListeCategories") == null || Integer.parseInt(request.getParameter("ListeCategories")) == 0) {
+                articleVenduList = articleVenduManager.AfficherTouslesArticlesEnCours();
+            } else {
                 int idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));
-                articleVenduList = articleVenduManager.afficherArticlesParCategorie(idCategorieSelect);
+                articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect);
             }
             //Si achat et enchèreouvertes
-            if (request.getParameter("radioAchat") !=null && request.getParameter("CheckBoxEnchereOuverte") != null) {
+            if (selecteur != null && selecteur.equals("achat")) {
                 //TODO Créer une méthode selectionAchat et selection ventes
                 //Récupération de l'id Utilisateur
-                //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                articleVenduList = articleVenduManager.afficherEncheresOuvertes(articleVenduList);
+                Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+                int idUtilisateur = utilisateur.getNoUtilisateur();
+
+                articleVenduList = articleVenduManager.afficherAchats(idUtilisateur);
+
+                if (request.getParameter("CheckBoxEnchereOuverte") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    articleVenduList = articleVenduManager.afficherEncheresOuvertes(articleVenduList);
+                }
             }
             request.setAttribute("articleVenduList", articleVenduList);
         } catch (DALException | BLLException e) {
