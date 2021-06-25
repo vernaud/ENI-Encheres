@@ -52,4 +52,10 @@ public class ArticleVenduManager {
 
         return articleVenduList;
     }
+
+    public ArticleVendu selectById(Integer idArt) {
+        ArticleVendu article;
+        article = articleVenduDAO.selectById(idArt);
+        return article;
+    }
 }

@@ -154,4 +154,16 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
         return listeArticlesVendus;
     }
 
+    /**
+     *
+     * @param idArt
+     * @return article
+     */
+    @Override
+    public ArticleVendu selectById(Integer idArt) {
+        ArticleVendu article = null;
+
+        return article;
+    }
+
 }
