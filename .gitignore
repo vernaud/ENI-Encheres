@@ -24,6 +24,7 @@ hs_err_pid*
 
 # DOSSIERS
 .idea/
+.vscode/
 META-INF/
 out/
 /ENI-Encheres.iml
