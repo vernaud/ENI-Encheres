@@ -46,7 +46,10 @@ public class AccueilServlet extends HttpServlet {
                 articleVenduList = articleVenduManager.AfficherTouslesArticlesEnCours();
             } else {
                 int idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));
-                articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect);
+                String nomArticleRecherche = request.getParameter("nomArticle"); // récupère le nom recherché
+
+                // articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect); (ancienne méthode de Florentin)
+                articleVenduList = articleVenduManager.AfficherArticlesParNomEtCategorie(nomArticleRecherche, idCategorieSelect); // (nouvelle méthode de Matthieu)
             }
             //Si achat sélectionné
             if (selecteur != null && selecteur.equals("achat")) {
@@ -100,6 +103,7 @@ public class AccueilServlet extends HttpServlet {
                 }
             }
             request.setAttribute("articleVenduList", articleVenduList);
+
         } catch (DALException | BLLException e) {
             request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);

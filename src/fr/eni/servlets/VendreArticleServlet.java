@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -22,14 +23,18 @@ public class VendreArticleServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CategorieManager categorieManager = new CategorieManager();
-        try {
-            req.setAttribute("liste_categories", categorieManager.selectAll());
-        } catch (DALException e) {
-            e.printStackTrace();
+        HttpSession session = req.getSession();
+        if (session.getAttribute("utilisateur") == null) {
+            resp.sendRedirect(req.getContextPath()+"/accueil");
+        } else {
+            CategorieManager categorieManager = new CategorieManager();
+            try {
+                req.setAttribute("liste_categories", categorieManager.selectAll());
+            } catch (DALException e) {
+                e.printStackTrace();
+            }
+            req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
         }
-        req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
-
     }
 
     @Override

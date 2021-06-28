@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ArticleVenduDAOImpl implements ArticleVenduDAO {
+public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
     public static final String INSERT_ARTICLE_VENDU = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, " +
             "prix_initial, prix_vente, no_utilisateur, no_categorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -25,6 +25,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
             "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= GETDATE();";
 
     public static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
+
+    public static final String SELECT_ARTICLES_BY_NAME_AND_CATEGORY = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ?";
+    // SELECT * FROM mytable WHERE column1 LIKE '%word1%'
 
     public static final String SELECT_ARTICLE_BY_NON_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur != ? ;";
     private static final String SELECT_ARTICLE_BY_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? ;";
@@ -128,6 +131,54 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
                     int prixInitial; int prixVente; Utilisateur utilisateur; Categorie categorie;
                     */
 
+                    article.setNoArticle(rs.getInt(1));
+                    article.setNomArticle(rs.getString(2));
+                    article.setDescription(rs.getString(3));
+                    article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+                    article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+                    article.setPrixInitial(rs.getInt(6));
+                    article.setPrixVente(rs.getInt(7));
+
+                    UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
+                    Utilisateur utilisateur = new Utilisateur();
+                    utilisateur = utilisateurDAO.selectById(rs.getInt(8));
+                    article.setUtilisateur(utilisateur);
+
+                    CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
+                    Categorie cat = new Categorie();
+                    cat = categorieDAO.selectById(rs.getInt(9));
+                    article.setCategorie(cat);
+
+                    listeArticlesVendus.add(article);
+                }
+            rs.close();
+        } catch (SQLException sqlException){
+            sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la recherche d'article par catégorie");
+        }
+
+        return listeArticlesVendus;
+    }
+
+    @Override
+    public List<ArticleVendu> selectByNameAndCategoryId(String nomArticleRecherche, int idCategorie) throws DALException {
+        List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
+        try (
+                Connection cnx = ConnectionProvider.getConnection();
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_ARTICLES_BY_NAME_AND_CATEGORY);
+        ) {
+            pstt.setString(1, '%' + nomArticleRecherche + '%'); // '%word1%'
+            pstt.setInt(2, idCategorie);
+            ResultSet rs = pstt.executeQuery();
+
+            while (rs.next()){
+                ArticleVendu article = new ArticleVendu();
+                   /* Rappel :
+                    ArticleVendu :
+                    int noArticle; String nomArticle; String description; LocalDate dateDebutEncheres; LocalDate dateFinEncheres;
+                    int prixInitial; int prixVente; Utilisateur utilisateur; Categorie categorie;
+                    */
+
                 article.setNoArticle(rs.getInt(1));
                 article.setNomArticle(rs.getString(2));
                 article.setDescription(rs.getString(3));
@@ -149,9 +200,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
                 listeArticlesVendus.add(article);
             }
             rs.close();
-        } catch (SQLException sqlException) {
+        } catch (SQLException sqlException){
             sqlException.printStackTrace();
-            throw new DALException("Erreur lors de la recherche d'article par catégorie");
+            throw new DALException("Erreur lors de la recherche d'article par nom et catégorie");
         }
 
         return listeArticlesVendus;
