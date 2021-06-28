@@ -67,9 +67,8 @@
 
     <input type="submit" value="Enregistrer">
 
-    <input type="button" value="Annuler">
-    <a href="${pageContext.request.contextPath}/accueil">Annuler</a>
-    </input>
+
+    <a href="${pageContext.request.contextPath}/accueil"><input type="button" value="Annuler"></input></a>
 
 
 </form>
