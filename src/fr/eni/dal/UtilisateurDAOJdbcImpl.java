@@ -16,6 +16,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
     private static final String INSERT_UTLISATEUR = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, " +
             "rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+
     private static final String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, " +
             "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " +
             "FROM UTILISATEURS WHERE no_utilisateur=?";
@@ -51,7 +52,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
                 utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 
             }
-            if (utilisateur.getNoUtilisateur() == null) {
+            if (utilisateur.getNoUtilisateur() == 0) {
                 throw new DALException("Utilisateur Inexistant ou Mot de passe incorrect");
             }
             rs.close();
@@ -68,7 +69,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
     @Override
     public void inscrireUtilisateur(Utilisateur utilisateur) throws DALException {
         try (Connection cnx = ConnectionProvider.getConnection();
-             PreparedStatement pstt = cnx.prepareStatement(INSERT_UTLISATEUR)) {
+             PreparedStatement pstt = cnx.prepareStatement(INSERT_UTLISATEUR, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
 //            private static final String INSERT_UTLISATEUR = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, " +
 //                    "rue, code_postal, ville, mot_de_passe) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -85,8 +86,15 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             pstt.setInt(10, utilisateur.getCredit());
             pstt.setBoolean(11, utilisateur.isAdministrateur());
 
-
             pstt.executeUpdate();
+            ResultSet rs = pstt.getGeneratedKeys();
+
+            //Si on récupère des lignes on se positionne sur la première
+            if (rs.next()) {
+                //On affecte la clé récupérée à l'id
+                utilisateur.setNoUtilisateur(rs.getInt(1));
+            }
+            rs.close();
             cnx.commit();
 
         } catch (SQLException sqlException) {
