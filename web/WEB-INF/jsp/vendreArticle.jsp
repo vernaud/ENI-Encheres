@@ -24,7 +24,7 @@
 
             <tr>
                 <th><label for="nom_art"> Article : </label></th>
-                <td><input type="text" id="nom_art" name="nom_art" required></td>
+                <td><input type="text" id="nom_art" maxlength="30" name="nom_art" required></td>
             </tr>
             <br>
 
@@ -47,7 +47,7 @@
 
             <tr>
                 <th><label for="mise_a_prix_art"> Mise à prix : </label></th>
-                <td><input type="number" id="mise_a_prix_art" name="mise_a_prix_art" required></td>
+                <td><input type="number" min="0" id="mise_a_prix_art" name="mise_a_prix_art" required></td>
             </tr><br>
 
             <tr>

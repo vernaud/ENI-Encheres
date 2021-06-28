@@ -45,7 +45,9 @@ public class AccueilServlet extends HttpServlet {
                 articleVenduList = articleVenduManager.AfficherTouslesArticlesEnCours();
             } else {
                 int idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));
+                // TO DO : récupérer le nom recherché (zone de texte :"nom de l'article contient")
                 articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect);
+                // TO DO : List<ArticleVendu> AfficherArticlesParNomEtCategorie(String nomArticleRecherche, int idCategorie)
             }
             //Si achat sélectionné
             if (selecteur != null && selecteur.equals("achat")) {
@@ -99,6 +101,7 @@ public class AccueilServlet extends HttpServlet {
                 }
             }
             request.setAttribute("articleVenduList", articleVenduList);
+
         } catch (DALException | BLLException e) {
             request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);

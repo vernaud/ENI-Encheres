@@ -26,7 +26,8 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     public static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
 
-    public static final String SELECT_ARTICLES_BY_NAME_AND_CATEGORY = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article = ? AND no_categorie= ?";
+    public static final String SELECT_ARTICLES_BY_NAME_AND_CATEGORY = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ?";
+    // SELECT * FROM mytable WHERE column1 LIKE '%word1%'
 
     public static final String SELECT_ARTICLE_BY_NON_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur != ? ;";
     private static final String SELECT_ARTICLE_BY_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? ;";
@@ -166,8 +167,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
                 Connection cnx = ConnectionProvider.getConnection();
                 PreparedStatement pstt = cnx.prepareStatement(SELECT_ARTICLES_BY_NAME_AND_CATEGORY);
         ) {
-
-            pstt.setString(1, nomArticleRecherche);
+            pstt.setString(1, '%' + nomArticleRecherche + '%'); // '%word1%'
             pstt.setInt(2, idCategorie);
             ResultSet rs = pstt.executeQuery();
 

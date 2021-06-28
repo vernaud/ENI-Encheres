@@ -49,8 +49,11 @@ public class ArticleVenduManager {
                 throw new BLLException("La description est obligatoire");
             } else if (articleVendu.getDescription().trim().length() > 300) {
                 throw new BLLException("La description ne doit pas dépasser 300 caractères");
-            } else if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
-                throw new BLLException("La date de début d'enchères doit être inférieure à la date de fin.");
+            } else if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
+                throw new BLLException("La date de début des enchères doit être supérieure à la date du jour.");
+            }
+            else if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
+                throw new BLLException("La date de début des enchères doit être inférieure à la date de fin.");
             } else if (articleVendu.getPrixInitial() < 0) {
                 throw new BLLException("Le prix initial ne peut pas être négatif");
             }
@@ -102,7 +105,7 @@ public class ArticleVenduManager {
             else {
                 listeArticlesVendus = this.articleVenduDAO.selectByNameAndCategoryId(nomArticleRecherche, idCategorie);
                 if(listeArticlesVendus.isEmpty()){
-                    throw new BLLException("Il n'existe pas d'article correspondant à ce nom et cette catégorie");
+                    throw new BLLException("Il n'existe pas d'article contenant ce mot et correspondant à cette catégorie");
                 }
             }
         } catch (DALException e) {
