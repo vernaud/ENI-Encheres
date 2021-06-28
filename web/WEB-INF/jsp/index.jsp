@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>ENI Enchères</title>
+
 </head>
 <body>
 <header>
@@ -34,21 +35,21 @@
                 <div>
                     <div>
                         <div>
-                            <input type="radio" value="achat" name="radio" id="radioAchat">
+                            <input type="radio" value="achat" name="radio" id="radioAchat" onchange="this.form.submit()"  <c:if test="${radio == \"achat\"}">checked </c:if>>
                             <label for="radioAchat">Achat</label>
                             <div>
                                 <input type="checkbox" value="ouvertes" id="CheckBoxEnchereOuverte"
-                                       name="CheckBoxEnchereOuverte">
+                                       name="CheckBoxEnchereOuverte" <c:if test="${radio == \"mesVentes\"}">disabled </c:if>>
                                 <label for="CheckBoxEnchereOuverte">enchères ouvertes</label>
                             </div>
                             <div>
                                 <input type="checkbox" value="En cours" id="CheckBoxEnchereEnCours"
-                                       name="CheckBoxEnchereEnCours">
+                                       name="CheckBoxEnchereEnCours" <c:if test="${radio == \"mesVentes\"}">disabled </c:if>>
                                 <label for="CheckBoxEnchereEnCours">enchères en cours</label>
                             </div>
                             <div>
                                 <input type="checkbox" value="remportees" id="checkBoxEnchereRemportees"
-                                       name="checkBoxEnchereRemportes">
+                                       name="checkBoxEnchereRemportes" <c:if test="${radio == \"mesVentes\"}">disabled </c:if>>
                                 <label for="checkBoxEnchereRemportees">enchères remportées</label>
                             </div>
                         </div>
@@ -56,22 +57,22 @@
                     <br>
                     <div>
                         <div>
-                            <input type="radio" value="mesVentes" name="radio" id="radioMesVentes">
+                            <input type="radio" value="mesVentes" name="radio" id="radioMesVentes"  onchange="this.form.submit()" <c:if test="${radio == \"mesVentes\"}">checked </c:if>>
                             <label for="radioMesVentes">Mes Ventes</label>
 
                             <div>
-                                <input type="checkbox" value="ventesenCours" id="CheckBoxVentesEnCours"
-                                       name="CheckBoxVentesEnCours">
+                                <input type="checkbox" id="CheckBoxVentesEnCours"
+                                       name="CheckBoxVentesEnCours" <c:if test="${radio == \"achat\"}">disabled </c:if>>
                                 <label for="CheckBoxVentesEnCours">mes ventes en cours</label>
                             </div>
                             <div>
                                 <input type="checkbox" value="ventesNonDebutees" id="CheckeBoxVentesNonDebutees"
-                                       name="CheckeBoxVentesNonDebutees">
+                                       name="CheckeBoxVentesNonDebutees" <c:if test="${radio == \"achat\"}">disabled </c:if>>
                                 <label for="CheckeBoxVentesNonDebutees">ventes non débutées</label>
                             </div>
                             <div>
                                 <input type="checkbox" value="terminees" id="CheckeBoxVentesTerminees"
-                                       name="CheckeBoxVentesTerminees">
+                                       name="CheckeBoxVentesTerminees" <c:if test="${radio == \"achat\"}">disabled </c:if>>
                                 <label for="CheckeBoxVentesTerminees">ventes terminées</label>
                             </div>
                         </div>
