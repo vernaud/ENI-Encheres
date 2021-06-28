@@ -40,13 +40,13 @@
                 <fieldset>
                     <legend>Retrait</legend>
                     <label for="rue">Rue : </label>
-                    <input type="text" id="rue" name="rue" value="{rue par défaut}">
+                    <input type="text" id="rue" name="rue" value="${utilisateur.rue}">
 
                     <label for="code-postal">Code postal : </label>
-                    <input type="text" id="code-postal" name="code-postal" value="{code postal par défaut}">
+                    <input type="text" id="code-postal" name="code-postal" value="${utilisateur.codePostal}">
 
                     <label for="ville">Ville : </label>
-                    <input type="text" id="ville" name="ville" value="{Ville par défaut}">
+                    <input type="text" id="ville" name="ville" value="${utilisateur.ville}">
                 </fieldset>
 
                 <input type="submit" value="Enregistrer">
