@@ -1,5 +1,6 @@
 package fr.eni.bll;
 
+import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.bo.ArticleVendu;
@@ -24,28 +25,9 @@ public class ArticleVenduManager {
         // StringBuffer	append(String str) : Ajoute la chaîne spécifiée à cette séquence de caractères
          boolean erreur_saisie = false;
         StringBuffer sb = new StringBuffer();
+        int idArticle;
 
-        /* Rappel classe ArticleVendu :
-            String nomArticle;
-            String description;
-            LocalDate dateDebutEncheres;
-            LocalDate dateFinEncheres;
-            int prixInitial;
-            int prixVente;
-            Utilisateur utilisateur;
-            Categorie categorie;
 
-            Rappel TABLE ARTICLES_VENDUS :
-            no_article                    INTEGER IDENTITY(1,1) NOT NULL,
-            nom_article                   VARCHAR(30) NOT NULL,
-            description                   VARCHAR(300) NOT NULL,
-	        date_debut_encheres           DATE NOT NULL,
-            date_fin_encheres             DATE NOT NULL,
-            prix_initial                  INTEGER,
-            prix_vente                    INTEGER,
-            no_utilisateur                INTEGER NOT NULL,
-            no_categorie                  INTEGER NOT NULL
-         */
         try {
             if (articleVendu.getNomArticle().trim().isEmpty()) {
                 sb.append("Le nom de l'article est obligatoire. <br/>");
@@ -79,11 +61,14 @@ public class ArticleVenduManager {
             if (erreur_saisie == true) {
                 throw new BLLException(sb.toString());
             }
-            this.articleVenduDAO.insert(articleVendu);
+
+            idArticle = articleVenduDAO.insert(articleVendu);
+
         } catch (DALException e) {
             throw new BLLException("L'ajout d'un article à vendre a échoué");
         }
 
+        return idArticle;
     }
 
     public List<ArticleVendu> AfficherTouslesArticlesEnCours() throws BLLException {
@@ -193,5 +178,13 @@ public class ArticleVenduManager {
         }
 
         return listeEnchereTerminees;
+    }
+
+    public void insertAdresseRetrait(int idArticle, Retrait adresse) {
+        try {
+            articleVenduDAO.insertAdresseRetrait(idArticle, adresse);
+        } catch (DALException e) {
+            e.printStackTrace();
+        }
     }
 }

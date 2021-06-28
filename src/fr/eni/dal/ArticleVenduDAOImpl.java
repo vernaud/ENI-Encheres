@@ -1,11 +1,9 @@
 package fr.eni.dal;
 
 import fr.eni.bo.ArticleVendu;
+import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
 import fr.eni.bo.Categorie;
-import fr.eni.dal.ArticleVenduDAO;
-import fr.eni.dal.ConnectionProvider;
-import fr.eni.dal.DALException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,11 +29,10 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     public static final String SELECT_ARTICLE_BY_NON_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur != ? ;";
     private static final String SELECT_ARTICLE_BY_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? ;";
+    private static final String INSERT_ADRESSE_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (?,?,?,?);";
 
     @Override
-    public void insert(ArticleVendu articleVendu) throws DALException {
-
-
+    public int insert(ArticleVendu articleVendu) throws DALException {
         try (
                 Connection connection = ConnectionProvider.getConnection();
                 PreparedStatement pStmt = connection.prepareStatement(INSERT_ARTICLE_VENDU,
@@ -62,6 +59,8 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
         } catch (SQLException e) {
             throw new DALException("Erreur à l'ajout d'un article à vendre: " + articleVendu);
         }
+
+        return articleVendu.getNoArticle();
     }
 
     @Override
@@ -302,5 +301,23 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
         }
 
         return listeArticlesVendus;
+    }
+
+    @Override
+    public void insertAdresseRetrait(int idArticle, Retrait adresse) throws DALException {
+        try (
+                Connection connection = ConnectionProvider.getConnection();
+                PreparedStatement pStmt = connection.prepareStatement(INSERT_ADRESSE_RETRAIT);
+        ) {
+            pStmt.setInt(1, idArticle);
+            pStmt.setString(2, adresse.getRue());
+            pStmt.setString(3, adresse.getCodePostal());
+            pStmt.setString(4, adresse.getVille());
+
+            pStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DALException("Problème à l'insertion de l'adresse de retrait en base de données.");
+        }
     }
 }
