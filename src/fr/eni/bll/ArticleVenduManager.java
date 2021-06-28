@@ -21,7 +21,7 @@ public class ArticleVenduManager {
         articleVenduDAO = DAOFactory.getArticleVenduDAO();
     }
 
-    public void ajouterArticleVendu(ArticleVendu articleVendu) throws BLLException {
+    public int ajouterArticleVendu(ArticleVendu articleVendu) throws BLLException {
         // StringBuffer	append(String str) : Ajoute la chaîne spécifiée à cette séquence de caractères
          boolean erreur_saisie = false;
         StringBuffer sb = new StringBuffer();
