@@ -13,6 +13,11 @@ public class Enchere{
     public Enchere() {
     }
 
+    public Enchere(LocalDate dateEnchere, int montantEnchere) {
+        this.dateEnchere = dateEnchere;
+        this.montantEnchere = montantEnchere;
+    }
+
     public Enchere(LocalDate dateEnchere, int montantEnchere, ArticleVendu articleVendu, Utilisateur utilisateur) {
 
         this.dateEnchere = dateEnchere;

@@ -23,6 +23,14 @@ public class ArticleVendu {
     public ArticleVendu() {
     }
 
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int prixInitial) {
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEncheres = dateDebutEncheres;
+        this.dateFinEncheres = dateFinEncheres;
+        this.prixInitial = prixInitial;
+    }
+
     public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
                         int prixInitial, int prixVente, Utilisateur utilisateur, Categorie categorie) {
         setNoArticle(noArticle);
