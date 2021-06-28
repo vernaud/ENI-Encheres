@@ -17,12 +17,12 @@
             <h1>${article.nomArticle}</h1>
             <ul>
                 <li>Description : ${article.description}</li>
-                <li>Catégorie : ${categorie.libelle}</li>
-                <li>Mailleur offre : ${enchere.montantEnchere} pts par {pseudo}</li>
+                <li>Catégorie : <%--${categorie.libelle}--%></li>
+                <li>Mailleur offre : <%--${enchere.montantEnchere}--%> pts par {pseudo}</li>
                 <li>Mise à prix : ${article.prixInitial} points</li>
                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
-                <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>
-                <li>Vendeur : ${utilisateur.pseudo}</li>
+                <li>Retrait : <p><%--${retrait.rue}--%><br><%--${retrait.codePostal}--%> <%--${retrait.ville}--%></p></li>
+                <li>Vendeur : <%--${utilisateur.pseudo}--%></li>
                 <form action="" method="">
                     <label for="proposition">Ma Proposition</label>
                     <input type="number" id="proposition">

@@ -53,9 +53,14 @@ public class ArticleVenduManager {
         return articleVenduList;
     }
 
-    public ArticleVendu selectById(Integer idArt) {
+    public ArticleVendu selectById(Integer idArt) throws BLLException{
         ArticleVendu article;
-        article = articleVenduDAO.selectById(idArt);
+        try {
+            article = articleVenduDAO.selectById(idArt);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de la récupération des données de l'article.");
+        }
         return article;
     }
 }
