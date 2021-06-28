@@ -15,22 +15,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @WebServlet("/vendreArticle")
 public class VendreArticleServlet extends HttpServlet {
 
+    private CategorieManager categorieManager;
+
+
+
+    @Override
+    public void init() throws ServletException {
+        categorieManager = new CategorieManager();
+    }
+
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CategorieManager categorieManager = new CategorieManager();
+        // Récupère une Liste<> des labels catégorie
         try {
             req.setAttribute("liste_categories", categorieManager.selectAll());
         } catch (DALException e) {
             e.printStackTrace();
         }
-        req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
 
+        req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
     }
+
+
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,7 +57,6 @@ public class VendreArticleServlet extends HttpServlet {
             LocalDate date_debut_enchere = LocalDate.parse(req.getParameter("date_debut_enchere_art"));
             LocalDate date_fin_enchere = LocalDate.parse(req.getParameter("date_fin_enchere_art"));
 
-            CategorieManager categorieManager = new CategorieManager();
             Categorie categorie = categorieManager.selectById(noCategorie);
 
             Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
