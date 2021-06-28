@@ -1,7 +1,7 @@
 package fr.eni.bo;
 
 public class Utilisateur {
-    private Integer noUtilisateur;
+    private int noUtilisateur;
     private String pseudo;
     private String nom;
     private String prenom;
@@ -11,11 +11,11 @@ public class Utilisateur {
     private String codePostal;
     private String ville;
 
-    public Integer getNoUtilisateur() {
+    public int getNoUtilisateur() {
         return noUtilisateur;
     }
 
-    public void setNoUtilisateur(Integer noUtilisateur) {
+    public void setNoUtilisateur(int noUtilisateur) {
         this.noUtilisateur = noUtilisateur;
     }
 
