@@ -1,5 +1,7 @@
 package fr.eni.bo;
 
+import java.util.regex.Pattern;
+
 public class Utilisateur {
     private int noUtilisateur;
     private String pseudo;

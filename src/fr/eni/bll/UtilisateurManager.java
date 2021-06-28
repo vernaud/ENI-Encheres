@@ -34,7 +34,7 @@ public class UtilisateurManager {
                 throw new BLLException("Le mot de passe est obligatoire");
             } else if (utilisateur.getEmail().trim().isEmpty()) {
                 throw new BLLException("La confirmation du mot de passe est obligatoire");
-            } else {
+            }else{
                 this.utilisateurDAO.inscrireUtilisateur(utilisateur);
             }
         } catch (DALException e) {
