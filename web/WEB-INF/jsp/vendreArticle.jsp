@@ -24,13 +24,13 @@
 
             <tr>
                 <th><label for="nom_art"> Article : </label></th>
-                <td><input type="text" id="nom_art" maxlength="30" name="nom_art" required></td>
+                <td><input type="text" id="nom_art" name="nom_art" maxlength="30" required></td>
             </tr>
             <br>
 
             <tr>
                 <th><label for="description_art"> Description : </label></th>
-                <td><input type="text" id="description_art" name="description_art" required></td>
+                <td><textarea id="description_art" name="description_art" cols="30" rows="10" maxlength="300" required></textarea></td>
             </tr><br>
 
             <tr>
@@ -47,7 +47,7 @@
 
             <tr>
                 <th><label for="mise_a_prix_art"> Mise à prix : </label></th>
-                <td><input type="number" min="0" id="mise_a_prix_art" name="mise_a_prix_art" required></td>
+                <td><input type="number"  id="mise_a_prix_art" name="mise_a_prix_art" min="0" required></td>
             </tr><br>
 
             <tr>

@@ -45,9 +45,10 @@ public class AccueilServlet extends HttpServlet {
                 articleVenduList = articleVenduManager.AfficherTouslesArticlesEnCours();
             } else {
                 int idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));
-                // TO DO : récupérer le nom recherché (zone de texte :"nom de l'article contient")
-                articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect);
-                // TO DO : List<ArticleVendu> AfficherArticlesParNomEtCategorie(String nomArticleRecherche, int idCategorie)
+                String nomArticleRecherche = request.getParameter("nomArticle"); // récupère le nom recherché
+
+                // articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect); (ancienne méthode de Florentin)
+                articleVenduList = articleVenduManager.AfficherArticlesParNomEtCategorie(nomArticleRecherche, idCategorieSelect); // (nouvelle méthode de Matthieu)
             }
             //Si achat sélectionné
             if (selecteur != null && selecteur.equals("achat")) {
