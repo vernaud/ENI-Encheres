@@ -2,69 +2,58 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
-<head>
-    <title>Vendre article</title>
-</head>
-<body>
-<header> Nouvelle vente</header>
-<main>
-<p>${message_erreur}</p>
+    <head>
+        <title>Vendre un article</title>
+        <meta charset="UTF-8">
+    </head>
 
-<form action="${pageContext.request.contextPath}/vendreArticle" method="post">
+    <body>
+        <header class="row">
+            <div id="logo">
+                <h1>ENI Enchères</h1>
+            </div>
+        </header>
+        <h1>Nouvelle vente</h1>
+        <main>
+            <p>${message_erreur}</p>
 
-    <table summary="Caratéristiques de l'article à vendre">
-        <tbody>
-
-            <tr>
-                <th><label for="nom_art"> Article : </label></th>
-                <td><input type="text" id="nom_art" name="nom_art" required></td>
-            </tr>
-            <br>
-
-            <tr>
-                <th><label for="description_art"> Description : </label></th>
-                <td><input type="text" id="description_art" name="description_art" required></td>
-            </tr><br>
-
-            <tr>
-                <th><label for="categorie_art"> Categorie : </label></th>
-                <td><select name="categorie_art" id="categorie_art">
+            <form action="${pageContext.request.contextPath}/vendreArticle" method="post">
+                <label for="nom_art">Article : </label>
+                <input type="text" id="nom_art" name="nom_art" required>
+                <label for="description_art">Description : </label>
+                <input type="text" id="description_art" name="description_art" required>
+                <label for="categorie_art"> Categorie : </label>
+                <select name="categorie_art" id="categorie_art">
                     <c:forEach items="${liste_categories}" var="cat">
                         <option value="${cat.noCategorie}">${cat.libelle}</option>
                     </c:forEach>
-                </select></td>
-            </tr><br>
+                </select>
+                <!-- <label for="photo_article">Photo de l'article : </label>
+                        bouton "Uploader" -->
+                <label for="mise_a_prix_art"> Mise à prix : </label>
+                <input type="number" id="mise_a_prix_art" name="mise_a_prix_art" required>
+                <label for="date_debut_enchere_art"> Début de l'enchère : </label>
+                <input type="date" id="date_debut_enchere_art" name="date_debut_enchere_art" required>
+                <label for="date_fin_enchere_art"> Fin de l'enchère : </label>
+                <input type="date" id="date_fin_enchere_art" name="date_fin_enchere_art" required>
 
-    <!-- <label for="photo_article"> Photo de l'article : </label>
-            bouton "Uploader" -->
+                <fieldset>
+                    <legend>Retrait</legend>
+                    <label for="rue">Rue : </label>
+                    <input type="text" id="rue" placeholder="rue par défaut">
 
-            <tr>
-                <th><label for="mise_a_prix_art"> Mise à prix : </label></th>
-                <td><input type="number" id="mise_a_prix_art" name="mise_a_prix_art" required></td>
-            </tr><br>
+                    <label for="codePostal">Code postal : </label>
+                    <input type="text" id="codePostal" placeholder="code postal par défaut">
 
-            <tr>
-                <th><label for="date_debut_enchere_art"> Début de l'enchère : </label></th>
-                <td><input type="date" id="date_debut_enchere_art" name="date_debut_enchere_art" required></td>
-            </tr><br>
+                    <label for="ville">Ville : </label>
+                    <input type="text" id="ville" placeholder="Ville par défaut">
+                </fieldset>
 
-            <tr>
-                <th><label for="date_fin_enchere_art"> Fin de l'enchère : </label></th>
-                <td><input type="date" id="date_fin_enchere_art" name="date_fin_enchere_art" required></td>
-            <tr><br>
-
-        </tbody>
-    </table><br>
-
-    <!--  TO DO Formulaire retrait   -->
-
-    <input type="submit" value="Enregistrer">
+                <input type="submit" value="Enregistrer">
+                <a href="${pageContext.request.contextPath}/accueil"><input type="button" value="Annuler"></input></a>
 
 
-    <a href="${pageContext.request.contextPath}/accueil"><input type="button" value="Annuler"></input></a>
-
-
-</form>
-</main>
-</body>
+            </form>
+        </main>
+    </body>
 </html>
