@@ -5,6 +5,7 @@ import fr.eni.bll.BLLException;
 import fr.eni.bll.CategorieManager;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
+import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DALException;
 
@@ -21,12 +22,14 @@ import java.util.List;
 public class VendreArticleServlet extends HttpServlet {
 
     private CategorieManager categorieManager;
+    private ArticleVenduManager articleVenduManager;
 
 
 
     @Override
     public void init() throws ServletException {
         categorieManager = new CategorieManager();
+        articleVenduManager = new ArticleVenduManager();
     }
 
 
@@ -61,19 +64,24 @@ public class VendreArticleServlet extends HttpServlet {
             String codePostal = req.getParameter("code-postal");
             String ville = req.getParameter("ville");
 
-
-            /*Categorie categorie = categorieManager.selectById(noCategorie);
-
+            // Récupère les objets Categorie et Utilisateur en base
+            Categorie categorie = categorieManager.selectById(noCategorie);
             Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
 
-            ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+            // Insertion en base de l'article
             ArticleVendu articleVendu = new ArticleVendu(nom, description, date_debut_enchere, date_fin_enchere, mise_a_prix, mise_a_prix, utilisateur, categorie);
+            int idArticle = articleVenduManager.ajouterArticleVendu(articleVendu);
+            System.out.println("Retour de l'insertion de l'article n° " + idArticle);
 
-            articleVenduManager.ajouterArticleVendu(articleVendu);
+            // Insertion de l'adresse de Retrait en base
+            Retrait adresse = new Retrait(rue, codePostal, ville);
+            articleVenduManager.insertAdresseRetrait(idArticle, adresse);
+
+
 
             //req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
             // -> renvoie seulement le contenu de index.jsp, mais l'url reste celle de la servlet
-            resp.sendRedirect(req.getContextPath()+"/accueil");*/
+            resp.sendRedirect(req.getContextPath()+"/accueil");
 
 
 
