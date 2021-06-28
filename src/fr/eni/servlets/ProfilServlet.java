@@ -34,7 +34,7 @@ public class ProfilServlet extends HttpServlet {
             user = utilisateurManager.afficherProfil(idProfil);
         } catch (BLLException e) {
             e.printStackTrace();
-            // TODO gérer l'exeption
+
         }
 
 

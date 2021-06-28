@@ -4,6 +4,9 @@ import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
 import fr.eni.bo.Categorie;
+import fr.eni.dal.ArticleVenduDAO;
+import fr.eni.dal.ConnectionProvider;
+import fr.eni.dal.DALException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,6 +33,15 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
     public static final String SELECT_ARTICLE_BY_NON_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur != ? ;";
     private static final String SELECT_ARTICLE_BY_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? ;";
     private static final String INSERT_ADRESSE_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (?,?,?,?);";
+
+    public static final String SELECT_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, " +
+            "date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie\n" +
+            "FROM ARTICLES_VENDUS A\n" +
+            "WHERE A.no_article = ?;";
+
+    private static final String SELECT_RETRAIT = "SELECT no_article, rue, code_postal, ville\n" +
+            "FROM RETRAITS\n" +
+            "WHERE RETRAITS.no_article = ?;";
 
     @Override
     public int insert(ArticleVendu articleVendu) throws DALException {
@@ -320,4 +332,69 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
             throw new DALException("Problème à l'insertion de l'adresse de retrait en base de données.");
         }
     }
+    /**
+     * Récupère un Article en base par son id.
+     * @param idArt
+     * @return article
+     */
+    @Override
+    public ArticleVendu selectById(Integer idArt) throws DALException {
+        ArticleVendu article = new ArticleVendu();
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
+            psmt.setInt(1, idArt);
+            ResultSet rs = psmt.executeQuery();
+
+
+            if (rs.next()) {
+                article.setNoArticle(rs.getInt("no_article"));
+                article.setNomArticle(rs.getString("nom_article"));
+                article.setDescription(rs.getString("description"));
+                article.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
+                article.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+                article.setPrixInitial(rs.getInt("prix_initial"));
+                article.setPrixVente(rs.getInt("prix_vente"));
+
+                UtilisateurDAO userDAO = DAOFactory.getUtilisateurDAO();
+                Utilisateur user;
+                user = userDAO.selectById(rs.getInt("no_utilisateur"));
+                article.setUtilisateur(user);
+
+                CategorieDAO catDAO = DAOFactory.getCategorieDAO();
+                Categorie cat;
+                cat = catDAO.selectById(rs.getInt("no_categorie"));
+                article.setCategorie(cat);
+
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            throw new DALException("Impossible de récupérer l'article de cet ID.");
+        }
+        return article;
+    }
+
+    @Override
+    public Retrait selectRetrait(Integer idArt) throws DALException {
+        Retrait adresse = new Retrait();
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement psmt = cnx.prepareStatement(SELECT_RETRAIT);
+            psmt.setInt(1, idArt);
+            ResultSet rs = psmt.executeQuery();
+
+            if (rs.next()) {
+                adresse.setRue(rs.getString("rue"));
+                adresse.setCodePostal(rs.getString("code_postal"));
+                adresse.setVille(rs.getString("ville"));
+
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            throw new DALException("Impossible de récupérer l'article de cet ID.");
+        }
+
+        return adresse;
+    }
+
 }

@@ -187,4 +187,26 @@ public class ArticleVenduManager {
             e.printStackTrace();
         }
     }
+
+    public ArticleVendu selectById(Integer idArt) throws BLLException{
+        ArticleVendu article;
+        try {
+            article = articleVenduDAO.selectById(idArt);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de la récupération des données de l'article.");
+        }
+        return article;
+    }
+
+    public Retrait selectRetrait(Integer idArt) throws BLLException {
+        Retrait adresse;
+        try {
+            adresse = articleVenduDAO.selectRetrait(idArt);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de la récupération de l'adresse.");
+        }
+        return adresse;
+    }
 }
