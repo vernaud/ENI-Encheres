@@ -34,7 +34,7 @@
     <input type="text" id="ville" name="ville" value="${utilisateur.getVille()}">
     <label for="oldpassword">Mot de passe actuel*</label>
     <input type="password" id="oldpassword" name="oldpassword">
-    <label for="newpassword">Mot de passe*</label>
+    <label for="newpassword">Nouveau mot de passe*</label>
     <input type="password" id="newpassword" name="newpassword">
     <label for="confirmpass">Confirmation*</label>
     <input type="password" id="confirmpass" name="confirmpass">

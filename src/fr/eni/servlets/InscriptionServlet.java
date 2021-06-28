@@ -8,6 +8,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet("/inscription")
 public class InscriptionServlet extends HttpServlet {
@@ -29,6 +31,11 @@ public class InscriptionServlet extends HttpServlet {
             String ville = request.getParameter("ville");
             String password = request.getParameter("password");
             String confirmpass = request.getParameter("confirmpass");
+            Pattern pattern = Pattern.compile("[a-zA-Z]");
+            Matcher matcher = pattern.matcher(nom);
+            if(!matcher.matches()){
+                request.setAttribute("message", "Un nom ne doit contenir que des lettres");
+            }
             if (password.equals(confirmpass)) {
                 UtilisateurManager utilisateurManager = new UtilisateurManager();
                 Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, codepostal, ville, password);
