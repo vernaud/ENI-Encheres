@@ -33,6 +33,7 @@ public class AccueilServlet extends HttpServlet {
         List<ArticleVendu> articleVenduList;
         List<ArticleVendu> listeAAfficher = new ArrayList<>();
         List<ArticleVendu> listeprovisoire = new ArrayList<>();
+        request.setAttribute("radio", request.getParameter("radio"));
 
         //TODO fix encoding UTF-8 en base
         if (request.getParameter("deconnect") != null) {
