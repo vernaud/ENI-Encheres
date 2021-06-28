@@ -21,13 +21,20 @@ public class AccueilServlet extends HttpServlet {
 //        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
         String selecteur = request.getParameter("radio");
-        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+        int idUtilisateur;
+        if(request.getSession().getAttribute("utilisateur") != null) {
+            Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+            idUtilisateur = utilisateur.getNoUtilisateur();
+        } else {
+            idUtilisateur = 0;
+        }
         CategorieManager categorieManager = new CategorieManager();
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
         List<ArticleVendu> articleVenduList;
         List<ArticleVendu> listeAAfficher = new ArrayList<>();
         List<ArticleVendu> listeprovisoire = new ArrayList<>();
-        int idUtilisateur = utilisateur.getNoUtilisateur();
+
+        //TODO fix encoding UTF-8 en base
         if (request.getParameter("deconnect") != null) {
             request.getSession().setAttribute("utilisateur", null);
             request.getSession().setAttribute("connecte", false);
