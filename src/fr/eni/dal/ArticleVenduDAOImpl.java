@@ -1,6 +1,7 @@
 package fr.eni.dal;
 
 import fr.eni.bo.ArticleVendu;
+import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
 import fr.eni.bo.Categorie;
 import fr.eni.dal.ArticleVenduDAO;
@@ -30,6 +31,10 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
             "date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie\n" +
             "FROM ARTICLES_VENDUS A\n" +
             "WHERE A.no_article = ?;";
+
+    private static final String SELECT_RETRAIT = "SELECT no_article, rue, code_postal, ville\n" +
+            "FROM RETRAITS\n" +
+            "WHERE RETRAITS.no_article = ?;";
 
     @Override
     public void insert(ArticleVendu articleVendu) throws DALException {
@@ -199,6 +204,29 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
             throw new DALException("Impossible de récupérer l'article de cet ID.");
         }
         return article;
+    }
+
+    @Override
+    public Retrait selectRetrait(Integer idArt) throws DALException {
+        Retrait adresse = new Retrait();
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement psmt = cnx.prepareStatement(SELECT_RETRAIT);
+            psmt.setInt(1, idArt);
+            ResultSet rs = psmt.executeQuery();
+
+            if (rs.next()) {
+                adresse.setRue(rs.getString("rue"));
+                adresse.setCodePostal(rs.getString("code_postal"));
+                adresse.setVille(rs.getString("ville"));
+
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            throw new DALException("Impossible de récupérer l'article de cet ID.");
+        }
+
+        return adresse;
     }
 
 }

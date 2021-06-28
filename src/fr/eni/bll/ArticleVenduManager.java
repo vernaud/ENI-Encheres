@@ -1,5 +1,6 @@
 package fr.eni.bll;
 
+import fr.eni.bo.Retrait;
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.dal.DALException;
@@ -62,5 +63,16 @@ public class ArticleVenduManager {
             throw new BLLException("Problème lors de la récupération des données de l'article.");
         }
         return article;
+    }
+
+    public Retrait selectRetrait(Integer idArt) throws BLLException {
+        Retrait adresse;
+        try {
+            adresse = articleVenduDAO.selectRetrait(idArt);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de la récupération de l'adresse.");
+        }
+        return adresse;
     }
 }

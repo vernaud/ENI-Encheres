@@ -1,6 +1,7 @@
 package fr.eni.dal;
 
 import fr.eni.bo.ArticleVendu;
+import fr.eni.bo.Retrait;
 import fr.eni.dal.DALException;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ArticleVenduDAO {
     public List<ArticleVendu> selectAll() throws DALException;
     public List<ArticleVendu> selectByCategorieId(Integer idCategorie) throws DALException;
     ArticleVendu selectById(Integer idArt) throws DALException;
+    Retrait selectRetrait(Integer idArt) throws DALException;
 }
