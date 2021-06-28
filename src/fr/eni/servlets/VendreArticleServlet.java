@@ -50,14 +50,19 @@ public class VendreArticleServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
+            // getParam
             String nom = req.getParameter("nom_art");
             String description = req.getParameter("description_art");
             int noCategorie = Integer.parseInt(req.getParameter("categorie_art"));
             int mise_a_prix = Integer.parseInt(req.getParameter("mise_a_prix_art"));
             LocalDate date_debut_enchere = LocalDate.parse(req.getParameter("date_debut_enchere_art"));
             LocalDate date_fin_enchere = LocalDate.parse(req.getParameter("date_fin_enchere_art"));
+            String rue = req.getParameter("rue");
+            String codePostal = req.getParameter("code-postal");
+            String ville = req.getParameter("ville");
 
-            Categorie categorie = categorieManager.selectById(noCategorie);
+
+            /*Categorie categorie = categorieManager.selectById(noCategorie);
 
             Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
 
@@ -68,12 +73,12 @@ public class VendreArticleServlet extends HttpServlet {
 
             //req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
             // -> renvoie seulement le contenu de index.jsp, mais l'url reste celle de la servlet
-            resp.sendRedirect(req.getContextPath()+"/accueil"); // redirige vers l'url d'une nouvelle servlet
+            resp.sendRedirect(req.getContextPath()+"/accueil");*/
+
+
 
         } catch (BLLException | DALException e) {
             req.setAttribute("message_erreur", e.getMessage());
-            // req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
-//            resp.sendRedirect(req.getContextPath()+"/vendreArticle");
             doGet(req, resp);
         }
 
