@@ -21,6 +21,7 @@ public class AccueilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
+        //TODO Corriger le bug des boutons radio qui ne restent pas cocher
         String selecteur = request.getParameter("radio");
         int idUtilisateur;
         if (request.getSession().getAttribute("utilisateur") != null) {
