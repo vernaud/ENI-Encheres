@@ -27,7 +27,8 @@
                 <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>
                 <li>Vendeur : ${article.utilisateur.pseudo}</li>
 
-                <%--afficher si login--%>
+
+                <%--afficher 'ENCHERIR' si login--%>
                 <c:if test="${connecte}">
                     <form action="${pageContext.request.contextPath}/enchere" method="post">
                         <input type="text" name="id" value="${article.noArticle}" hidden>
