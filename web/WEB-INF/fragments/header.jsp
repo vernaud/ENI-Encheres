@@ -14,7 +14,7 @@
             <li class="nav-item"><a class="nav-link" href="connexion">S'inscrire - Se connecter</a></li>
     </c:if>
     <c:if test="${connecte}">
-            <li class="nav-item"><a class="nav-link" id="encheres" href="#">Encheres</a></li>
+            <li class="nav-item"><a class="nav-link" id="encheres" href="${pageContext.request.contextPath}/vendreArticle">Encheres</a></li>
             <li class="nav-item"><a class="nav-link" id="VentreArticle" href="${pageContext.request.contextPath}/vendreArticle">Vendre un article</a></li>
             <li class="nav-item"><a class="nav-link" id="Mon Profil" href="${pageContext.request.contextPath}/profil?id_profil=${utilisateur.getNoUtilisateur()}">Mon profil</a></li>
             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/accueil?deconnect=1">Déconnexion</a></li>
