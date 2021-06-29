@@ -18,7 +18,8 @@
             <ul>
                 <li>Description : ${article.description}</li>
                 <li>Catégorie : ${article.categorie.libelle}</li>
-                <li>Mailleur offre : {enchere.montantEnchere} pts par {pseudo}</li>
+                <li>Meilleur offre : <c:if test="${enchereMax==null}">Il n'y a pas encore d'enchère pour cet article</c:if>
+                    <c:if test="${enchereMax!=null}"> ${enchereMax.montantEnchere} pts par ${enchereMax.getUtilisateur().getPseudo()}</c:if></li>
                 <li>Mise à prix : ${article.prixInitial} points</li>
                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
                 <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>

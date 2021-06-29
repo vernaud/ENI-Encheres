@@ -106,8 +106,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
     @Override
     public Utilisateur selectById(int id) throws DALException {
         Utilisateur utilisateur = new Utilisateur();
-        try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
+        try (Connection cnx = ConnectionProvider.getConnection();
+        PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);) {
             psmt.setInt(1, id);
             ResultSet rs = psmt.executeQuery();
 

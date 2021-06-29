@@ -20,11 +20,13 @@ public class EnchereServlet extends HttpServlet {
 
     ArticleVenduManager artManager;
     Utilisateur userManager;
+    EnchereManager enchereManager;
     private static Pattern montantPattern = Pattern.compile("(\\d)*");
 
     @Override
     public void init() throws ServletException {
         artManager = new ArticleVenduManager();
+        enchereManager = new EnchereManager();
     }
 
     @Override
@@ -34,11 +36,13 @@ public class EnchereServlet extends HttpServlet {
         System.out.print(idArt);
         ArticleVendu article = new ArticleVendu();
         Retrait retrait = new Retrait();
+        Enchere enchereMax = new Enchere();
 
         // DataB -> récupérer les infos de l'article à afficher
         try {
             article = artManager.selectById(idArt);
             retrait = artManager.selectRetrait(idArt);
+            enchereMax = enchereManager.getEnchereMax(article);
         } catch (BLLException e) {
             e.printStackTrace();
         }
@@ -47,6 +51,7 @@ public class EnchereServlet extends HttpServlet {
         // -> page détail de l'enchère
         request.setAttribute("article", article);
         request.setAttribute("retrait", retrait);
+        request.setAttribute("enchereMax", enchereMax);
         request.getRequestDispatcher("WEB-INF/jsp/enchere.jsp").forward(request, response);
     }
 

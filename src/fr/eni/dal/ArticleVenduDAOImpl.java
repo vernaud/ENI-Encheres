@@ -1,9 +1,6 @@
 package fr.eni.dal;
 
-import fr.eni.bo.ArticleVendu;
-import fr.eni.bo.Retrait;
-import fr.eni.bo.Utilisateur;
-import fr.eni.bo.Categorie;
+import fr.eni.bo.*;
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.dal.ConnectionProvider;
 import fr.eni.dal.DALException;
