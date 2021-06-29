@@ -23,10 +23,13 @@
                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
                 <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>
                 <li>Vendeur : ${article.utilisateur.pseudo}</li>
-                <form action="" method="">
+                <form action="${pageContext.request.contextPath}/enchere" method="post">
+                    <input type="text" name="id" value="${article.noArticle}" hidden>
                     <label for="proposition">Ma Proposition</label>
-                    <input type="number" id="proposition">
+                    <input type="number" id="proposition" name="proposition">
                     <input type="submit" value="Enchérir">
+                    <p>${message}</p>
+
                 </form>
             </ul>
         </section>
