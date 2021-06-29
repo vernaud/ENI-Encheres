@@ -95,7 +95,7 @@
                             <ul class="card-text">
                                 <li>Prix : ${article.prixVente}</li>
                                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
-                                <li>Vendeur : <a class="card-link" href="<%--${pageContext.request.contextPath}/profil?id_profil=${article.utilisateur.no_utilisateur}--%>">
+                                <li>Vendeur : <a class="card-link" href="${pageContext.request.contextPath}/profil?id_profil=${article.utilisateur.noUtilisateur}">
                                         ${article.utilisateur.pseudo}</a></li>
                             </ul>
                         </div>
