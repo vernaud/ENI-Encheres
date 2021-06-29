@@ -43,6 +43,11 @@ public class EnchereServlet extends HttpServlet {
             article = artManager.selectById(idArt);
             retrait = artManager.selectRetrait(idArt);
             enchereMax = enchereManager.getEnchereMax(article);
+            if(enchereMax != null  && article.getDateFinEncheres().isBefore(LocalDate.now())){
+                request.setAttribute("enchereTerminee", true);
+                request.setAttribute("userWiner", enchereMax.getUtilisateur());
+                article.setPrixVente(enchereMax.getMontantEnchere());
+            }
         } catch (BLLException e) {
             e.printStackTrace();
         }
