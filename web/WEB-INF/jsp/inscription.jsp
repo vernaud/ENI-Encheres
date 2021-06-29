@@ -2,39 +2,65 @@
 <html>
 <head>
     <title>Inscrition</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
-    <header>
+<body class="container">
+    <header class="row">
         <div id="logo">ENI-Enchères</div>
     </header>
-    <main>
-        <h1>Mon profil</h1>
+    <main class="row">
+        <h1 class="">Mon profil</h1>
         <p>${message}</p>
-        <form action="${pageContext.request.contextPath}/inscription" method="post">
+        <form action="${pageContext.request.contextPath}/inscription" method="post" class="row">
 
-            <label for="pseudo">Pseudo*</label>
-            <input type="text" id="pseudo" name="pseudo" required>
-            <label for="nom">Nom*</label>
-            <input type="text" id="nom" name="nom" required>
-            <label for="prenom">Prénom*</label>
-            <input type="text" id="prenom" name="prenom" required>
-            <label for="email">Email*</label>
-            <input type="email" id="email" name="email" required>
-            <label for="tel">Téléphone</label>
-            <input type="tel" id="tel" name="tel">
-            <label for="rue">Rue*</label>
-            <input type="text" id="rue" name="rue" required>
-            <label for="codepostal">Code postal*</label>
-            <input type="text" id="codepostal" name="codepostal" required>
-            <label for="ville">Ville*</label>
-            <input type="text" id="ville" name="ville" required>
-            <label for="password">Mot de passe*</label>
-            <input type="password" id="password" name="password" required>
-            <label for="confirmpass">Confirmation*</label>
-            <input type="password" id="confirmpass" name="confirmpass" required>
+            <div class="input-group">
+                <span class="input-group-text">Pseudo*</span>
+                <input class="form-control" type="text" id="pseudo" name="pseudo" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Nom*</span>
+                <input class="form-control" type="text" id="nom" name="nom" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Prénom*</span>
+                <input class="form-control" type="text" id="prenom" name="prenom" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Email*</span>
+                <input class="form-control" type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Téléphone</span>
+                <input class="form-control" type="tel" id="tel" name="tel">
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Rue*</span>
+                <input class="form-control" type="text" id="rue" name="rue" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Code postal*</span>
+                <input class="form-control" type="text" id="codepostal" name="codepostal" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Ville*</span>
+                <input class="form-control" type="text" id="ville" name="ville" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Mot de passe*</span>
+                <input class="form-control" type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Confirmation*</span>
+                <input class="form-control" type="password" id="confirmpass" name="confirmpass" required>
+            </div>
 
-            <input type="submit" value="Créer">
-            <button><a href="${pageContext.request.contextPath}/accueil" id=" retourAccueil">Annuler</a></button>
+            <div class="">
+                <input type="submit" class="btn btn-primary col" value="Créer">
+                <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary col" id=" retourAccueil">Annuler</a>
+            </div>
+
             <p>Les champs* sont obligatoires.</p>
         </form>
     </main>
