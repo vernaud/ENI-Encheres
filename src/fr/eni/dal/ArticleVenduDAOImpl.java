@@ -1,9 +1,6 @@
 package fr.eni.dal;
 
-import fr.eni.bo.ArticleVendu;
-import fr.eni.bo.Retrait;
-import fr.eni.bo.Utilisateur;
-import fr.eni.bo.Categorie;
+import fr.eni.bo.*;
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.dal.ConnectionProvider;
 import fr.eni.dal.DALException;
@@ -529,7 +526,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
      * @return article
      */
     @Override
-    public ArticleVendu selectById(Integer idArt) throws DALException {
+    public ArticleVendu selectById(int idArt) throws DALException {
         ArticleVendu article = new ArticleVendu();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
@@ -566,7 +563,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
     }
 
     @Override
-    public Retrait selectRetrait(Integer idArt) throws DALException {
+    public Retrait selectRetrait(int idArt) throws DALException {
         Retrait adresse = new Retrait();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement psmt = cnx.prepareStatement(SELECT_RETRAIT);

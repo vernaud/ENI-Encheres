@@ -252,7 +252,7 @@ public class ArticleVenduManager {
         }
     }
 
-    public ArticleVendu selectById(Integer idArt) throws BLLException{
+    public ArticleVendu selectById(int idArt) throws BLLException{
         ArticleVendu article;
         try {
             article = articleVenduDAO.selectById(idArt);

@@ -3,8 +3,11 @@
 <html>
 <head>
     <title>Enchère</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
+<body class="container">
     <header>
         <div id="logo">
             <p>ENI Enchères</p>
@@ -14,20 +17,33 @@
         <h1>Détail vente</h1>
         <section>
             <%--IMAGE DE L'ARTICLE--<img src="" alt="">--%>
-            <h1>${article.nomArticle}</h1>
+            <h2>${article.nomArticle}</h2>
             <ul>
                 <li>Description : ${article.description}</li>
                 <li>Catégorie : ${article.categorie.libelle}</li>
-                <li>Mailleur offre : {enchere.montantEnchere} pts par {pseudo}</li>
+                <li>Meilleur offre : <c:if test="${enchereMax==null}">Il n'y a pas encore d'enchère pour cet article</c:if>
+                    <c:if test="${enchereMax!=null}"> ${enchereMax.montantEnchere} pts par ${enchereMax.getUtilisateur().getPseudo()}</c:if></li>
                 <li>Mise à prix : ${article.prixInitial} points</li>
                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
                 <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>
                 <li>Vendeur : ${article.utilisateur.pseudo}</li>
-                <form action="" method="">
-                    <label for="proposition">Ma Proposition</label>
-                    <input type="number" id="proposition">
-                    <input type="submit" value="Enchérir">
-                </form>
+
+                <%--afficher 'ENCHERIR' si login--%>
+                <c:if test="${connecte &&
+                                (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur)}">
+                    <form action="${pageContext.request.contextPath}/enchere" method="post">
+                        <input type="text" name="id" value="${article.noArticle}" hidden>
+                        <div class="input-group">
+                            <span class="input-group-text" for="proposition">Ma Proposition</span>
+                            <input type="number" class="form-control" id="proposition" name="proposition">
+                        </div>
+
+                        <input type="submit" class="btn btn-primary" value="Enchérir">
+                        <p>${message}</p>
+                    </form>
+                </c:if>
+
+
             </ul>
         </section>
         
