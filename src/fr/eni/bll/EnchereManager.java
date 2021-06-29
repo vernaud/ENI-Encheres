@@ -37,9 +37,9 @@ public class EnchereManager {
                 throw new BLLException("Vous avez déjà fait l'enchère maximum! Veuillez attendre que quelqu'un d'autre renchérisse.");
             } else {
                 enchereInsert = enchereDAO.insertEnchere(enchere);
-                //TODO débiter l'utilisteur qui vient de faire l'enchère
+                //débiter l'utilisteur qui vient de faire l'enchère
                 enchereDAO.debiterUtilisateur(utilisateur, enchere);
-                //TODO Créditer l'utilisateur qui a la précédente enchère maximum précédente
+                //Créditer l'utilisateur qui a la précédente enchère maximum précédente
                 if(enchereMax.getUtilisateur().getNoUtilisateur() != enchere.getUtilisateur().getNoUtilisateur()) {
                     enchereDAO.crediterUtilisateur(enchereMax);
                 } else {
