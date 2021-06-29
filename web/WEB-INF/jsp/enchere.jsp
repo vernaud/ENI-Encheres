@@ -41,7 +41,7 @@
 
                 <%--afficher 'ENCHERIR' si login--%>
                 <c:if test="${connecte &&
-                                (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur)}">
+                                (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur) && enchereTerminee == null}">
                     <form action="${pageContext.request.contextPath}/enchere" method="post">
                         <input type="text" name="id" value="${article.noArticle}" hidden>
                         <div class="input-group">
