@@ -22,14 +22,17 @@ public class EnchereManager {
 
     public Enchere ajouterEnchere(Enchere enchere) throws BLLException {
         Enchere enchereInsert = new Enchere();
+       EnchereManager enchereManager = new EnchereManager();
         Utilisateur utilisateur = enchere.getUtilisateur();
+        ArticleVendu articleVendu = enchere.getArticleVendu();
+        Enchere enchereMax = enchereManager.getEnchereMax(articleVendu);
         try {
             if (utilisateur.getCredit()<enchere.getMontantEnchere()){
                 throw new BLLException("Enchère impossible, vous ne disposez pas d'assez de crédit");
             } else if (enchere.getArticleVendu().getDateFinEncheres().isBefore(LocalDate.now())){
                 throw new BLLException("Cette enchère est terminée, vous ne pouvez plus faire d'enchère");
-//            } else if (){
-
+//            } else if (enchereMax.getMontantEnchere() != 0 && enchere.getMontantEnchere()< enchereMax.getMontantEnchere()){
+//                throw new BLLException("Le montant de votre enchère doit être supérieure à l'enchère maximum en cours soit : " + String.valueOf(enchereMax.getMontantEnchere()) + " points");
             } else {
                 enchereInsert = enchereDAO.insertEnchere(enchere);
             }
