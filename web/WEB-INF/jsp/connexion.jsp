@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Connexion</title>
@@ -16,9 +17,11 @@
         <div class="col"></div>
         <main class="col-xs col-sm-8 col-md-6 col-lg-4">
             <form action="${pageContext.request.contextPath}/connexion" method="post" class="">
-                <div class="alert alert-warning">
-                    <p>${message}</p>
-                </div>
+                <c:if test="${isException}">
+                    <div class="alert alert-warning">
+                        <p>${message}</p>
+                    </div>
+                </c:if>
                 <div class="input-group">
                     <span class="input-group-text">Identifiant*</span>
                     <input class="form-control" type="text" id="identifiant" name="identifiant" required>

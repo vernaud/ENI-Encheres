@@ -34,8 +34,9 @@ public class ConnexionServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/accueil");
             }
     } catch (BLLException e) {
-
+            boolean isException = true;
             request.setAttribute("message", e.getMessage());
+            request.setAttribute("isException", isException);
             request.getRequestDispatcher("WEB-INF/jsp/connexion.jsp").forward(request, response);
 //            e.printStackTrace();
         }
