@@ -16,13 +16,14 @@ import java.util.List;
 
 @WebServlet("/accueil")
 public class AccueilServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
         String selecteur = request.getParameter("radio");
         int idUtilisateur;
-        if(request.getSession().getAttribute("utilisateur") != null) {
+        if (request.getSession().getAttribute("utilisateur") != null) {
             Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
             idUtilisateur = utilisateur.getNoUtilisateur();
         } else {
@@ -30,7 +31,7 @@ public class AccueilServlet extends HttpServlet {
         }
         CategorieManager categorieManager = new CategorieManager();
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
-        List<ArticleVendu> articleVenduList;
+        List<ArticleVendu> articleVenduList = null;
         List<ArticleVendu> listeAAfficher = new ArrayList<>();
         List<ArticleVendu> listeprovisoire = new ArrayList<>();
         request.setAttribute("radio", request.getParameter("radio"));
@@ -44,13 +45,14 @@ public class AccueilServlet extends HttpServlet {
             request.setAttribute("listeCategories", categorieManager.selectAll());
             if (request.getParameter("ListeCategories") == null || Integer.parseInt(request.getParameter("ListeCategories")) == 0) {
                 articleVenduList = articleVenduManager.AfficherTouslesArticlesEnCours();
-            } else {
+            }
+            /*else {
                 int idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));
                 String nomArticleRecherche = request.getParameter("nomArticle"); // récupère le nom recherché
 
                 // articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect); (ancienne méthode de Florentin)
                 articleVenduList = articleVenduManager.AfficherArticlesParNomEtCategorie(nomArticleRecherche, idCategorieSelect); // (nouvelle méthode de Matthieu)
-            }
+            }*/
             //Si achat sélectionné
             if (selecteur != null && selecteur.equals("achat")) {
                 List<ArticleVendu> listeAchats = articleVenduManager.afficherAchats(idUtilisateur);
@@ -78,7 +80,7 @@ public class AccueilServlet extends HttpServlet {
                     //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
                     listeprovisoire = articleVenduManager.afficherEncheresOuvertes(listeVentes);
                     for (ArticleVendu article : listeprovisoire) {
-                       listeAAfficher.add(article);
+                        listeAAfficher.add(article);
                     }
                     articleVenduList = listeAAfficher;
                 }
@@ -111,8 +113,111 @@ public class AccueilServlet extends HttpServlet {
         request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
     }
 
+    // TO DO Matthieu
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // request.setAttribute("message", "j'entre dans le do post");
+        CategorieManager categorieManager = new CategorieManager();
+        ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+        List<ArticleVendu> articleVenduList = null;
+
+        int idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories")); // récupère l'id de la catégorie sélectionnée (0 <=> toutes les catégories)
+        String nomArticleRecherche = request.getParameter("nomArticle"); // récupère le nom recherché
+
+        try {
+            request.setAttribute("listeCategories", categorieManager.selectAll());
+
+            if  (nomArticleRecherche.equals("") )    {
+                if (idCategorieSelect == 0) {
+                    articleVenduList = articleVenduManager.AfficherEncheresOuvertes();
+                }
+                else {
+                    articleVenduList = articleVenduManager.AfficherEncheresOuvertesParCategorie(idCategorieSelect); // affiche tous les articles en enchères pour une catégorie
+                }
+            }
+            else {
+                if (idCategorieSelect == 0) {
+                    articleVenduList = articleVenduManager.AfficherEncheresOuvertesAvecNomArticleContientToutesCategories(nomArticleRecherche);
+                }
+                else {
+                    articleVenduList = articleVenduManager.AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
+                    // DONE !!!
+                }
+            }
+            request.setAttribute("articleVenduList", articleVenduList);
+
+        } catch (BLLException | DALException e) {
+            request.setAttribute("message", e.getMessage());
+        }
+        request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
+
+
+            /*
+            //Si achat sélectionné
+            if (selecteur != null && selecteur.equals("achat")) {
+                List<ArticleVendu> listeAchats = articleVenduManager.afficherAchats(idUtilisateur);
+                articleVenduList = listeAchats;
+
+                if (request.getParameter("CheckBoxEnchereOuverte") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeprovisoire = articleVenduManager.afficherEncheresOuvertes(articleVenduList);
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
+                }
+                //TODO Ajouter mes enchères en cours
+                //TODO Ajouter mes enchères remportées
+            }
+
+            if (selecteur != null && selecteur.equals("mesVentes")) {
+                //TODO Créer une méthode selectionAchat et selection ventes
+                //Récupération de l'id Utilisateur
+                List<ArticleVendu> listeVentes = articleVenduManager.afficherventes(idUtilisateur);
+                articleVenduList = listeVentes;
+
+                if (request.getParameter("CheckBoxVentesEnCours") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeprovisoire = articleVenduManager.afficherEncheresOuvertes(listeVentes);
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
+                }
+                if (request.getParameter("CheckeBoxVentesNonDebutees") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeprovisoire = articleVenduManager.afficherEncheresNonDébutees(listeVentes);
+
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
+
+                }
+                if (request.getParameter("CheckeBoxVentesTerminees") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeprovisoire = articleVenduManager.afficherEncheresTerminees(listeVentes);
+
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
+                }
+            }
+            request.setAttribute("articleVenduList", articleVenduList);
+
+             */
+
+        /*
+        try {
+
+        } catch (BLLException | DALException e) {
+            request.setAttribute("message_erreur", e.getMessage());
+            doGet(request, response);
+        }
+        response.sendRedirect(request.getContextPath()+"/accueil");
+        */
 
     }
+
 }

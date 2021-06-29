@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/profil")
@@ -23,6 +24,7 @@ public class ProfilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         int idProfil=9;
 
         //on récupère un id profil depuis header.jsp s'il existe
@@ -34,13 +36,12 @@ public class ProfilServlet extends HttpServlet {
             user = utilisateurManager.afficherProfil(idProfil);
         } catch (BLLException e) {
             e.printStackTrace();
-
         }
-
 
         // Redirection vers JSP
         request.setAttribute("userprofil", user);
         request.getRequestDispatcher("WEB-INF/jsp/profil.jsp").forward(request,response);
+
     }
 
     @Override

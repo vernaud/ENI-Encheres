@@ -4,7 +4,6 @@ import fr.eni.bll.ArticleVenduManager;
 import fr.eni.bll.BLLException;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.*;
-import org.apache.tomcat.jni.Local;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -43,7 +42,13 @@ public class EnchereServlet extends HttpServlet {
         // -> page détail de l'enchère
         request.setAttribute("article", article);
         request.setAttribute("retrait", retrait);
-        request.getRequestDispatcher("WEB-INF/jsp/enchere.jsp").forward(request,response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("utilisateur") == null) {
+            response.sendRedirect(request.getContextPath()+"/accueil");
+        } else {
+            request.getRequestDispatcher("WEB-INF/jsp/enchere.jsp").forward(request,response);
+        }
+
     }
 
     @Override

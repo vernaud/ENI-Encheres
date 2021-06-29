@@ -74,13 +74,77 @@ public class ArticleVenduManager {
     public List<ArticleVendu> AfficherTouslesArticlesEnCours() throws BLLException {
         List<ArticleVendu> articleVenduList = null;
         try {
-            articleVenduList = this.articleVenduDAO.selectAll();
+            articleVenduList = this.articleVenduDAO.selectAll(); // modifier
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("Affichage des articles impossible");
         }
 
         return articleVenduList;
+    }
+
+    public List<ArticleVendu> AfficherEncheresOuvertes() throws BLLException {
+        List<ArticleVendu> articleVenduList = null;
+        try {
+            articleVenduList = this.articleVenduDAO.selectAllEncheresOuvertes();
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Affichage des articles impossible");
+        }
+
+        return articleVenduList;
+    }
+
+    public List<ArticleVendu> AfficherEncheresOuvertesParCategorie(int idCategorie) throws BLLException {
+        List<ArticleVendu> articleVenduList = null;
+        try {
+            articleVenduList = this.articleVenduDAO.selectEncheresOuvertesParCategorie(idCategorie);
+            //Si la liste est vide
+            if(articleVenduList.isEmpty()){
+                throw new BLLException("Il n'existe pas d'enchères ouvertes pour cette catégorie");
+            }
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors du selectEncheresOuvertesParCategorie");
+        }
+
+        return articleVenduList;
+    }
+
+    public List<ArticleVendu> AfficherEncheresOuvertesAvecNomArticleContientToutesCategories(String nomArticleRecherche) throws BLLException {
+        List<ArticleVendu> listeArticlesVendus = null;
+
+        try {
+            listeArticlesVendus = this.articleVenduDAO.selectEncheresOuvertesAvecNomArticleContientToutesCategories(nomArticleRecherche);
+
+            if(listeArticlesVendus.isEmpty()){
+                throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot, toutes catégories confondues.");
+            }
+        }
+     catch (DALException e) {
+        e.printStackTrace();
+        throw new BLLException("Problème lors de la sélection d'articles par nom.");
+    }
+        return listeArticlesVendus;
+
+    }
+
+    // TO DO : AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
+    public List<ArticleVendu> AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws BLLException  {
+        List<ArticleVendu> listeArticlesVendus = null;
+
+        try {
+                listeArticlesVendus = this.articleVenduDAO.selectEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
+                if(listeArticlesVendus.isEmpty()){
+                    throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot et correspondant à cette catégorie");
+                }
+
+        } catch (DALException | BLLException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de la sélection d'articles par nom et categorie");
+        }
+        return listeArticlesVendus;
+
     }
 
     public List<ArticleVendu> AfficherArticlesParCategorie(Integer idCategorie) throws BLLException {
@@ -100,7 +164,7 @@ public class ArticleVenduManager {
     }
 
     public List<ArticleVendu> AfficherArticlesParNomEtCategorie(String nomArticleRecherche, int idCategorie) throws BLLException {
-        // TO DO
+
         List<ArticleVendu> listeArticlesVendus = null;
         try {
             if (nomArticleRecherche.trim().isEmpty()) {
