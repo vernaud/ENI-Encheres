@@ -34,6 +34,12 @@ public class AccueilServlet extends HttpServlet {
         List<ArticleVendu> listeAAfficher = new ArrayList<>();
         List<ArticleVendu> listeprovisoire = new ArrayList<>();
         request.setAttribute("radio", request.getParameter("radio"));
+        request.setAttribute("CheckBoxEnchereOuverte", request.getParameter("CheckBoxEnchereOuverte"));
+        request.setAttribute("CheckBoxEnchereEnCours", request.getParameter("CheckBoxEnchereEnCours"));
+        request.setAttribute("checkBoxEnchereRemportees", request.getParameter("checkBoxEnchereRemportees"));
+        request.setAttribute("CheckBoxVentesEnCours", request.getParameter("CheckBoxVentesEnCours"));
+        request.setAttribute("CheckeBoxVentesNonDebutees", request.getParameter("CheckeBoxVentesNonDebutees"));
+        request.setAttribute("CheckeBoxVentesTerminees", request.getParameter("CheckeBoxVentesTermineess"));
 
         //TODO fix encoding UTF-8 en base
         if (request.getParameter("deconnect") != null) {
