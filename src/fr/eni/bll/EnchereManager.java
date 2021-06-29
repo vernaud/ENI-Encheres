@@ -33,6 +33,8 @@ public class EnchereManager {
                 throw new BLLException("Cette enchère est terminée, vous ne pouvez plus faire d'enchère");
             } else if (enchereMax != null && enchere.getMontantEnchere() <= enchereMax.getMontantEnchere()) {
                 throw new BLLException("Le montant de votre enchère doit être supérieure à l'enchère maximum en cours soit : " + String.valueOf(enchereMax.getMontantEnchere()) + " points");
+            } else if (enchere.getMontantEnchere()<= articleVendu.getPrixInitial()) {
+                throw new BLLException("Vous devez faire une offre supérieure au prix de vente initial pour enchérir.");
             } else if (enchereMax != null && enchereMax.getUtilisateur().getNoUtilisateur() == enchere.getUtilisateur().getNoUtilisateur()) {
                 throw new BLLException("Vous avez déjà fait l'enchère maximum! Veuillez attendre que quelqu'un d'autre renchérisse.");
             } else {
@@ -40,10 +42,8 @@ public class EnchereManager {
                 //débiter l'utilisteur qui vient de faire l'enchère
                 enchereDAO.debiterUtilisateur(utilisateur, enchere);
                 //Créditer l'utilisateur qui a la précédente enchère maximum précédente
-                if(enchereMax.getUtilisateur().getNoUtilisateur() != enchere.getUtilisateur().getNoUtilisateur()) {
+                if(enchereMax != null && enchereMax.getUtilisateur().getNoUtilisateur() != enchere.getUtilisateur().getNoUtilisateur()) {
                     enchereDAO.crediterUtilisateur(enchereMax);
-                } else {
-                    throw new BLLException("Erreur lors de la récupération du crédit");
                 }
             }
         } catch (DALException e) {
