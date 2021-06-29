@@ -31,8 +31,8 @@ public class EnchereManager {
                 throw new BLLException("Enchère impossible, vous ne disposez pas d'assez de crédit");
             } else if (enchere.getArticleVendu().getDateFinEncheres().isBefore(LocalDate.now())){
                 throw new BLLException("Cette enchère est terminée, vous ne pouvez plus faire d'enchère");
-//            } else if (enchereMax.getMontantEnchere() != 0 && enchere.getMontantEnchere()< enchereMax.getMontantEnchere()){
-//                throw new BLLException("Le montant de votre enchère doit être supérieure à l'enchère maximum en cours soit : " + String.valueOf(enchereMax.getMontantEnchere()) + " points");
+            } else if (enchereMax != null && enchere.getMontantEnchere()< enchereMax.getMontantEnchere()){
+                throw new BLLException("Le montant de votre enchère doit être supérieure à l'enchère maximum en cours soit : " + String.valueOf(enchereMax.getMontantEnchere()) + " points");
             } else {
                 enchereInsert = enchereDAO.insertEnchere(enchere);
             }

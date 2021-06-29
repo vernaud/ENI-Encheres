@@ -80,7 +80,8 @@ public class EnchereServlet extends HttpServlet {
 
                 enchere = enchereManager.ajouterEnchere(enchere);
                 System.out.println(enchere.getArticleVendu().getNoArticle());
-                response.sendRedirect(request.getContextPath() + "/enchere");
+                request.setAttribute("id", articleVendu.getNoArticle());
+                doGet(request, response);
             }
         } catch (BLLException e) {
             request.setAttribute("message", e.getMessage());
