@@ -16,7 +16,7 @@
         <p>${message}</p
         <label for="id"></label>
         <input type="text" id="id" name="id" value="${utilisateur.getNoUtilisateur()}" hidden>
-        <form action="${pageContext.request.contextPath}/accueil" method="get">
+        <form action="${pageContext.request.contextPath}/accueil" method="post">
             <fieldset>
                 <legend>Filtres</legend>
                 <input type="text" name="nomArticle" id="nomArticle" placeholder="Le nom de l'article contient"

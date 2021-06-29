@@ -25,7 +25,13 @@ public class MajProfilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/jsp/updateprofil.jsp").forward(req, resp);
+        HttpSession session = req.getSession();
+        if (session.getAttribute("utilisateur") == null) {
+            resp.sendRedirect(req.getContextPath()+"/accueil");
+        } else {
+            req.getRequestDispatcher("WEB-INF/jsp/updateprofil.jsp").forward(req, resp);
+        }
+
     }
 
     @Override
