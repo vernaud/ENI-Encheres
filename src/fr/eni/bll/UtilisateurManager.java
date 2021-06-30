@@ -3,14 +3,17 @@ package fr.eni.bll;
 import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DALException;
 import fr.eni.dal.DAOFactory;
+import fr.eni.dal.EnchereDAO;
 import fr.eni.dal.UtilisateurDAO;
 
 public class UtilisateurManager {
 
     UtilisateurDAO utilisateurDAO;
+    EnchereDAO enchereDAO;
 
     public UtilisateurManager(){
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
+        enchereDAO = DAOFactory.getEnchereDAO();
 
     }
 
@@ -139,6 +142,8 @@ public class UtilisateurManager {
                 // select from ENCHERES where no_utilisateur = id
                 // resulset.next()
                 // -> faire update no_utilisateur = -1
+                enchereDAO.changeIdUtilisateur(id);
+
 
             // TODO 2. à vendu des articles ?
                 // select from ARTICLES_VENDUS where no_utilisateur = id
@@ -146,7 +151,7 @@ public class UtilisateurManager {
                 // -> faire update no_utilisateur = -1
 
             // 3. delete utilisateur
-            utilisateurDAO.deleteProfil(id);
+                utilisateurDAO.deleteProfil(id);
 
         } catch (DALException e) {
             e.printStackTrace();
