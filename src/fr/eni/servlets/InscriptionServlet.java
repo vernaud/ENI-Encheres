@@ -40,38 +40,38 @@ public class InscriptionServlet extends HttpServlet {
             String ville = request.getParameter("ville");
             String password = request.getParameter("password");
             String confirmpass = request.getParameter("confirmpass");
-            Matcher nomMatcher = nomPattern.matcher(nom);
-            Matcher prenomMatcher = nomPattern.matcher(prenom);
-            Matcher mailMatcher = mailPattern.matcher(email);
-            Matcher telMatcher = telPattern.matcher(tel);
-            Matcher cpMatcher = cpPattern.matcher(codepostal);
-            Matcher villeMatcher = villePattern.matcher(ville);
-
-            if (!(nomMatcher.matches())) {
-                request.setAttribute("message", "Nom invalide");
-                System.out.println(nomMatcher.matches());
-                this.doGet(request, response);
-            } else if (!(prenomMatcher.matches())) {
-                request.setAttribute("message", "Prenom invalide");
-                System.out.println(prenomMatcher.matches());
-                this.doGet(request, response);
-            } else if (!(mailMatcher.matches())) {
-                request.setAttribute("message", "Adresse mail invalide");
-                System.out.println(prenomMatcher.matches());
-                this.doGet(request, response);
-            } else if (!(telMatcher.matches())) {
-                request.setAttribute("message", "Numéro de teléphone invalide");
-                System.out.println(prenomMatcher.matches());
-                this.doGet(request, response);
-            } else if (!(cpMatcher.matches())) {
-                request.setAttribute("message", "Code postal invalide");
-                System.out.println(prenomMatcher.matches());
-                this.doGet(request, response);
-            } else if (!(villeMatcher.matches())) {
-                request.setAttribute("message", "Nom de ville invalide");
-                System.out.println(villeMatcher.matches());
-                this.doGet(request, response);
-            }else if (!password.equals(confirmpass)) {
+//            Matcher nomMatcher = nomPattern.matcher(nom);
+//            Matcher prenomMatcher = nomPattern.matcher(prenom);
+//            Matcher mailMatcher = mailPattern.matcher(email);
+//            Matcher telMatcher = telPattern.matcher(tel);
+//            Matcher cpMatcher = cpPattern.matcher(codepostal);
+//            Matcher villeMatcher = villePattern.matcher(ville);
+//
+//            if (!(nomMatcher.matches())) {
+//                request.setAttribute("message", "Nom invalide");
+//                System.out.println(nomMatcher.matches());
+//                this.doGet(request, response);
+//            } else if (!(prenomMatcher.matches())) {
+//                request.setAttribute("message", "Prenom invalide");
+//                System.out.println(prenomMatcher.matches());
+//                this.doGet(request, response);
+//            } else if (!(mailMatcher.matches())) {
+//                request.setAttribute("message", "Adresse mail invalide");
+//                System.out.println(prenomMatcher.matches());
+//                this.doGet(request, response);
+//            } else if (!(telMatcher.matches())) {
+//                request.setAttribute("message", "Numéro de teléphone invalide");
+//                System.out.println(prenomMatcher.matches());
+//                this.doGet(request, response);
+//            } else if (!(cpMatcher.matches())) {
+//                request.setAttribute("message", "Code postal invalide");
+//                System.out.println(prenomMatcher.matches());
+//                this.doGet(request, response);
+//            } else if (!(villeMatcher.matches())) {
+//                request.setAttribute("message", "Nom de ville invalide");
+//                System.out.println(villeMatcher.matches());
+//                this.doGet(request, response);
+            if (!password.equals(confirmpass)) {
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");
                 request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
             } else {
