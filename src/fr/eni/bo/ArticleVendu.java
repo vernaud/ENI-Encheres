@@ -140,4 +140,20 @@ public class ArticleVendu {
         this.categorie = categorie;
     }
 
+    @Override
+    public String toString() {
+        return "ArticleVendu{" +
+                "noArticle=" + noArticle +
+                ", nomArticle='" + nomArticle + '\'' +
+                ", description='" + description + '\'' +
+                ", dateDebutEncheres=" + dateDebutEncheres +
+                ", dateFinEncheres=" + dateFinEncheres +
+                ", prixInitial=" + prixInitial +
+                ", prixVente=" + prixVente +
+                ", utilisateur=" + utilisateur +
+                ", categorie=" + categorie +
+                ", enchere=" + enchere +
+                ", retrait=" + retrait +
+                '}';
+    }
 }

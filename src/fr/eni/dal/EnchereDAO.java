@@ -17,5 +17,5 @@ public interface EnchereDAO {
 
     void crediterUtilisateur(Enchere enchere) throws DALException;
 
-    void changeIdUtilisateur(int id);
+    void changeIdUtilisateur(int id) throws DALException;
 }

@@ -57,4 +57,14 @@ public class Enchere{
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
     }
+
+    @Override
+    public String toString() {
+        return "Enchere{" +
+                "dateEnchere=" + dateEnchere +
+                ", montantEnchere=" + montantEnchere +
+                ", articleVendu=" + articleVendu +
+                ", utilisateur=" + utilisateur +
+                '}';
+    }
 }

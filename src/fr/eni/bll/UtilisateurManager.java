@@ -129,28 +129,15 @@ public class UtilisateurManager {
 
     public void deleteProfil(int id, String mdp) throws BLLException{
         try {
-            Utilisateur userToDel = utilisateurDAO.selectById(id);
-            if (mdp.trim().isEmpty() || !(userToDel.getMotDePasse().equals(mdp)) ){
-                /*System.out.println("Saisie : " + mdp);
-                System.out.println("PassW DataB : " + userToDel.getMotDePasse() );*/
-                throw new BLLException("Erreur de saisie du mot de passe actuel!");
-            }
+                Utilisateur userToDel = utilisateurDAO.selectById(id);
+                if (mdp.trim().isEmpty() || !(userToDel.getMotDePasse().equals(mdp)) ){
+                    /*System.out.println("Saisie : " + mdp);
+                    System.out.println("PassW DataB : " + userToDel.getMotDePasse() );*/
+                    throw new BLLException("Erreur de saisie du mot de passe actuel!");
+                }
 
-            // TODO 1. à fait des enchères ?
-                // select from ENCHERES where no_utilisateur = id
-                // resulset.next()
-                // -> faire update no_utilisateur = -1
                 enchereDAO.changeIdUtilisateur(id);
-
-
-            // TODO 2. à vendu des articles ?
-                // select from ARTICLES_VENDUS where no_utilisateur = id
-                // resulset.next()
-                // -> faire update no_utilisateur = -1
                 articleDAO.changeIdUtilisteur(id);
-
-
-            // 3. delete utilisateur
                 utilisateurDAO.deleteProfil(id);
 
         } catch (DALException e) {
