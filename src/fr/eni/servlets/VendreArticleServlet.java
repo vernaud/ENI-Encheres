@@ -26,7 +26,6 @@ public class VendreArticleServlet extends HttpServlet {
     private ArticleVenduManager articleVenduManager;
 
 
-
     @Override
     public void init() throws ServletException {
         categorieManager = new CategorieManager();
@@ -34,16 +33,24 @@ public class VendreArticleServlet extends HttpServlet {
     }
 
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("utilisateur") == null) {
-            resp.sendRedirect(req.getContextPath()+"/accueil");
+            resp.sendRedirect(req.getContextPath() + "/accueil");
         } else {
             try {
+                if(req.getParameter("id") != null){
+                int idArt = Integer.valueOf(req.getParameter("id"));
+                ArticleVendu article = new ArticleVendu();
+                Retrait retrait = new Retrait();
+
+                article = articleVenduManager.selectById(idArt);
+                retrait = articleVenduManager.selectRetrait(idArt);
+                req.setAttribute("article", article);
+                }
                 req.setAttribute("liste_categories", categorieManager.selectAll());
-            } catch (DALException e) {
+            } catch (DALException | BLLException e) {
                 e.printStackTrace();
             }
         }
@@ -52,42 +59,45 @@ public class VendreArticleServlet extends HttpServlet {
     }
 
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
-            // getParam
-            String nom = req.getParameter("nom_art");
-            String description = req.getParameter("description_art");
-            int noCategorie = Integer.parseInt(req.getParameter("categorie_art"));
-            int mise_a_prix = Integer.parseInt(req.getParameter("mise_a_prix_art"));
-            LocalDate date_debut_enchere = LocalDate.parse(req.getParameter("date_debut_enchere_art"));
-            LocalDate date_fin_enchere = LocalDate.parse(req.getParameter("date_fin_enchere_art"));
-            String rue = req.getParameter("rue");
-            String codePostal = req.getParameter("code-postal");
-            String ville = req.getParameter("ville");
 
-            // Récupère les objets Categorie et Utilisateur en base
-            Categorie categorie = categorieManager.selectById(noCategorie);
-            Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
+                // getParam
+                String nom = req.getParameter("nom_art");
+                String description = req.getParameter("description_art");
+                int noCategorie = Integer.parseInt(req.getParameter("categorie_art"));
+                int mise_a_prix = Integer.parseInt(req.getParameter("mise_a_prix_art"));
+                LocalDate date_debut_enchere = LocalDate.parse(req.getParameter("date_debut_enchere_art"));
+                LocalDate date_fin_enchere = LocalDate.parse(req.getParameter("date_fin_enchere_art"));
+                String rue = req.getParameter("rue");
+                String codePostal = req.getParameter("code-postal");
+                String ville = req.getParameter("ville");
 
-            // Insertion en base de l'article
+                // Récupère les objets Categorie et Utilisateur en base
+                Categorie categorie = categorieManager.selectById(noCategorie);
+                Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
             ArticleVendu articleVendu = new ArticleVendu(nom, description, date_debut_enchere, date_fin_enchere, mise_a_prix, mise_a_prix, utilisateur, categorie);
-            int idArticle = articleVenduManager.ajouterArticleVendu(articleVendu);
-            System.out.println("Retour de l'insertion de l'article n° " + idArticle);
+            if (req.getParameter("id") == null) {
+                // Insertion en base de l'article
+                int idArticle = articleVenduManager.ajouterArticleVendu(articleVendu);
+                System.out.println("Retour de l'insertion de l'article n° " + idArticle);
 
-            // Insertion de l'adresse de Retrait en base
-            Retrait adresse = new Retrait(rue, codePostal, ville);
-            articleVenduManager.insertAdresseRetrait(idArticle, adresse);
+                // Insertion de l'adresse de Retrait en base
+                Retrait adresse = new Retrait(rue, codePostal, ville);
+                articleVenduManager.insertAdresseRetrait(idArticle, adresse);
 
 
-
-            //req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
-            // -> renvoie seulement le contenu de index.jsp, mais l'url reste celle de la servlet
-            resp.sendRedirect(req.getContextPath()+"/accueil");
-
+                //req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
+                // -> renvoie seulement le contenu de index.jsp, mais l'url reste celle de la servlet
+            } else {
+                int idArt = Integer.valueOf(req.getParameter("id"));
+                ArticleVendu articleAModifier = articleVenduManager.selectById(idArt);
+                articleVenduManager.modifierArticle(articleAModifier, articleVendu);
+//                req.setAttribute("categorie_article", articleAModifier.getCategorie().getNoCategorie());
+            }
+            resp.sendRedirect(req.getContextPath() + "/accueil");
 
 
         } catch (BLLException | DALException e) {

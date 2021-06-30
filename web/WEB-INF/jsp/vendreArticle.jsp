@@ -19,23 +19,24 @@
 
             <form action="${pageContext.request.contextPath}/vendreArticle" method="post">
                 <label for="nom_art">Article : </label>
-                <input type="text" id="nom_art" name="nom_art" required>
+                <input type="text" id="id" name="id" value="${article.noArticle}" hidden>
+                <input type="text" id="nom_art" name="nom_art" value="${article.nomArticle}" required>
                 <label for="description_art">Description : </label>
-                <input type="text" id="description_art" name="description_art" required>
+                <input type="text" id="description_art" name="description_art" value="${article.description}" required>
                 <label for="categorie_art"> Categorie : </label>
                 <select name="categorie_art" id="categorie_art">
                     <c:forEach items="${liste_categories}" var="cat">
-                        <option value="${cat.noCategorie}">${cat.libelle}</option>
+                        <option value="${cat.noCategorie}" <c:if test="${article.categorie.noCategorie == cat.noCategorie}"> selected </c:if>>${cat.libelle}</option>
                     </c:forEach>
                 </select>
                 <!-- <label for="photo_article">Photo de l'article : </label>
                         bouton "Uploader" -->
                 <label for="mise_a_prix_art"> Mise à prix : </label>
-                <input type="number" id="mise_a_prix_art" name="mise_a_prix_art" required>
+                <input type="number" id="mise_a_prix_art" name="mise_a_prix_art" value="${article.prixInitial}" required>
                 <label for="date_debut_enchere_art"> Début de l'enchère : </label>
-                <input type="date" id="date_debut_enchere_art" name="date_debut_enchere_art" required>
+                <input type="date" id="date_debut_enchere_art" name="date_debut_enchere_art" value="${article.dateDebutEncheres}" required>
                 <label for="date_fin_enchere_art"> Fin de l'enchère : </label>
-                <input type="date" id="date_fin_enchere_art" name="date_fin_enchere_art" required>
+                <input type="date" id="date_fin_enchere_art" name="date_fin_enchere_art" value="${article.dateFinEncheres}" required>
 
                 <fieldset>
                     <legend>Retrait</legend>

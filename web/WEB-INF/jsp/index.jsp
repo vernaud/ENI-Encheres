@@ -30,7 +30,6 @@
                     </c:forEach>
                 </select>
 
-
                 <c:if test="${connecte}">
                     <br><br>
                     <div>
@@ -91,7 +90,12 @@
                     <article class="card">
                         <img class="card-img-top" src="#" alt="Photo de l'article ${article.nomArticle}">
                         <div class="card-body">
+                            <c:if test="${utilisateur.noUtilisateur != article.getUtilisateur().noUtilisateur}">
                             <h3 class="card-title"><a href="${pageContext.request.contextPath}/enchere?id=${article.noArticle}">${article.nomArticle}</a></h3>
+                            </c:if>
+                            <c:if test="${utilisateur.noUtilisateur == article.getUtilisateur().noUtilisateur}">
+                                <h3 class="card-title"><a href="${pageContext.request.contextPath}/vendreArticle?id=${article.noArticle}">${article.nomArticle}</a></h3>
+                            </c:if>
                             <ul class="card-text">
                                 <li>Prix : ${article.prixVente}</li>
                                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>

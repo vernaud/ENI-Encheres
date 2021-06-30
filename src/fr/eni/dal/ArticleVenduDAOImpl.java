@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
+public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     private static final String INSERT_ARTICLE_VENDU = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, " +
             "prix_initial, prix_vente, no_utilisateur, no_categorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -52,6 +52,8 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
     private static final String SELECT_RETRAIT = "SELECT no_article, rue, code_postal, ville\n" +
             "FROM RETRAITS\n" +
             "WHERE RETRAITS.no_article = ?;";
+
+    private static final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_categorie=? WHERE no_article=?;";
 
     @Override
     public int insert(ArticleVendu articleVendu) throws DALException {
@@ -194,28 +196,28 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
                     int prixInitial; int prixVente; Utilisateur utilisateur; Categorie categorie;
                     */
 
-                    article.setNoArticle(rs.getInt(1));
-                    article.setNomArticle(rs.getString(2));
-                    article.setDescription(rs.getString(3));
-                    article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
-                    article.setDateFinEncheres(rs.getDate(5).toLocalDate());
-                    article.setPrixInitial(rs.getInt(6));
-                    article.setPrixVente(rs.getInt(7));
+                article.setNoArticle(rs.getInt(1));
+                article.setNomArticle(rs.getString(2));
+                article.setDescription(rs.getString(3));
+                article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+                article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+                article.setPrixInitial(rs.getInt(6));
+                article.setPrixVente(rs.getInt(7));
 
-                    UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
-                    Utilisateur utilisateur = new Utilisateur();
-                    utilisateur = utilisateurDAO.selectById(rs.getInt(8));
-                    article.setUtilisateur(utilisateur);
+                UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur = utilisateurDAO.selectById(rs.getInt(8));
+                article.setUtilisateur(utilisateur);
 
-                    CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
-                    Categorie cat = new Categorie();
-                    cat = categorieDAO.selectById(rs.getInt(9));
-                    article.setCategorie(cat);
+                CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
+                Categorie cat = new Categorie();
+                cat = categorieDAO.selectById(rs.getInt(9));
+                article.setCategorie(cat);
 
-                    listeArticlesVendus.add(article);
-                }
+                listeArticlesVendus.add(article);
+            }
             rs.close();
-        } catch (SQLException sqlException){
+        } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la recherche d'article par catégorie");
         }
@@ -263,7 +265,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
                 listeArticlesVendus.add(article);
             }
             rs.close();
-        } catch (SQLException sqlException){
+        } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la recherche d'article par catégorie");
         }
@@ -282,7 +284,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
             pstt.setString(1, '%' + nomArticleRecherche + '%'); // '%word1%'
             ResultSet rs = pstt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 ArticleVendu article = new ArticleVendu();
                 article.setNoArticle(rs.getInt(1));
                 article.setNomArticle(rs.getString(2));
@@ -305,7 +307,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
                 listeArticlesVendus.add(article);
             }
             rs.close();
-        } catch (SQLException | DALException sqlException){
+        } catch (SQLException | DALException sqlException) {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la recherche d'article par nom.");
         }
@@ -327,7 +329,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
             pstt.setInt(2, idCategorieSelect);
             ResultSet rs = pstt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 ArticleVendu article = new ArticleVendu();
                 article.setNoArticle(rs.getInt(1));
                 article.setNomArticle(rs.getString(2));
@@ -350,7 +352,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
                 listeArticlesVendus.add(article);
             }
             rs.close();
-        } catch (SQLException | DALException sqlException){
+        } catch (SQLException | DALException sqlException) {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la recherche d'article par nom et catégorie");
         }
@@ -370,7 +372,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
             pstt.setInt(2, idCategorie);
             ResultSet rs = pstt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 ArticleVendu article = new ArticleVendu();
                    /* Rappel :
                     ArticleVendu :
@@ -399,7 +401,7 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
                 listeArticlesVendus.add(article);
             }
             rs.close();
-        } catch (SQLException sqlException){
+        } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la recherche d'article par nom et catégorie");
         }
@@ -520,8 +522,10 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
             throw new DALException("Problème à l'insertion de l'adresse de retrait en base de données.");
         }
     }
+
     /**
      * Récupère un Article en base par son id.
+     *
      * @param idArt
      * @return article
      */
@@ -585,4 +589,27 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
         return adresse;
     }
 
+    @Override
+    public void updateArticle(int idArticleAModifier, ArticleVendu articleVendu) throws DALException {
+        //"UPDATE ARTICLES SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_categorie=?, WHERE no_article=?;"
+        Boolean profilAJour = false;
+        try (Connection cnx = ConnectionProvider.getConnection();
+             PreparedStatement pstt = cnx.prepareStatement(UPDATE_ARTICLE)) {
+            pstt.setString(1, articleVendu.getNomArticle());
+            pstt.setString(2, articleVendu.getDescription());
+            pstt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
+            pstt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
+            pstt.setInt(5, articleVendu.getPrixInitial());
+            pstt.setInt(6, articleVendu.getPrixVente());
+            pstt.setInt(7, articleVendu.getCategorie().getNoCategorie());
+            pstt.setInt(8, idArticleAModifier);
+
+            pstt.executeUpdate();
+            cnx.commit();
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la MAJ du profil");
+        }
+    }
 }

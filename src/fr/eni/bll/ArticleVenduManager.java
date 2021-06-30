@@ -273,4 +273,16 @@ public class ArticleVenduManager {
         }
         return adresse;
     }
+
+    public void modifierArticle(ArticleVendu articleAModifier, ArticleVendu articleVendu) throws BLLException {
+
+       int idArticleAModifier = articleAModifier.getNoArticle();
+        try {
+            articleVenduDAO.updateArticle(idArticleAModifier, articleVendu);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Erreur lors de la modification de l'article");
+        }
+
+    }
 }
