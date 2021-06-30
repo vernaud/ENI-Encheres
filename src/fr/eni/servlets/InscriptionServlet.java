@@ -47,13 +47,13 @@ public class InscriptionServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("utilisateur", utilisateur);
                 session.setAttribute("connecte", true);
-                response.sendRedirect(request.getContextPath()+"/accueil");
+                response.sendRedirect(request.getContextPath() + "/accueil");
             }
-        } catch(BLLException e){
-                request.setAttribute("message", e.getMessage());
-                request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
+        } catch (BLLException e) {
+            request.setAttribute("message", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
 //            e.printStackTrace();
-            }
-
         }
+
     }
+}

@@ -120,7 +120,7 @@
                                         href="${pageContext.request.contextPath}/vendreArticle?id=${article.noArticle}">${article.nomArticle}</a>
                                 </h3>
                             </c:if>
-                            <c:if test="${article.getDateDebutEncheres().isBefore(LocalDate.now())}">
+                            <c:if test="${article.getDateDebutEncheres().isBefore(LocalDate.now()) || article.getDateDebutEncheres().equals(LocalDate.now())}">
                             <h3 class="card-title"><a
                                     href="${pageContext.request.contextPath}/enchere?id=${article.noArticle}">${article.nomArticle}</a>
                             </h3>
