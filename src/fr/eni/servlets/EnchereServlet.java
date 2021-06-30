@@ -5,7 +5,6 @@ import fr.eni.bll.BLLException;
 import fr.eni.bll.EnchereManager;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.*;
-import org.apache.tomcat.jni.Local;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -32,32 +31,39 @@ public class EnchereServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int idArt = Integer.valueOf(request.getParameter("id"));
-        System.out.print(idArt);
-        ArticleVendu article = new ArticleVendu();
-        Retrait retrait = new Retrait();
-        Enchere enchereMax = new Enchere();
+        HttpSession session = request.getSession();
+        if (session.getAttribute("utilisateur") == null) {
+            response.sendRedirect(request.getContextPath() + "/accueil");
+        } else {
 
-        // DataB -> récupérer les infos de l'article à afficher
-        try {
-            article = artManager.selectById(idArt);
-            retrait = artManager.selectRetrait(idArt);
-            enchereMax = enchereManager.getEnchereMax(article);
-            if(enchereMax != null  && article.getDateFinEncheres().isBefore(LocalDate.now())){
-                request.setAttribute("enchereTerminee", true);
-                request.setAttribute("userWiner", enchereMax.getUtilisateur());
-                article.setPrixVente(enchereMax.getMontantEnchere());
+
+            int idArt = Integer.valueOf(request.getParameter("id"));
+            System.out.print(idArt);
+            ArticleVendu article = new ArticleVendu();
+            Retrait retrait = new Retrait();
+            Enchere enchereMax = new Enchere();
+
+            // DataB -> récupérer les infos de l'article à afficher
+            try {
+                article = artManager.selectById(idArt);
+                retrait = artManager.selectRetrait(idArt);
+                enchereMax = enchereManager.getEnchereMax(article);
+                if (enchereMax != null && article.getDateFinEncheres().isBefore(LocalDate.now())) {
+                    request.setAttribute("enchereTerminee", true);
+                    request.setAttribute("userWiner", enchereMax.getUtilisateur());
+                    article.setPrixVente(enchereMax.getMontantEnchere());
+                }
+            } catch (BLLException e) {
+                e.printStackTrace();
             }
-        } catch (BLLException e) {
-            e.printStackTrace();
+
+
+            // -> page détail de l'enchère
+            request.setAttribute("article", article);
+            request.setAttribute("retrait", retrait);
+            request.setAttribute("enchereMax", enchereMax);
+            request.getRequestDispatcher("WEB-INF/jsp/enchere.jsp").forward(request, response);
         }
-
-
-        // -> page détail de l'enchère
-        request.setAttribute("article", article);
-        request.setAttribute("retrait", retrait);
-        request.setAttribute("enchereMax", enchereMax);
-        request.getRequestDispatcher("WEB-INF/jsp/enchere.jsp").forward(request, response);
     }
 
     @Override

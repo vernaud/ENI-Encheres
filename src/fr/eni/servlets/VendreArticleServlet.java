@@ -26,6 +26,7 @@ public class VendreArticleServlet extends HttpServlet {
     private ArticleVenduManager articleVenduManager;
 
 
+
     @Override
     public void init() throws ServletException {
         categorieManager = new CategorieManager();
@@ -33,22 +34,14 @@ public class VendreArticleServlet extends HttpServlet {
     }
 
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("utilisateur") == null) {
-            resp.sendRedirect(req.getContextPath() + "/accueil");
+            resp.sendRedirect(req.getContextPath()+"/accueil");
         } else {
             try {
-                if(req.getParameter("id") != null){
-                int idArt = Integer.valueOf(req.getParameter("id"));
-                ArticleVendu article = new ArticleVendu();
-                Retrait retrait = new Retrait();
-
-                article = articleVenduManager.selectById(idArt);
-                retrait = articleVenduManager.selectRetrait(idArt);
-                req.setAttribute("article", article);
-                }
                 req.setAttribute("liste_categories", categorieManager.selectAll());
             } catch (DALException | BLLException e) {
                 e.printStackTrace();
@@ -57,6 +50,8 @@ public class VendreArticleServlet extends HttpServlet {
 
         req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
     }
+
+
 
 
     @Override
