@@ -39,7 +39,7 @@
 
                 <%--afficher 'ENCHERIR' si login--%>
                 <c:if test="${connecte &&
-                                (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur) && enchereTerminee == null}">
+                                (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur) && enchereTerminee == null && enchereNonDebutee == null}">
                     <form action="${pageContext.request.contextPath}/enchere" method="post">
                         <input type="text" name="id" value="${article.noArticle}" hidden>
                         <div class="input-group">
@@ -50,6 +50,12 @@
                         <input type="submit" class="btn btn-primary" value="Enchérir">
                         <p>${message}</p>
                     </form>
+                </c:if>
+                <c:if test="${enchereNonDebutee != null}">
+                    <p>L'enchère n'a pas encore débuté</p>
+                </c:if>
+                <c:if test="${enchereTerminee != null}">
+                    <p>L'enchère est terminée</p>
                 </c:if>
 
 

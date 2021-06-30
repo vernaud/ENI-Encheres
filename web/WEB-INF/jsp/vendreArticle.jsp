@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-floating">
                         <label for="description_art" class="floatingTextarea">Description : </label>
-                        <textarea name="description_art" class="form-control" id="description_art" cols="30" rows="10" value="${article.description}" required></textarea>
+                        <textarea name="description_art" class="form-control" id="description_art" cols="30" rows="10" required>${article.description}</textarea>
                     </div>
                     <div class="form-floating">
                         <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="categorie_art">

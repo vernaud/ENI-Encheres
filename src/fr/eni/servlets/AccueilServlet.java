@@ -145,7 +145,7 @@ public class AccueilServlet extends HttpServlet {
             }
             request.setAttribute("articleVenduList", articleVenduList);
 
-        } catch (DALException | BLLException e) {
+        } catch (BLLException e) {
             request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
         }

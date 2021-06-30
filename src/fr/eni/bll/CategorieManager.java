@@ -15,9 +15,15 @@ public class CategorieManager {
 
     }
 
-    public List<Categorie> selectAll() throws DALException {
 
-        return categorieDAO.selectAll();
+    public List<Categorie> selectAll() throws BLLException {
+
+        try {
+            return categorieDAO.selectAll();
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Erreur d'affichage des catégories");
+        }
     }
 
     public Categorie selectById(int id_categorie) throws DALException{

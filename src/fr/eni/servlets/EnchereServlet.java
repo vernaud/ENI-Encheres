@@ -53,6 +53,9 @@ public class EnchereServlet extends HttpServlet {
                     request.setAttribute("userWiner", enchereMax.getUtilisateur());
                     article.setPrixVente(enchereMax.getMontantEnchere());
                 }
+                if ( article.getDateDebutEncheres().isAfter(LocalDate.now())){
+                    request.setAttribute("enchereNonDebutee", true);
+                }
             } catch (BLLException e) {
                 e.printStackTrace();
             }

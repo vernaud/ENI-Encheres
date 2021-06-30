@@ -43,8 +43,12 @@ public class VendreArticleServlet extends HttpServlet {
         } else {
             try {
                 req.setAttribute("liste_categories", categorieManager.selectAll());
-            } catch (DALException | BLLException e) {
+                int idArt = Integer.parseInt(req.getParameter("id"));
+                ArticleVendu article = articleVenduManager.selectById(idArt);
+                req.setAttribute("article", article);
+            } catch (BLLException e) {
                 e.printStackTrace();
+                req.setAttribute("message_erreur", "Impossible d'afficher les catégories");
             }
         }
 

@@ -23,7 +23,7 @@ public class ArticleVenduManager {
 
     public int ajouterArticleVendu(ArticleVendu articleVendu) throws BLLException {
         // StringBuffer	append(String str) : Ajoute la chaîne spécifiée à cette séquence de caractères
-         boolean erreur_saisie = false;
+        boolean erreur_saisie = false;
         StringBuffer sb = new StringBuffer();
         int idArticle = 0;
 
@@ -32,29 +32,23 @@ public class ArticleVenduManager {
             if (articleVendu.getNomArticle().trim().isEmpty()) {
                 sb.append("Le nom de l'article est obligatoire. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getNomArticle().trim().length() > 30) {
+            } else if (articleVendu.getNomArticle().trim().length() > 30) {
                 sb.append("Le nom de l'article ne doit pas dépasser 30 caractères. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getDescription().trim().isEmpty()) {
+            } else if (articleVendu.getDescription().trim().isEmpty()) {
                 sb.append("La description est obligatoire. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getDescription().trim().length() > 300) {
+            } else if (articleVendu.getDescription().trim().length() > 300) {
                 sb.append("La description ne doit pas dépasser 300 caractères. <br/>");
                 erreur_saisie = true;
-            }
-            if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
+            } else if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
                 sb.append("La date de début des enchères doit être supérieure ou égale à la date du jour. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
+            } else if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
                 sb.append("La date de début des enchères doit être inférieure ou égale à la date de fin. <br/>");
                 //sb.append(Character.LINE_SEPARATOR);
                 erreur_saisie = true;
-            }
-            if (articleVendu.getPrixInitial() < 0) {
+            } else if (articleVendu.getPrixInitial() < 0) {
                 sb.append("Le prix initial ne peut pas être négatif.");
                 erreur_saisie = true;
             } else {
@@ -100,7 +94,7 @@ public class ArticleVenduManager {
         try {
             articleVenduList = this.articleVenduDAO.selectEncheresOuvertesParCategorie(idCategorie);
             //Si la liste est vide
-            if(articleVenduList.isEmpty()){
+            if (articleVenduList.isEmpty()) {
                 throw new BLLException("Il n'existe pas d'enchères ouvertes pour cette catégorie");
             }
         } catch (DALException e) {
@@ -117,27 +111,26 @@ public class ArticleVenduManager {
         try {
             listeArticlesVendus = this.articleVenduDAO.selectEncheresOuvertesAvecNomArticleContientToutesCategories(nomArticleRecherche);
 
-            if(listeArticlesVendus.isEmpty()){
+            if (listeArticlesVendus.isEmpty()) {
                 throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot, toutes catégories confondues.");
             }
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de la sélection d'articles par nom.");
         }
-     catch (DALException e) {
-        e.printStackTrace();
-        throw new BLLException("Problème lors de la sélection d'articles par nom.");
-    }
         return listeArticlesVendus;
 
     }
 
     // TO DO : AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
-    public List<ArticleVendu> AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws BLLException  {
+    public List<ArticleVendu> AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws BLLException {
         List<ArticleVendu> listeArticlesVendus = null;
 
         try {
-                listeArticlesVendus = this.articleVenduDAO.selectEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
-                if(listeArticlesVendus.isEmpty()){
-                    throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot et correspondant à cette catégorie");
-                }
+            listeArticlesVendus = this.articleVenduDAO.selectEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
+            if (listeArticlesVendus.isEmpty()) {
+                throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot et correspondant à cette catégorie");
+            }
 
         } catch (DALException | BLLException e) {
             e.printStackTrace();
@@ -152,7 +145,7 @@ public class ArticleVenduManager {
         try {
             articleVenduList = this.articleVenduDAO.selectByCategorieId(idCategorie);
             //Si la liste est vide
-            if(articleVenduList.isEmpty()){
+            if (articleVenduList.isEmpty()) {
                 throw new BLLException("Il n'existe pas d'article pour cette catégorie");
             }
         } catch (DALException e) {
@@ -169,13 +162,12 @@ public class ArticleVenduManager {
         try {
             if (nomArticleRecherche.trim().isEmpty()) {
                 listeArticlesVendus = this.articleVenduDAO.selectByCategorieId(idCategorie);
-                if(listeArticlesVendus.isEmpty()){
+                if (listeArticlesVendus.isEmpty()) {
                     throw new BLLException("Il n'existe pas d'article pour cette catégorie");
                 }
-            }
-            else {
+            } else {
                 listeArticlesVendus = this.articleVenduDAO.selectByNameAndCategoryId(nomArticleRecherche, idCategorie);
-                if(listeArticlesVendus.isEmpty()){
+                if (listeArticlesVendus.isEmpty()) {
                     throw new BLLException("Il n'existe pas d'article contenant ce mot et correspondant à cette catégorie");
                 }
             }
@@ -190,8 +182,8 @@ public class ArticleVenduManager {
     public List<ArticleVendu> afficherEncheresOuvertes(List<ArticleVendu> articleVenduList) {
         List<ArticleVendu> listeEncheresEnCours = new ArrayList<>();
         for (ArticleVendu articlevendu : articleVenduList) {
-            if((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) <= 0) && (articlevendu.getDateFinEncheres().compareTo(LocalDate.now())>=0)){
-            listeEncheresEnCours.add(articlevendu);
+            if ((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) <= 0) && (articlevendu.getDateFinEncheres().compareTo(LocalDate.now()) >= 0)) {
+                listeEncheresEnCours.add(articlevendu);
             }
         }
         return listeEncheresEnCours;
@@ -210,7 +202,7 @@ public class ArticleVenduManager {
         return listeAchats;
     }
 
-    public List<ArticleVendu> afficherventes(int idUtilisateur) throws BLLException{
+    public List<ArticleVendu> afficherventes(int idUtilisateur) throws BLLException {
         List<ArticleVendu> listeAchats = new ArrayList<>();
         try {
             listeAchats = articleVenduDAO.selectVentes(idUtilisateur);
@@ -225,7 +217,7 @@ public class ArticleVenduManager {
     public List<ArticleVendu> afficherEncheresNonDébutees(List<ArticleVendu> articleVenduList) throws BLLException {
         List<ArticleVendu> listeEncheresNonDebutees = new ArrayList<>();
         for (ArticleVendu articlevendu : articleVenduList) {
-            if((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) > 0)){
+            if ((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) > 0)) {
                 listeEncheresNonDebutees.add(articlevendu);
             }
         }
@@ -236,7 +228,7 @@ public class ArticleVenduManager {
     public List<ArticleVendu> afficherEncheresTerminees(List<ArticleVendu> articleVenduList) {
         List<ArticleVendu> listeEnchereTerminees = new ArrayList<>();
         for (ArticleVendu articlevendu : articleVenduList) {
-            if((articlevendu.getDateFinEncheres().compareTo(LocalDate.now()) <0)){
+            if ((articlevendu.getDateFinEncheres().compareTo(LocalDate.now()) < 0)) {
                 listeEnchereTerminees.add(articlevendu);
             }
         }
@@ -252,7 +244,7 @@ public class ArticleVenduManager {
         }
     }
 
-    public ArticleVendu selectById(int idArt) throws BLLException{
+    public ArticleVendu selectById(int idArt) throws BLLException {
         ArticleVendu article;
         try {
             article = articleVenduDAO.selectById(idArt);
@@ -276,36 +268,30 @@ public class ArticleVenduManager {
 
     public void modifierArticle(ArticleVendu articleAModifier, ArticleVendu articleVendu) throws BLLException {
 
-       int idArticleAModifier = articleAModifier.getNoArticle();
+        int idArticleAModifier = articleAModifier.getNoArticle();
         boolean erreur_saisie = false;
         StringBuffer sb = new StringBuffer();
         try {
             if (articleVendu.getNomArticle().trim().isEmpty()) {
                 sb.append("Le nom de l'article est obligatoire. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getNomArticle().trim().length() > 30) {
+            } else if (articleVendu.getNomArticle().trim().length() > 30) {
                 sb.append("Le nom de l'article ne doit pas dépasser 30 caractères. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getDescription().trim().isEmpty()) {
+            } else if (articleVendu.getDescription().trim().isEmpty()) {
                 sb.append("La description est obligatoire. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getDescription().trim().length() > 300) {
+            } else if (articleVendu.getDescription().trim().length() > 300) {
                 sb.append("La description ne doit pas dépasser 300 caractères. <br/>");
                 erreur_saisie = true;
-            }
-            if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
+            } else if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
                 sb.append("La date de début des enchères doit être supérieure ou égale à la date du jour. <br/>");
                 erreur_saisie = true;
-            }
-            if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
+            } else if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
                 sb.append("La date de début des enchères doit être inférieure ou égale à la date de fin. <br/>");
                 //sb.append(Character.LINE_SEPARATOR);
                 erreur_saisie = true;
-            }
-            if (articleVendu.getPrixInitial() < 0) {
+            } else if (articleVendu.getPrixInitial() < 0) {
                 sb.append("Le prix initial ne peut pas être négatif.");
                 erreur_saisie = true;
             } else {
