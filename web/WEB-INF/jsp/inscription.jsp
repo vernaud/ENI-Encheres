@@ -8,7 +8,7 @@
 </head>
 <body class="container">
     <header class="row">
-        <div id="logo">ENI-Enchères</div>
+        <jsp:include page="/WEB-INF/fragments/header.jsp"/>
     </header>
     <main class="row">
         <h1 class="">Mon profil</h1>
