@@ -1,17 +1,18 @@
 package fr.eni.bll;
 
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.DALException;
-import fr.eni.dal.DAOFactory;
-import fr.eni.dal.UtilisateurDAO;
+import fr.eni.dal.*;
 
 public class UtilisateurManager {
 
     UtilisateurDAO utilisateurDAO;
+    EnchereDAO enchereDAO;
+    ArticleVenduDAO articleDAO;
 
     public UtilisateurManager(){
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
-
+        enchereDAO = DAOFactory.getEnchereDAO();
+        articleDAO = DAOFactory.getArticleVenduDAO();
     }
 
     public void inscrireUtilisateur(Utilisateur utilisateur) throws BLLException {
@@ -130,11 +131,28 @@ public class UtilisateurManager {
         try {
             Utilisateur userToDel = utilisateurDAO.selectById(id);
             if (mdp.trim().isEmpty() || !(userToDel.getMotDePasse().equals(mdp)) ){
-                System.out.println("Saisie : " + mdp);
-                System.out.println("PassW DataB : " + userToDel.getMotDePasse() );
+                /*System.out.println("Saisie : " + mdp);
+                System.out.println("PassW DataB : " + userToDel.getMotDePasse() );*/
                 throw new BLLException("Erreur de saisie du mot de passe actuel!");
             }
-            utilisateurDAO.deleteProfil(id);
+
+            // TODO 1. à fait des enchères ?
+                // select from ENCHERES where no_utilisateur = id
+                // resulset.next()
+                // -> faire update no_utilisateur = -1
+                enchereDAO.changeIdUtilisateur(id);
+
+
+            // TODO 2. à vendu des articles ?
+                // select from ARTICLES_VENDUS where no_utilisateur = id
+                // resulset.next()
+                // -> faire update no_utilisateur = -1
+                articleDAO.changeIdUtilisteur(id);
+
+
+            // 3. delete utilisateur
+                utilisateurDAO.deleteProfil(id);
+
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("BLL - La suppression a échoué");

@@ -1,7 +1,6 @@
 package fr.eni.dal;
 
 import fr.eni.bo.ArticleVendu;
-import fr.eni.bo.Categorie;
 import fr.eni.bo.Enchere;
 import fr.eni.bo.Utilisateur;
 
@@ -120,5 +119,24 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
             throwables.printStackTrace();
             throw new DALException("problème update credit utilisateur");
         }
+    }
+
+    public List<Enchere> selectByIdUtilisateur(int idUser) {
+        List<Enchere> encheres = null;
+            // TODO 1. écrire la méthode selectByIdUtilisateur
+        return encheres;
+    }
+
+    @Override
+    public void changeIdUtilisateur(int idUser) {
+        List<Enchere> encheres;
+
+        // Est_ce qu'il y a une liste d'enchères où no_utilisateur=idUser ?
+            encheres = selectByIdUtilisateur(idUser);
+
+        // TODO 2. changer l'id utilisateur en base
+            // foreach éléments de encheres
+            // update no_utilisateur = -1
+
     }
 }

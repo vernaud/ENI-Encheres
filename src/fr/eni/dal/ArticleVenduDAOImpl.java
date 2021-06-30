@@ -585,4 +585,21 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
         return adresse;
     }
 
+    public List<Integer> selectByIdUtilisateur(int idUser) {
+        List<Integer> articles = null;
+            // TODO 1. écrire la méthode selectByIdUtilisateur
+        return articles;
+    }
+
+    @Override
+    public void changeIdUtilisteur(int idUser) {
+        List<Integer> idArticle;
+        // Est_ce qu'il y a une liste d'articles où no_utilisateur=idUser ?
+        idArticle = selectByIdUtilisateur(idUser);
+
+        // TODO 2. écrire méthode pour chaque id, update no_utlisateur = -1
+
+
+    }
+
 }
