@@ -18,12 +18,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @WebServlet("/vendreArticle")
 public class VendreArticleServlet extends HttpServlet {
-    private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
-    private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
+
 
     private CategorieManager categorieManager;
     private ArticleVenduManager articleVenduManager;
@@ -91,36 +91,35 @@ public class VendreArticleServlet extends HttpServlet {
             String codePostal = req.getParameter("code-postal");
             String ville = req.getParameter("ville");
 
-            // Récupère les objets Categorie et Utilisateur en base
-            Categorie categorie = categorieManager.selectById(noCategorie);
-            Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
-            ArticleVendu articleVendu = new ArticleVendu(nom, description, date_debut_enchere, date_fin_enchere, mise_a_prix, mise_a_prix, utilisateur, categorie);
-            Retrait adresse = new Retrait(rue, codePostal, ville);
-            String idSrting = req.getParameter("id");
-            if (req.getParameter("id").isEmpty()) {
-                // Insertion en base de l'article
-                int idArticle = articleVenduManager.ajouterArticleVendu(articleVendu);
-                System.out.println("Retour de l'insertion de l'article n° " + idArticle);
-                if (idArticle == 0) {
-                    req.setAttribute("message_erreur", "L'article n'a pas pu être ajouté");
-                    doGet(req, resp);
-                }
+                // Récupère les objets Categorie et Utilisateur en base
+                Categorie categorie = categorieManager.selectById(noCategorie);
+                Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
+                ArticleVendu articleVendu = new ArticleVendu(nom, description, date_debut_enchere, date_fin_enchere, mise_a_prix, mise_a_prix, utilisateur, categorie);
+                Retrait adresse = new Retrait(rue, codePostal, ville);
+                String idSrting = req.getParameter("id");
+                if (req.getParameter("id").isEmpty()) {
+                    // Insertion en base de l'article
+                    int idArticle = articleVenduManager.ajouterArticleVendu(articleVendu);
+                    System.out.println("Retour de l'insertion de l'article n° " + idArticle);
+                    if (idArticle == 0) {
+                        req.setAttribute("message_erreur", "L'article n'a pas pu être ajouté");
+                        doGet(req, resp);
+                    }
 
-                // Insertion de l'adresse de Retrait en base
-                articleVenduManager.insertAdresseRetrait(idArticle, adresse);
+                    // Insertion de l'adresse de Retrait en base
+                    articleVenduManager.insertAdresseRetrait(idArticle, adresse);
 
 
-                //req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
-                // -> renvoie seulement le contenu de index.jsp, mais l'url reste celle de la servlet
-            } else {
-                int idArt = Integer.parseInt(req.getParameter("id"));
-                ArticleVendu articleAModifier = articleVenduManager.selectById(idArt);
-                articleVenduManager.modifierArticle(articleAModifier, articleVendu);
-                articleVenduManager.updateRetrait(idArt, adresse);
+                    //req.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(req, resp);
+                    // -> renvoie seulement le contenu de index.jsp, mais l'url reste celle de la servlet
+                } else {
+                    int idArt = Integer.parseInt(req.getParameter("id"));
+                    ArticleVendu articleAModifier = articleVenduManager.selectById(idArt);
+                    articleVenduManager.modifierArticle(articleAModifier, articleVendu);
+                    articleVenduManager.updateRetrait(idArt, adresse);
 //                req.setAttribute("categorie_article", articleAModifier.getCategorie().getNoCategorie());
-            }
-            resp.sendRedirect(req.getContextPath() + "/accueil");
-
+                }
+                resp.sendRedirect(req.getContextPath() + "/accueil");
 
         } catch (BLLException | DALException e) {
             req.setAttribute("message_erreur", e.getMessage());

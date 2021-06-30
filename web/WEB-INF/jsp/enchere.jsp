@@ -38,7 +38,7 @@
                 <li>Vendeur : ${article.utilisateur.pseudo}</li>
 
                 <%--afficher 'ENCHERIR' si login--%>
-                <c:if test="${connecte &&
+                <c:if test="${connecte && (enchereMax.utilisateur.noUtilisateur != utilisateur.noUtilisateur) &&
                                 (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur) && enchereTerminee == null && enchereNonDebutee == null}">
                     <form action="${pageContext.request.contextPath}/enchere" method="post">
                         <input type="text" name="id" value="${article.noArticle}" hidden>
@@ -50,6 +50,9 @@
                         <input type="submit" class="btn btn-primary" value="Enchérir">
                         <p>${message}</p>
                     </form>
+                </c:if>
+                <c:if test="${enchereMax.utilisateur.noUtilisateur == utilisateur.noUtilisateur}">
+                    <p>Vous avez déjà réalisé l'enchère maximum, vous ne pouvez pas renchérir pour le moment</p>
                 </c:if>
                 <c:if test="${enchereNonDebutee != null}">
                     <p>L'enchère n'a pas encore débuté</p>
