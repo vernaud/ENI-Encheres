@@ -53,6 +53,8 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
             "FROM RETRAITS\n" +
             "WHERE RETRAITS.no_article = ?;";
 
+    private static final String UPDATE_ID_USER = "UPDATE ARTICLES_VENDUS SET no_utilisateur=? WHERE no_utilisateur=?;";
+
     @Override
     public int insert(ArticleVendu articleVendu) throws DALException {
         try (
@@ -585,21 +587,22 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
         return adresse;
     }
 
-    public List<Integer> selectByIdUtilisateur(int idUser) {
-        List<Integer> articles = null;
-            // TODO 1. écrire la méthode selectByIdUtilisateur
-        return articles;
-    }
-
     @Override
-    public void changeIdUtilisteur(int idUser) {
-        List<Integer> idArticle;
-        // Est_ce qu'il y a une liste d'articles où no_utilisateur=idUser ?
-        idArticle = selectByIdUtilisateur(idUser);
+    public void changeIdUtilisteur(int idUser) throws DALException {
+        final int userDeleted = -1;
 
-        // TODO 2. écrire méthode pour chaque id, update no_utlisateur = -1
-
-
+        try (
+                Connection cnx = ConnectionProvider.getConnection();
+                PreparedStatement pstt = cnx.prepareStatement(UPDATE_ID_USER);
+        ) {
+            /*"UPDATE ENCHERES SET no_utilisateur = ? WHERE no_utilisateur=?;"*/
+            pstt.setInt(1, userDeleted);
+            pstt.setInt(2,idUser);
+            pstt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DALException("Cet utilisateur n'a pas vendu d'articles.");
+        }
     }
 
 }

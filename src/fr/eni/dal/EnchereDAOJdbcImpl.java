@@ -11,12 +11,11 @@ import java.util.List;
 public class EnchereDAOJdbcImpl implements EnchereDAO {
     public static final String INSERT_ENCHERE = "INSERT INTO ENCHERES VALUES (?,?,?,?);";
     public static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET montant_enchere = ?, date_enchere=? WHERE no_utilisateur=? AND no_article=?;";
-    public static final String UPDATE_ID_USER = "UPDATE ENCHERES SET no_utilisateur=? WHERE no_utilisateur=?;";
+    private static final String UPDATE_ID_USER = "UPDATE ENCHERES SET no_utilisateur=? WHERE no_utilisateur=?;";
     public static final String SELECT_ALL_BY_ARTICLE_UTILISATEUR = "SELECT * FROM ENCHERES e WHERE e.no_utilisateur=? AND e.no_article=? ";
     //  public static final String SELECT_MONTANT_ENCHERE_MAX_BY_ARTICLE = "SELECT MAX(e.montant_enchere) as montant FROM ENCHERES e WHERE e.no_article=?;";
     public static final String SELECT_ALL_BY_ARTICLE = "SELECT * FROM ENCHERES e WHERE e.no_article=? ORDER BY e.montant_enchere DESC;";
     public static final String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?;";
-    private static final String SELECT_BY_ID_UTILISATEUR = "select no_utilisateur, no_article, date_enchere, montant_enchere from ENCHERES WHERE no_utilisateur=?;";
 
     @Override
     public Enchere insertEnchere(Enchere enchere) throws DALException {
@@ -137,7 +136,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
             pstt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DALException("Erreur lors de la recherche d'article par utilisateur");
+            throw new DALException("Cet utilisateur n'a pas fait d'enchères.");
         }
 
     }
