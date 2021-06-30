@@ -25,22 +25,28 @@ public class ProfilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int idProfil=9;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("utilisateur") == null) {
+            response.sendRedirect(request.getContextPath()+"/accueil");
+        } else {
 
-        //on récupère un id profil depuis header.jsp s'il existe
-        if(!(request.getParameter("id_profil") == null)) {
-            idProfil = Integer.parseInt(request.getParameter("id_profil"));
-        }
-        Utilisateur user = null;
-        try {
-            user = utilisateurManager.afficherProfil(idProfil);
-        } catch (BLLException e) {
-            e.printStackTrace();
-        }
+            int idProfil = 9;
 
-        // Redirection vers JSP
-        request.setAttribute("userprofil", user);
-        request.getRequestDispatcher("WEB-INF/jsp/profil.jsp").forward(request,response);
+            //on récupère un id profil depuis header.jsp s'il existe
+            if (!(request.getParameter("id_profil") == null)) {
+                idProfil = Integer.parseInt(request.getParameter("id_profil"));
+            }
+            Utilisateur user = null;
+            try {
+                user = utilisateurManager.afficherProfil(idProfil);
+            } catch (BLLException e) {
+                e.printStackTrace();
+            }
+
+            // Redirection vers JSP
+            request.setAttribute("userprofil", user);
+            request.getRequestDispatcher("WEB-INF/jsp/profil.jsp").forward(request, response);
+        }
 
     }
 

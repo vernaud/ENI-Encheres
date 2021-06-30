@@ -43,12 +43,12 @@ public class VendreArticleServlet extends HttpServlet {
         } else {
             try {
                 req.setAttribute("liste_categories", categorieManager.selectAll());
+                req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
             } catch (DALException e) {
                 e.printStackTrace();
             }
         }
 
-        req.getRequestDispatcher("WEB-INF/jsp/vendreArticle.jsp").forward(req, resp);
     }
 
 
