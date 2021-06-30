@@ -16,7 +16,7 @@
         <p>${message}</p
         <label for="id"></label>
         <input type="text" id="id" name="id" value="${utilisateur.getNoUtilisateur()}" hidden>
-        <form action="${pageContext.request.contextPath}/accueil" method="post">
+        <form action="${pageContext.request.contextPath}/accueil" method="get">
             <fieldset>
                 <legend>Filtres</legend>
                 <input type="text" name="nomArticle" id="nomArticle" placeholder="Le nom de l'article contient"
@@ -37,7 +37,7 @@
                     <div>
                         <div>
                             <div>
-                                <input type="radio" value="achat" name="radio" id="radioAchat" onchange="this.form.submit()"  <c:if test="${radio == \"achat\"}">checked </c:if>>
+                                <input type="radio" value="achat" name="radio" id="radioAchat" onchange="this.form.submit()"  <c:if test="${radio == \"achat\"}">checked</c:if>>
                                 <label for="radioAchat">Achat</label>
                                 <div>
                                     <input type="checkbox" value="ouvertes" id="CheckBoxEnchereOuverte"

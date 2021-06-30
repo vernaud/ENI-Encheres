@@ -19,12 +19,7 @@ public class InscriptionServlet extends HttpServlet {
     private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        if (session.getAttribute("utilisateur") == null) {
-            response.sendRedirect(request.getContextPath()+"/accueil");
-        } else {
             request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
-        }
 
     }
 
