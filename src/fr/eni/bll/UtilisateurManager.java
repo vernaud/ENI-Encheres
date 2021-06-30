@@ -1,20 +1,18 @@
 package fr.eni.bll;
 
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.DALException;
-import fr.eni.dal.DAOFactory;
-import fr.eni.dal.EnchereDAO;
-import fr.eni.dal.UtilisateurDAO;
+import fr.eni.dal.*;
 
 public class UtilisateurManager {
 
     UtilisateurDAO utilisateurDAO;
     EnchereDAO enchereDAO;
+    ArticleVenduDAO articleDAO;
 
     public UtilisateurManager(){
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
         enchereDAO = DAOFactory.getEnchereDAO();
-
+        articleDAO = DAOFactory.getArticleVenduDAO();
     }
 
     public void inscrireUtilisateur(Utilisateur utilisateur) throws BLLException {
@@ -149,6 +147,8 @@ public class UtilisateurManager {
                 // select from ARTICLES_VENDUS where no_utilisateur = id
                 // resulset.next()
                 // -> faire update no_utilisateur = -1
+                articleDAO.changeIdUtilisteur(id);
+
 
             // 3. delete utilisateur
                 utilisateurDAO.deleteProfil(id);
