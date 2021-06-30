@@ -147,11 +147,11 @@ public class UtilisateurManager {
                 // select from ARTICLES_VENDUS where no_utilisateur = id
                 // resulset.next()
                 // -> faire update no_utilisateur = -1
-                articleDAO.changeIdUtilisteur(id);
+//                articleDAO.changeIdUtilisteur(id);
 
 
             // 3. delete utilisateur
-                utilisateurDAO.deleteProfil(id);
+//                utilisateurDAO.deleteProfil(id);
 
         } catch (DALException e) {
             e.printStackTrace();
