@@ -13,7 +13,9 @@ import java.util.regex.Pattern;
 
 @WebServlet("/inscription")
 public class InscriptionServlet extends HttpServlet {
-    private static Pattern nomPattern = Pattern.compile("\\p{L}*(-\\p{L}*)*");
+//    private static Pattern nomPattern = Pattern.compile("\\p{L}*(-\\p{L}*)*");
+    private static Pattern nomPattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(-[A-Za-z-âàêèéîôûù]*)*");
+    private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
     private static Pattern mailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static Pattern telPattern = Pattern.compile("^(\\d{2}[- .]?){5}$");
     private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
@@ -43,6 +45,7 @@ public class InscriptionServlet extends HttpServlet {
             Matcher mailMatcher = mailPattern.matcher(email);
             Matcher telMatcher = telPattern.matcher(tel);
             Matcher cpMatcher = cpPattern.matcher(codepostal);
+            Matcher villeMatcher = villePattern.matcher(ville);
 
             if (!(nomMatcher.matches())) {
                 request.setAttribute("message", "Nom invalide");
@@ -63,6 +66,10 @@ public class InscriptionServlet extends HttpServlet {
             } else if (!(cpMatcher.matches())) {
                 request.setAttribute("message", "Code postal invalide");
                 System.out.println(prenomMatcher.matches());
+                this.doGet(request, response);
+            } else if (!(villeMatcher.matches())) {
+                request.setAttribute("message", "Nom de ville invalide");
+                System.out.println(villeMatcher.matches());
                 this.doGet(request, response);
             }else if (!password.equals(confirmpass)) {
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");
