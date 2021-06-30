@@ -60,15 +60,15 @@
                         <legend>Retrait</legend>
                         <div class="input-group">
                             <label class="input-group-text" for="rue">Rue : </label>
-                            <input class="form-control" type="text" id="rue" name="rue" value="${utilisateur.rue}">
+                            <input class="form-control" type="text" id="rue" name="rue" value="${retrait.rue}">
                         </div>
                         <div class="input-group">
                             <label class="input-group-text" for="code-postal">Code postal : </label>
-                            <input class="form-control" type="text" id="code-postal" name="code-postal" value="${utilisateur.codePostal}">
+                            <input class="form-control" type="text" id="code-postal" name="code-postal" value="${retrait.codePostal}">
                         </div>
                         <div class="input-group">
                             <label class="input-group-text" for="ville">Ville : </label>
-                            <input class="form-control" type="text" id="ville" name="ville" value="${utilisateur.ville}">
+                            <input class="form-control" type="text" id="ville" name="ville" value="${retrait.ville}">
                         </div>
                     </fieldset>
                 </div>

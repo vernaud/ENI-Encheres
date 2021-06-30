@@ -42,16 +42,27 @@ public class VendreArticleServlet extends HttpServlet {
         if (session.getAttribute("utilisateur") == null) {
             resp.sendRedirect(req.getContextPath() + "/accueil");
         } else {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
             try {
+                Retrait retrait = new Retrait();
                 req.setAttribute("liste_categories", categorieManager.selectAll());
                 if (req.getParameter("id") != null) {
                     int idArt = Integer.valueOf(req.getParameter("id"));
                     ArticleVendu article = new ArticleVendu();
-                    Retrait retrait = new Retrait();
                     article = articleVenduManager.selectById(idArt);
                     retrait = articleVenduManager.selectRetrait(idArt);
+                    if (retrait == null) {
+                        retrait.setRue(utilisateur.getRue());
+                        retrait.setCodePostal(utilisateur.getCodePostal());
+                        retrait.setVille(utilisateur.getVille());
+                    }
                     req.setAttribute("article", article);
+                } else {
+                    retrait.setRue(utilisateur.getRue());
+                    retrait.setCodePostal(utilisateur.getCodePostal());
+                    retrait.setVille(utilisateur.getVille());
                 }
+                req.setAttribute("retrait", retrait);
             } catch (BLLException e) {
                 e.printStackTrace();
                 req.setAttribute("message_erreur", "Impossible d'afficher les catégories");
