@@ -15,22 +15,22 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
     public static final String SELECT_ALL_BY_ARTICLE_UTILISATEUR = "SELECT * FROM ENCHERES e WHERE e.no_utilisateur=? AND e.no_article=? ";
     //  public static final String SELECT_MONTANT_ENCHERE_MAX_BY_ARTICLE = "SELECT MAX(e.montant_enchere) as montant FROM ENCHERES e WHERE e.no_article=?;";
     public static final String SELECT_ALL_BY_ARTICLE = "SELECT * FROM ENCHERES e WHERE e.no_article=? ORDER BY e.montant_enchere DESC;";
-
+    public static final String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?;";
 
     @Override
     public Enchere insertEnchere(Enchere enchere) throws DALException {
         try (Connection cnx = ConnectionProvider.getConnection();
              PreparedStatement pstt1 = cnx.prepareStatement(SELECT_ALL_BY_ARTICLE_UTILISATEUR);
-        PreparedStatement pstt2=cnx.prepareStatement(INSERT_ENCHERE);
-             PreparedStatement pstt3=cnx.prepareStatement(UPDATE_ENCHERE)){
+             PreparedStatement pstt2 = cnx.prepareStatement(INSERT_ENCHERE);
+             PreparedStatement pstt3 = cnx.prepareStatement(UPDATE_ENCHERE)) {
 
             pstt1.setInt(1, enchere.getUtilisateur().getNoUtilisateur());
             pstt1.setInt(2, enchere.getArticleVendu().getNoArticle());
 
             ResultSet rs = pstt1.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 pstt3.setInt(1, enchere.getMontantEnchere());
-                pstt3.setDate(2,java.sql.Date.valueOf(enchere.getDateEnchere()));
+                pstt3.setDate(2, java.sql.Date.valueOf(enchere.getDateEnchere()));
                 pstt3.setInt(3, enchere.getUtilisateur().getNoUtilisateur());
                 pstt3.setInt(4, enchere.getArticleVendu().getNoArticle());
                 pstt3.executeUpdate();
@@ -43,7 +43,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
                 ArticleVenduDAO avDAO = DAOFactory.getArticleVenduDAO();
                 UtilisateurDAO uDAO = DAOFactory.getUtilisateurDAO();
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new DALException("Erreur insert enchere");
         }
@@ -82,5 +82,43 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
         }
 
         return listeEnchere;
+    }
+
+    @Override
+    public void debiterUtilisateur(Utilisateur utilisateur, Enchere enchere) throws DALException {
+        // Crédit actuel de l'utilisateur :
+        int credit = utilisateur.getCredit();
+        int montantADebiter = enchere.getMontantEnchere();
+        if (credit < montantADebiter) {
+            throw new DALException("Credit insuffisant");
+        } else {
+            credit = credit - montantADebiter;
+            try (Connection cnx = ConnectionProvider.getConnection();
+                 PreparedStatement pstt = cnx.prepareStatement(UPDATE_CREDIT)) {
+                pstt.setInt(1, credit);
+                pstt.setInt(2, utilisateur.getNoUtilisateur());
+                pstt.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                throw new DALException("problème update credit utilisateur");
+            }
+        }
+    }
+
+    @Override
+    public void crediterUtilisateur(Enchere enchere) throws DALException {
+        // Crédit actuel de l'utilisateur :
+        int credit = enchere.getUtilisateur().getCredit();
+        int montantACrediter = enchere.getMontantEnchere();
+        credit = credit + montantACrediter;
+        try (Connection cnx = ConnectionProvider.getConnection();
+             PreparedStatement pstt = cnx.prepareStatement(UPDATE_CREDIT)) {
+            pstt.setInt(1, credit);
+            pstt.setInt(2, enchere.getUtilisateur().getNoUtilisateur());
+            pstt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALException("problème update credit utilisateur");
+        }
     }
 }

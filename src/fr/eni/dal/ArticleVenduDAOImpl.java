@@ -15,23 +15,36 @@ import java.util.List;
 
 
 public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
-    public static final String INSERT_ARTICLE_VENDU = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, " +
+
+    private static final String INSERT_ARTICLE_VENDU = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, " +
             "prix_initial, prix_vente, no_utilisateur, no_categorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
-    public static final String SELECT_ALL = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
+    private static final String SELECT_ALL = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
             "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
-            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= GETDATE();";
+            "FROM ARTICLES_VENDUS a ;"; // modifier
 
-    public static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
+    private static final String SELECT_ALL_ENCHERES_OUVERTES = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
+            "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
+            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= GETDATE();"; // modifier
 
-    public static final String SELECT_ARTICLES_BY_NAME_AND_CATEGORY = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ?";
+    private static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
+
+    private static final String SELECT_ENCHERES_OUVERTES_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? AND date_fin_encheres >= GETDATE();";
+
+    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_TOUTES_CATEGORIES = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND date_fin_encheres >= GETDATE();"; // TO DO
+
+    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_ET_CATEGORIE_SELECTIONNEE = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ? AND date_fin_encheres >= GETDATE();";
+
+    private static final String SELECT_ARTICLES_BY_NAME_AND_CATEGORY = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ?";
     // SELECT * FROM mytable WHERE column1 LIKE '%word1%'
 
-    public static final String SELECT_ARTICLE_BY_NON_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur != ? ;";
+    private static final String SELECT_ARTICLE_BY_NON_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur != ? ;";
+
     private static final String SELECT_ARTICLE_BY_ID_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? ;";
+
     private static final String INSERT_ADRESSE_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (?,?,?,?);";
 
-    public static final String SELECT_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, " +
+    private static final String SELECT_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, " +
             "date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie\n" +
             "FROM ARTICLES_VENDUS A\n" +
             "WHERE A.no_article = ?;";
@@ -75,15 +88,12 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
     @Override
     public List<ArticleVendu> selectAll() throws DALException {
         List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
-        ;
-
 
         try (
                 Connection connection = ConnectionProvider.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(SELECT_ALL);
         ) {
-
             while (rs.next()) {
                 ArticleVendu article = new ArticleVendu();
                    /* Rappel :
@@ -121,7 +131,52 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
     }
 
     @Override
-    public List<ArticleVendu> selectByCategorieId(Integer idCategorie) throws DALException {
+    public List<ArticleVendu> selectAllEncheresOuvertes() throws DALException {
+        List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
+
+        try (
+                Connection connection = ConnectionProvider.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(SELECT_ALL_ENCHERES_OUVERTES);
+        ) {
+            while (rs.next()) {
+                ArticleVendu article = new ArticleVendu();
+                   /* Rappel :
+                    ArticleVendu :
+                    int noArticle; String nomArticle; String description; LocalDate dateDebutEncheres; LocalDate dateFinEncheres;
+                    int prixInitial; int prixVente; Utilisateur utilisateur; Categorie categorie;
+                    */
+
+                article.setNoArticle(rs.getInt(1));
+                article.setNomArticle(rs.getString(2));
+                article.setDescription(rs.getString(3));
+                article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+                article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+                article.setPrixInitial(rs.getInt(6));
+                article.setPrixVente(rs.getInt(7));
+
+                UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur = utilisateurDAO.selectById(rs.getInt(8));
+                article.setUtilisateur(utilisateur);
+
+                CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
+                Categorie cat = new Categorie();
+                cat = categorieDAO.selectById(rs.getInt(9));
+                article.setCategorie(cat);
+
+                listeArticlesVendus.add(article);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new DALException("Erreur à la sélection des articles vendus.");
+        }
+
+        return listeArticlesVendus;
+    }
+
+    @Override
+    public List<ArticleVendu> selectByCategorieId(int idCategorie) throws DALException {
         List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
         try (
                 Connection cnx = ConnectionProvider.getConnection();
@@ -166,6 +221,142 @@ public class  ArticleVenduDAOImpl implements ArticleVenduDAO {
         }
 
         return listeArticlesVendus;
+    }
+
+    @Override
+    public List<ArticleVendu> selectEncheresOuvertesParCategorie(int idCategorie) throws DALException {
+
+        List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
+        try (
+                Connection cnx = ConnectionProvider.getConnection();
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_ENCHERES_OUVERTES_BY_ID_CATEGORIE);
+        ) {
+            pstt.setInt(1, idCategorie);
+            ResultSet rs = pstt.executeQuery();
+
+            while (rs.next()) {
+                ArticleVendu article = new ArticleVendu();
+                   /* Rappel :
+                    ArticleVendu :
+                    int noArticle; String nomArticle; String description; LocalDate dateDebutEncheres; LocalDate dateFinEncheres;
+                    int prixInitial; int prixVente; Utilisateur utilisateur; Categorie categorie;
+                    */
+
+                article.setNoArticle(rs.getInt(1));
+                article.setNomArticle(rs.getString(2));
+                article.setDescription(rs.getString(3));
+                article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+                article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+                article.setPrixInitial(rs.getInt(6));
+                article.setPrixVente(rs.getInt(7));
+
+                UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur = utilisateurDAO.selectById(rs.getInt(8));
+                article.setUtilisateur(utilisateur);
+
+                CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
+                Categorie cat = new Categorie();
+                cat = categorieDAO.selectById(rs.getInt(9));
+                article.setCategorie(cat);
+
+                listeArticlesVendus.add(article);
+            }
+            rs.close();
+        } catch (SQLException sqlException){
+            sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la recherche d'article par catégorie");
+        }
+
+        return listeArticlesVendus;
+    }
+
+    @Override
+    public List<ArticleVendu> selectEncheresOuvertesAvecNomArticleContientToutesCategories(String nomArticleRecherche) throws DALException {
+
+        List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
+        try (
+                Connection cnx = ConnectionProvider.getConnection();
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_TOUTES_CATEGORIES);
+        ) {
+            pstt.setString(1, '%' + nomArticleRecherche + '%'); // '%word1%'
+            ResultSet rs = pstt.executeQuery();
+
+            while (rs.next()){
+                ArticleVendu article = new ArticleVendu();
+                article.setNoArticle(rs.getInt(1));
+                article.setNomArticle(rs.getString(2));
+                article.setDescription(rs.getString(3));
+                article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+                article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+                article.setPrixInitial(rs.getInt(6));
+                article.setPrixVente(rs.getInt(7));
+
+                UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur = utilisateurDAO.selectById(rs.getInt(8));
+                article.setUtilisateur(utilisateur);
+
+                CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
+                Categorie cat = new Categorie();
+                cat = categorieDAO.selectById(rs.getInt(9));
+                article.setCategorie(cat);
+
+                listeArticlesVendus.add(article);
+            }
+            rs.close();
+        } catch (SQLException | DALException sqlException){
+            sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la recherche d'article par nom.");
+        }
+
+        return listeArticlesVendus;
+
+    }
+
+    @Override
+    public List<ArticleVendu> selectEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws DALException {
+
+        List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
+        try (
+                Connection cnx = ConnectionProvider.getConnection();
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_ET_CATEGORIE_SELECTIONNEE);
+                // rappel : "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ? AND date_fin_encheres >= GETDATE();"
+        ) {
+            pstt.setString(1, '%' + nomArticleRecherche + '%'); // '%word1%'
+            pstt.setInt(2, idCategorieSelect);
+            ResultSet rs = pstt.executeQuery();
+
+            while (rs.next()){
+                ArticleVendu article = new ArticleVendu();
+                article.setNoArticle(rs.getInt(1));
+                article.setNomArticle(rs.getString(2));
+                article.setDescription(rs.getString(3));
+                article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+                article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+                article.setPrixInitial(rs.getInt(6));
+                article.setPrixVente(rs.getInt(7));
+
+                UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO(); // return new UtilisateurDAOJdbcimpl();
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur = utilisateurDAO.selectById(rs.getInt(8));
+                article.setUtilisateur(utilisateur);
+
+                CategorieDAO categorieDAO = DAOFactory.getCategorieDAO(); // return new CategorieDAOImpl();
+                Categorie cat = new Categorie();
+                cat = categorieDAO.selectById(rs.getInt(9));
+                article.setCategorie(cat);
+
+                listeArticlesVendus.add(article);
+            }
+            rs.close();
+        } catch (SQLException | DALException sqlException){
+            sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la recherche d'article par nom et catégorie");
+        }
+
+        return listeArticlesVendus;
+
     }
 
     @Override

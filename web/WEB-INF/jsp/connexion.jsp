@@ -40,9 +40,9 @@
                     </div>--%>
                     <p>Les champs* sont obligatoires.</p>
                 </form>
-                <form action="inscription" method="get" class="row">
-                    <input type="submit" value="Créer un compte" class="btn btn-secondary" >
-                </form>
+
+                <%--Lien vers inscription--%>
+                <a href="${pageContext.request.contextPath}/inscription"><input type="button" value="Créer un compte" class="btn btn-lg btn-secondary" ></a>
             </main>
             <div class="col"></div>
         </div>

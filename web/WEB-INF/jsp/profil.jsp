@@ -18,6 +18,8 @@
             <main class="">
                 <h1>Mon Profil</h1>
                 <article>
+                    <% Boolean connecte = (Boolean) request.getSession().getAttribute("connecte");%>
+                    <% Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");%>
                     <ul>
                         <li>Pseudo : ${userprofil.pseudo}</li>
                         <li>Nom : ${userprofil.nom}</li>
@@ -27,10 +29,11 @@
                         <li>Rue : ${userprofil.rue}</li>
                         <li>Code postal : ${userprofil.codePostal}</li>
                         <li>Ville : ${userprofil.ville}</li>
+                        <c:if test="${userprofil.noUtilisateur == utilisateur.noUtilisateur}">
+                            <li>Crédit : ${utilisateur.credit} points</li>
+                        </c:if>
                     </ul>
                 </article>
-                <% Boolean connecte = (Boolean) request.getSession().getAttribute("connecte");%>
-                <% Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");%>
                 <c:if test="${!(userprofil.noUtilisateur == utilisateur.noUtilisateur)}">
 
                 </c:if>

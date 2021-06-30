@@ -23,10 +23,9 @@
                        value="${nomArticle}">
                 <label for="ListeCategories">Catégorie</label>
                 <select name="ListeCategories" id="ListeCategories">
-                    <option value="0"></option>
-                    <option value="0">Toutes</option>
+                    <option value="0" <c:if test="${ListeCategories == 0}"> selected </c:if>>Toutes</option>
                     <c:forEach items="${listeCategories}" var="cat">
-                        <option value="${cat.noCategorie}">${cat.libelle}</option>
+                        <option value="${cat.noCategorie}" <c:if test="${ListeCategories == cat.noCategorie}"> selected </c:if>>${cat.libelle}</option>
                         <%--                    <c:if test="${cat.noCategorie == ListeCategories}"> selected </c:if>--%>
                     </c:forEach>
                 </select>
@@ -37,21 +36,21 @@
                     <div>
                         <div>
                             <div>
-                                <input type="radio" value="achat" name="radio" id="radioAchat" onchange="this.form.submit()"  <c:if test="${radio == \"achat\"}">checked </c:if>>
+                                <input type="radio" value="achat" name="radio" id="radioAchat" onchange="this.form.submit()"  <c:if test="${radio == \"achat\"}">checked</c:if>>
                                 <label for="radioAchat">Achat</label>
                                 <div>
                                     <input type="checkbox" value="ouvertes" id="CheckBoxEnchereOuverte"
-                                           name="CheckBoxEnchereOuverte" <c:if test="${radio == \"mesVentes\"}">disabled </c:if>>
+                                           name="CheckBoxEnchereOuverte" <c:if test="${radio == \"mesVentes\"}">disabled </c:if> <c:if test="${CheckBoxEnchereOuverte != null}">checked </c:if>>
                                     <label for="CheckBoxEnchereOuverte">enchères ouvertes</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" value="En cours" id="CheckBoxEnchereEnCours"
-                                           name="CheckBoxEnchereEnCours" <c:if test="${radio == \"mesVentes\"}">disabled </c:if>>
+                                           name="CheckBoxEnchereEnCours" <c:if test="${radio == \"mesVentes\"}">disabled </c:if> <c:if test="${CheckBoxEnchereEnCours != null}">checked </c:if>>
                                     <label for="CheckBoxEnchereEnCours">enchères en cours</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" value="remportees" id="checkBoxEnchereRemportees"
-                                           name="checkBoxEnchereRemportes" <c:if test="${radio == \"mesVentes\"}">disabled </c:if>>
+                                           name="checkBoxEnchereRemportes" <c:if test="${radio == \"mesVentes\"}">disabled </c:if> <c:if test="${checkBoxEnchereRemportees != null}">checked </c:if>>
                                     <label for="checkBoxEnchereRemportees">enchères remportées</label>
                                 </div>
                             </div>
@@ -64,17 +63,17 @@
 
                                 <div>
                                     <input type="checkbox" id="CheckBoxVentesEnCours"
-                                           name="CheckBoxVentesEnCours" <c:if test="${radio == \"achat\"}">disabled </c:if>>
+                                           name="CheckBoxVentesEnCours" <c:if test="${radio == \"achat\"}">disabled </c:if> <c:if test="${CheckBoxVentesEnCours != null}">checked </c:if>>
                                     <label for="CheckBoxVentesEnCours">mes ventes en cours</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" value="ventesNonDebutees" id="CheckeBoxVentesNonDebutees"
-                                           name="CheckeBoxVentesNonDebutees" <c:if test="${radio == \"achat\"}">disabled </c:if>>
+                                           name="CheckeBoxVentesNonDebutees" <c:if test="${radio == \"achat\"}">disabled </c:if><c:if test="${CheckeBoxVentesNonDebutees != null}">checked </c:if>>
                                     <label for="CheckeBoxVentesNonDebutees">ventes non débutées</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" value="terminees" id="CheckeBoxVentesTerminees"
-                                           name="CheckeBoxVentesTerminees" <c:if test="${radio == \"achat\"}">disabled </c:if>>
+                                           name="CheckeBoxVentesTerminees" <c:if test="${radio == \"achat\"}">disabled </c:if> <c:if test="${CheckeBoxVentesTerminees != null}">checked </c:if>>
                                     <label for="CheckeBoxVentesTerminees">ventes terminées</label>
                                 </div>
                             </div>
