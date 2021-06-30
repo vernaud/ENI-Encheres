@@ -23,6 +23,7 @@ public class AccueilServlet extends HttpServlet {
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
         //TODO Corriger le bug des boutons radio qui ne restent pas cocher
         String selecteur = request.getParameter("radio");
+
         int idUtilisateur;
         if (request.getSession().getAttribute("utilisateur") != null) {
             Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
@@ -35,7 +36,12 @@ public class AccueilServlet extends HttpServlet {
         List<ArticleVendu> articleVenduList = null;
         List<ArticleVendu> listeAAfficher = new ArrayList<>();
         List<ArticleVendu> listeprovisoire = new ArrayList<>();
+
         request.setAttribute("radio", request.getParameter("radio"));
+        if(request.getParameter("nomArticle") != null) {
+            request.setAttribute("nomArticle", request.getParameter("nomArticle"));
+        }
+        request.setAttribute("ListeCategories", request.getParameter("ListeCategories"));
         request.setAttribute("CheckBoxEnchereOuverte", request.getParameter("CheckBoxEnchereOuverte"));
         request.setAttribute("CheckBoxEnchereEnCours", request.getParameter("CheckBoxEnchereEnCours"));
         request.setAttribute("checkBoxEnchereRemportees", request.getParameter("checkBoxEnchereRemportees"));

@@ -23,10 +23,9 @@
                        value="${nomArticle}">
                 <label for="ListeCategories">Catégorie</label>
                 <select name="ListeCategories" id="ListeCategories">
-                    <option value="0"></option>
-                    <option value="0">Toutes</option>
+                    <option value="0" <c:if test="${ListeCategories == 0}"> selected </c:if>>Toutes</option>
                     <c:forEach items="${listeCategories}" var="cat">
-                        <option value="${cat.noCategorie}">${cat.libelle}</option>
+                        <option value="${cat.noCategorie}" <c:if test="${ListeCategories == cat.noCategorie}"> selected </c:if>>${cat.libelle}</option>
                         <%--                    <c:if test="${cat.noCategorie == ListeCategories}"> selected </c:if>--%>
                     </c:forEach>
                 </select>
