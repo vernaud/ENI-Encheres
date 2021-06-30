@@ -76,39 +76,7 @@ public class MajProfilServlet extends HttpServlet {
                 String oldpassword = req.getParameter("oldpassword");
                 String newpassword = req.getParameter("newpassword");
                 String confirmpass = req.getParameter("confirmpass");
-                //Vérification du format du nom
-                Matcher nomMatcher = nomPattern.matcher(nom);
-                Matcher prenomMatcher = nomPattern.matcher(prenom);
-                Matcher mailMatcher = mailPattern.matcher(email);
-                Matcher telMatcher = telPattern.matcher(tel);
-                Matcher cpMatcher = cpPattern.matcher(codepostal);
-                Matcher villeMatcher = villePattern.matcher(ville);
-
-                if (!(nomMatcher.matches())) {
-                    req.setAttribute("message", "Nom invalide");
-                    System.out.println(nomMatcher.matches());
-                    this.doGet(req, resp);
-                } else if (!(prenomMatcher.matches())) {
-                    req.setAttribute("message", "Prenom invalide");
-                    System.out.println(prenomMatcher.matches());
-                    this.doGet(req, resp);
-                } else if (!(mailMatcher.matches())) {
-                    req.setAttribute("message", "Adresse mail invalide");
-                    System.out.println(prenomMatcher.matches());
-                    this.doGet(req, resp);
-                } else if (!(telMatcher.matches())) {
-                    req.setAttribute("message", "Numéro de teléphone invalide");
-                    System.out.println(prenomMatcher.matches());
-                    this.doGet(req, resp);
-                } else if (!(cpMatcher.matches())) {
-                    req.setAttribute("message", "Code postal invalide");
-                    System.out.println(prenomMatcher.matches());
-                    this.doGet(req, resp);
-                } else if (!(villeMatcher.matches())) {
-                    req.setAttribute("message", "Nom de ville invalide");
-                    System.out.println(villeMatcher.matches());
-                    this.doGet(req, resp);
-                } else if (!(oldpassword.equals(utilisateur.getMotDePasse()))) {
+                if (!(oldpassword.equals(utilisateur.getMotDePasse()))) {
                     req.setAttribute("message", "le mot de passe actuel est incorrect.");
                     this.doGet(req, resp);
                 } else if (confirmpass.equals(newpassword)) {

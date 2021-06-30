@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 @WebServlet("/vendreArticle")
 public class VendreArticleServlet extends HttpServlet {
 
-    private static Pattern prixPattern = Pattern.compile("(\\d*[ ]?)*");
 
     private CategorieManager categorieManager;
     private ArticleVenduManager articleVenduManager;
