@@ -12,8 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.StringBuffer;
 import java.lang.System;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ArticleVenduManager {
+    private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
+    private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
+    private static Pattern prixPattern = Pattern.compile("(\\d*[ ]?)*");
+
 
     ArticleVenduDAO articleVenduDAO;
 
@@ -26,6 +32,7 @@ public class ArticleVenduManager {
         boolean erreur_saisie = false;
         StringBuffer sb = new StringBuffer();
         int idArticle = 0;
+        Matcher prixMatcher = prixPattern.matcher(String.valueOf(articleVendu.getPrixInitial()));
 
 
         try {
@@ -48,8 +55,8 @@ public class ArticleVenduManager {
                 sb.append("La date de début des enchères doit être inférieure ou égale à la date de fin. <br/>");
                 //sb.append(Character.LINE_SEPARATOR);
                 erreur_saisie = true;
-            } else if (articleVendu.getPrixInitial() < 0) {
-                sb.append("Le prix initial ne peut pas être négatif.");
+            } else if (articleVendu.getPrixInitial() < 0 || !prixMatcher.matches()) {
+                sb.append("La mise à prix est invalide, veuillez saisir un nombre positif");
                 erreur_saisie = true;
             } else {
 
@@ -236,9 +243,19 @@ public class ArticleVenduManager {
         return listeEnchereTerminees;
     }
 
-    public void insertAdresseRetrait(int idArticle, Retrait adresse) {
+    public void insertAdresseRetrait(int idArticle, Retrait adresse) throws BLLException {
+        Matcher cpMatcher = cpPattern.matcher(adresse.getCodePostal());
+        Matcher villeMatcher = villePattern.matcher(adresse.getVille());
         try {
-            articleVenduDAO.insertAdresseRetrait(idArticle, adresse);
+            if(adresse.getRue().isEmpty()){
+                throw new BLLException("Nom invalide");
+            } else if (adresse.getCodePostal().isEmpty() || !cpMatcher.matches()){
+                throw new BLLException("Code Postal invalide");
+            } else if (adresse.getVille().isEmpty() || !villeMatcher.matches()){
+                throw new BLLException("Nom de ville invalide");
+            } else {
+                articleVenduDAO.insertAdresseRetrait(idArticle, adresse);
+            }
         } catch (DALException e) {
             e.printStackTrace();
         }
@@ -271,6 +288,7 @@ public class ArticleVenduManager {
         int idArticleAModifier = articleAModifier.getNoArticle();
         boolean erreur_saisie = false;
         StringBuffer sb = new StringBuffer();
+        Matcher prixMatcher = prixPattern.matcher(String.valueOf(articleVendu.getPrixInitial()));
         try {
             if (articleVendu.getNomArticle().trim().isEmpty()) {
                 sb.append("Le nom de l'article est obligatoire. <br/>");
@@ -291,8 +309,8 @@ public class ArticleVenduManager {
                 sb.append("La date de début des enchères doit être inférieure ou égale à la date de fin. <br/>");
                 //sb.append(Character.LINE_SEPARATOR);
                 erreur_saisie = true;
-            } else if (articleVendu.getPrixInitial() < 0) {
-                sb.append("Le prix initial ne peut pas être négatif.");
+            } else if (articleVendu.getPrixInitial() < 0 || !prixMatcher.matches()) {
+                sb.append("La mise à prix est invalide, veuillez saisir un nombre positif");
                 erreur_saisie = true;
             } else {
                 articleVenduDAO.updateArticle(idArticleAModifier, articleVendu);
@@ -309,8 +327,18 @@ public class ArticleVenduManager {
     }
 
     public void updateRetrait(int idArt, Retrait adresse) throws BLLException {
+        Matcher cpMatcher = cpPattern.matcher(adresse.getCodePostal());
+        Matcher villeMatcher = villePattern.matcher(adresse.getVille());
         try {
-            articleVenduDAO.updateRetrait(idArt, adresse);
+            if(adresse.getRue().isEmpty()){
+                throw new BLLException("Nom invalide");
+            } else if (adresse.getCodePostal().isEmpty() || !cpMatcher.matches()){
+                throw new BLLException("Code Postal invalide");
+            } else if (adresse.getVille().isEmpty() || !villeMatcher.matches()){
+                throw new BLLException("Nom de ville invalide");
+            } else {
+                articleVenduDAO.updateRetrait(idArt, adresse);
+            }
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("Erreur lors de la mise à jour du retrait");
