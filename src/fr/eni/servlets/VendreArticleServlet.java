@@ -82,7 +82,7 @@ public class VendreArticleServlet extends HttpServlet {
             Categorie categorie = categorieManager.selectById(noCategorie);
             Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
             ArticleVendu articleVendu = new ArticleVendu(nom, description, date_debut_enchere, date_fin_enchere, mise_a_prix, mise_a_prix, utilisateur, categorie);
-
+            Retrait adresse = new Retrait(rue, codePostal, ville);
             String idSrting = req.getParameter("id");
             if (req.getParameter("id").isEmpty()) {
                 // Insertion en base de l'article
@@ -94,7 +94,6 @@ public class VendreArticleServlet extends HttpServlet {
                 }
 
                 // Insertion de l'adresse de Retrait en base
-                Retrait adresse = new Retrait(rue, codePostal, ville);
                 articleVenduManager.insertAdresseRetrait(idArticle, adresse);
 
 
@@ -104,6 +103,7 @@ public class VendreArticleServlet extends HttpServlet {
                 int idArt = Integer.parseInt(req.getParameter("id"));
                 ArticleVendu articleAModifier = articleVenduManager.selectById(idArt);
                 articleVenduManager.modifierArticle(articleAModifier, articleVendu);
+                articleVenduManager.updateRetrait(idArt, adresse);
 //                req.setAttribute("categorie_article", articleAModifier.getCategorie().getNoCategorie());
             }
             resp.sendRedirect(req.getContextPath() + "/accueil");

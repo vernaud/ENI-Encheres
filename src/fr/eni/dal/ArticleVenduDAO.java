@@ -25,4 +25,6 @@ public interface ArticleVenduDAO {
     Retrait selectRetrait(int idArt) throws DALException;
 
     void updateArticle(int idArticleAModifier, ArticleVendu articleVendu) throws DALException;
+
+    void updateRetrait(int idArt, Retrait adresse) throws DALException;
 }

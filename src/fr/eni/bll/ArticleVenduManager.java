@@ -307,4 +307,13 @@ public class ArticleVenduManager {
         }
 
     }
+
+    public void updateRetrait(int idArt, Retrait adresse) throws BLLException {
+        try {
+            articleVenduDAO.updateRetrait(idArt, adresse);
+        } catch (DALException e) {
+            throw new BLLException("Erreur lors de la mise à jour du retrait");
+            e.printStackTrace();
+        }
+    }
 }

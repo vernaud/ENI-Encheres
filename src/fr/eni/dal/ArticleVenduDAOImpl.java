@@ -55,6 +55,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     private static final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_categorie=? WHERE no_article=?;";
 
+    private static final String UPDATE_RETRAIT = "UPDATE RETRAITS SET rue=?, code_postal=?, ville=? WHERE no_article=?;";
+
+
     @Override
     public int insert(ArticleVendu articleVendu) throws DALException {
         try (
@@ -611,5 +614,25 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la MAJ du profil");
         }
+    }
+
+    @Override
+    public void updateRetrait(int idArt, Retrait adresse) throws DALException {
+//        private static final String UPDATE_RETRAIT = "UPDATE RETRAITS SET rue=?, code_postal=?, ville=? WHERE no_article=?;";
+        try (
+                Connection connection = ConnectionProvider.getConnection();
+                PreparedStatement pStmt = connection.prepareStatement(UPDATE_RETRAIT);
+        ) {
+            pStmt.setString(1, adresse.getRue());
+            pStmt.setString(2, adresse.getCodePostal());
+            pStmt.setString(3, adresse.getVille());
+            pStmt.setInt(4, idArt);
+
+            pStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DALException("Problème à l'insertion de l'adresse de retrait en base de données.");
+        }
+
     }
 }
