@@ -130,11 +130,24 @@ public class UtilisateurManager {
         try {
             Utilisateur userToDel = utilisateurDAO.selectById(id);
             if (mdp.trim().isEmpty() || !(userToDel.getMotDePasse().equals(mdp)) ){
-                System.out.println("Saisie : " + mdp);
-                System.out.println("PassW DataB : " + userToDel.getMotDePasse() );
+                /*System.out.println("Saisie : " + mdp);
+                System.out.println("PassW DataB : " + userToDel.getMotDePasse() );*/
                 throw new BLLException("Erreur de saisie du mot de passe actuel!");
             }
+
+            // TODO 1. à fait des enchères ?
+                // select from ENCHERES where no_utilisateur = id
+                // resulset.next()
+                // -> faire update no_utilisateur = -1
+
+            // TODO 2. à vendu des articles ?
+                // select from ARTICLES_VENDUS where no_utilisateur = id
+                // resulset.next()
+                // -> faire update no_utilisateur = -1
+
+            // 3. delete utilisateur
             utilisateurDAO.deleteProfil(id);
+
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("BLL - La suppression a échoué");
