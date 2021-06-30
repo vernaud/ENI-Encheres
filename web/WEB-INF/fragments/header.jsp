@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="row">
     <div id="logo" class="col">
-        <%--<a href="${pageContext.request.contextPath}/accueil"></a>--%>
-            ENI-Encheres
+        <a href="${pageContext.request.contextPath}/accueil">ENI-Enchères</a>
     </div>
     <% Boolean connecte = (Boolean) request.getSession().getAttribute("connecte");%>
     <% Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");%>
