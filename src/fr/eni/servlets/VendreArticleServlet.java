@@ -83,6 +83,10 @@ public class VendreArticleServlet extends HttpServlet {
                 // Insertion en base de l'article
                 int idArticle = articleVenduManager.ajouterArticleVendu(articleVendu);
                 System.out.println("Retour de l'insertion de l'article n° " + idArticle);
+                if(idArticle == 0) {
+                    req.setAttribute("message_erreur", "L'article n'a pas pu être ajouté");
+                    doGet(req, resp);
+                }
 
                 // Insertion de l'adresse de Retrait en base
                 Retrait adresse = new Retrait(rue, codePostal, ville);

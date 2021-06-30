@@ -25,7 +25,7 @@ public class ArticleVenduManager {
         // StringBuffer	append(String str) : Ajoute la chaîne spécifiée à cette séquence de caractères
          boolean erreur_saisie = false;
         StringBuffer sb = new StringBuffer();
-        int idArticle;
+        int idArticle = 0;
 
 
         try {
@@ -57,13 +57,13 @@ public class ArticleVenduManager {
             if (articleVendu.getPrixInitial() < 0) {
                 sb.append("Le prix initial ne peut pas être négatif.");
                 erreur_saisie = true;
+            } else {
+
+                idArticle = articleVenduDAO.insert(articleVendu);
             }
             if (erreur_saisie == true) {
                 throw new BLLException(sb.toString());
             }
-
-            idArticle = articleVenduDAO.insert(articleVendu);
-
         } catch (DALException e) {
             throw new BLLException("L'ajout d'un article à vendre a échoué");
         }
@@ -277,8 +277,44 @@ public class ArticleVenduManager {
     public void modifierArticle(ArticleVendu articleAModifier, ArticleVendu articleVendu) throws BLLException {
 
        int idArticleAModifier = articleAModifier.getNoArticle();
+        boolean erreur_saisie = false;
+        StringBuffer sb = new StringBuffer();
         try {
-            articleVenduDAO.updateArticle(idArticleAModifier, articleVendu);
+            if (articleVendu.getNomArticle().trim().isEmpty()) {
+                sb.append("Le nom de l'article est obligatoire. <br/>");
+                erreur_saisie = true;
+            }
+            if (articleVendu.getNomArticle().trim().length() > 30) {
+                sb.append("Le nom de l'article ne doit pas dépasser 30 caractères. <br/>");
+                erreur_saisie = true;
+            }
+            if (articleVendu.getDescription().trim().isEmpty()) {
+                sb.append("La description est obligatoire. <br/>");
+                erreur_saisie = true;
+            }
+            if (articleVendu.getDescription().trim().length() > 300) {
+                sb.append("La description ne doit pas dépasser 300 caractères. <br/>");
+                erreur_saisie = true;
+            }
+            if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
+                sb.append("La date de début des enchères doit être supérieure ou égale à la date du jour. <br/>");
+                erreur_saisie = true;
+            }
+            if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
+                sb.append("La date de début des enchères doit être inférieure ou égale à la date de fin. <br/>");
+                //sb.append(Character.LINE_SEPARATOR);
+                erreur_saisie = true;
+            }
+            if (articleVendu.getPrixInitial() < 0) {
+                sb.append("Le prix initial ne peut pas être négatif.");
+                erreur_saisie = true;
+            } else {
+                articleVenduDAO.updateArticle(idArticleAModifier, articleVendu);
+            }
+            if (erreur_saisie == true) {
+                throw new BLLException(sb.toString());
+            }
+
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("Erreur lors de la modification de l'article");
