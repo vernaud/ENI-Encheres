@@ -18,9 +18,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @WebServlet("/vendreArticle")
 public class VendreArticleServlet extends HttpServlet {
+    private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
+    private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
 
     private CategorieManager categorieManager;
     private ArticleVenduManager articleVenduManager;
@@ -79,7 +82,7 @@ public class VendreArticleServlet extends HttpServlet {
             Categorie categorie = categorieManager.selectById(noCategorie);
             Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
             ArticleVendu articleVendu = new ArticleVendu(nom, description, date_debut_enchere, date_fin_enchere, mise_a_prix, mise_a_prix, utilisateur, categorie);
-            Retrait retrait = new Retrait();
+
             String idSrting = req.getParameter("id");
             if (req.getParameter("id").isEmpty()) {
                 // Insertion en base de l'article
