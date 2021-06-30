@@ -43,7 +43,7 @@
                     <p>Les champs* sont obligatoires.</p>
                 </form>
                 <form action="inscription" method="get" class="row">
-                    <input type="submit" value="Créer un compte" class="btn btn-lg btn-secondary" >
+                    <input type="submit" value="Créer un compte" class="btn btn-secondary" >
                 </form>
             </main>
             <div class="col"></div>
