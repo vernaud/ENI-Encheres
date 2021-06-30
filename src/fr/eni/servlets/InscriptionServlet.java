@@ -47,6 +47,9 @@ public class InscriptionServlet extends HttpServlet {
             Matcher cpMatcher = cpPattern.matcher(codepostal);
             Matcher villeMatcher = villePattern.matcher(ville);
 
+            //FIXME inscription: pseudo doit être unique + char alphanumérique uniquement
+            //FIXME inscription: email doit être unique
+
             if (!(nomMatcher.matches())) {
                 request.setAttribute("message", "Nom invalide");
                 System.out.println(nomMatcher.matches());
