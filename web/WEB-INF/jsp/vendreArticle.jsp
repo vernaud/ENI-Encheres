@@ -5,13 +5,14 @@
     <head>
         <title>Vendre un article</title>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     </head>
 
     <body>
         <header class="row">
-            <div id="logo">
-                <h1>ENI Enchères</h1>
-            </div>
+            <jsp:include page="/WEB-INF/fragments/header.jsp"/>
         </header>
         <h1>Nouvelle vente</h1>
         <main>
