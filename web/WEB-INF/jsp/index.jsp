@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -81,7 +82,7 @@
                                 <input type="checkbox" value="ventesNonDebutees" id="CheckeBoxVentesNonDebutees"
                                        name="CheckeBoxVentesNonDebutees"
                                        <c:if test="${radio == \"achat\"}">disabled </c:if>
-                                           <c:if test="${CheckeBoxVentesNonDebutees != null}">checked </c:if>>
+                                       <c:if test="${CheckeBoxVentesNonDebutees != null}">checked </c:if>>
                                 <label for="CheckeBoxVentesNonDebutees">ventes non débutées</label>
                             </div>
                             <div>
@@ -106,15 +107,22 @@
                 <article class="card">
                     <img class="card-img-top" src="#" alt="Photo de l'article ${article.nomArticle}">
                     <div class="card-body">
-                        <c:if test="${utilisateur.noUtilisateur != article.getUtilisateur().noUtilisateur || (article.dateDebutEncheres < LocalDate.now()) || (article.dateDebutEncheres >= LocalDate.now())}">
+                        <c:if test="${utilisateur.noUtilisateur != article.getUtilisateur().noUtilisateur}">
                             <h3 class="card-title"><a
                                     href="${pageContext.request.contextPath}/enchere?id=${article.noArticle}">${article.nomArticle}</a>
                             </h3>
                         </c:if>
-                        <c:if test="${utilisateur.noUtilisateur == article.getUtilisateur().noUtilisateur && (article.dateDebutEncheres >= LocalDate.now())}">
+                        <c:if test="${utilisateur.noUtilisateur == article.getUtilisateur().noUtilisateur}">
+                            <c:if test="${article.getDateDebutEncheres().isAfter(LocalDate.now())}">
+                                <h3 class="card-title"><a
+                                        href="${pageContext.request.contextPath}/vendreArticle?id=${article.noArticle}">${article.nomArticle}</a>
+                                </h3>
+                            </c:if>
+                            <c:if test="${article.getDateDebutEncheres().isBefore(LocalDate.now())}">
                             <h3 class="card-title"><a
-                                    href="${pageContext.request.contextPath}/vendreArticle?id=${article.noArticle}">${article.nomArticle}</a>
+                                    href="${pageContext.request.contextPath}/enchere?id=${article.noArticle}">${article.nomArticle}</a>
                             </h3>
+                            </c:if>
                         </c:if>
                         <ul class="card-text">
                             <li>Prix : ${article.prixVente}</li>

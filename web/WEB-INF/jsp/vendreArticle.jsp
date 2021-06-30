@@ -25,7 +25,7 @@
                 <div class="col-8">
                     <div class="input-group">
                         <label class="input-group-text" for="nom_art">Article : </label>
-                        <input type="text" id="id" name="id" value="${article.noArticle}" hidden>
+                        <input type="text" id="id" name="id" value="${article.noArticle}">
                         <input class="form-control" type="text" id="nom_art" name="nom_art" value="${article.nomArticle}" required>
                     </div>
                     <div class="form-floating">

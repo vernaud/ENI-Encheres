@@ -11,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +151,6 @@ public class AccueilServlet extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
         }
         request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
-
     }
 
 
