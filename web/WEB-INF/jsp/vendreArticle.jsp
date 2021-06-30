@@ -18,21 +18,22 @@
         <main>
             <p>${message_erreur}</p>
 
-            <form action="${pageContext.request.contextPath}/vendreArticle" method="post">
+            <form action="${pageContext.request.contextPath}/vendreArticle" method="post" class="row">
                 <div class="col-4">
                     <%--IMAGE DE L'ARTICLE--<img src="" alt="">--%>
+                    <div class="flex" style="height: 18rem; width: auto; background-color: gainsboro"></div>
                 </div>
                 <div class="col-8">
-                    <div class="input-group">
+                    <div class="input-group pb-2">
                         <label class="input-group-text" for="nom_art">Article : </label>
                         <input type="text" id="id" name="id" value="${article.noArticle}" hidden>
                         <input class="form-control" type="text" id="nom_art" name="nom_art" value="${article.nomArticle}" required>
                     </div>
-                    <div class="form-floating">
+                    <div class="form-floating pb-2" style="min-height: 5rem">
                         <label for="description_art" class="floatingTextarea">Description : </label>
                         <textarea name="description_art" class="form-control" id="description_art" cols="30" rows="10" required>${article.description}</textarea>
                     </div>
-                    <div class="form-floating">
+                    <div class="form-floating pb-2">
                         <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="categorie_art">
                             <c:forEach items="${liste_categories}" var="cat">
                                 <option value="${cat.noCategorie}" <c:if test="${article.categorie.noCategorie == cat.noCategorie}"> selected </c:if>>${cat.libelle}</option>
@@ -43,38 +44,39 @@
 
                     <!-- <label for="photo_article">Photo de l'article : </label>bouton "Uploader" -->
 
-                    <div class="input-group">
+                    <div class="input-group pb-2">
                         <label class="input-group-text" for="mise_a_prix_art"> Mise à prix : </label>
                         <input class="form-control" type="number" id="mise_a_prix_art" name="mise_a_prix_art" value="${article.prixInitial}" required>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group pb-2">
                         <label class="input-group-text" for="date_debut_enchere_art"> Début de l'enchère : </label>
                         <input class="form-control" type="date" id="date_debut_enchere_art" name="date_debut_enchere_art" value="${article.dateDebutEncheres}" required>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group pb-2">
                         <label class="input-group-text" for="date_fin_enchere_art"> Fin de l'enchère : </label>
                         <input class="form-control" type="date" id="date_fin_enchere_art" name="date_fin_enchere_art" value="${article.dateFinEncheres}" required>
                     </div>
 
                     <fieldset>
                         <legend>Retrait</legend>
-                        <div class="input-group">
+                        <div class="input-group pb-2">
                             <label class="input-group-text" for="rue">Rue : </label>
                             <input class="form-control" type="text" id="rue" name="rue" value="${retrait.rue}">
                         </div>
-                        <div class="input-group">
+                        <div class="input-group pb-2">
                             <label class="input-group-text" for="code-postal">Code postal : </label>
                             <input class="form-control" type="text" id="code-postal" name="code-postal" value="${retrait.codePostal}">
                         </div>
-                        <div class="input-group">
+                        <div class="input-group pb-2">
                             <label class="input-group-text" for="ville">Ville : </label>
                             <input class="form-control" type="text" id="ville" name="ville" value="${retrait.ville}">
                         </div>
                     </fieldset>
                 </div>
-
-                <input type="submit" value="Enregistrer" class="btn btn-primary">
-                <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary">Annuler</a>
+                <div class="row justify-content-evenly pt-2">
+                    <input type="submit" value="Enregistrer" class="btn btn-primary col-4 ">
+                    <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary col-4">Annuler</a>
+                </div>
 
             </form>
         </main>

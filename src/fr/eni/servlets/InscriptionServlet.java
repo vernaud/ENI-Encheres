@@ -35,7 +35,7 @@ public class InscriptionServlet extends HttpServlet {
             String ville = request.getParameter("ville");
             String password = request.getParameter("password");
             String confirmpass = request.getParameter("confirmpass");
-/         //FIXME inscription: pseudo doit être unique + char alphanumérique uniquement
+            //FIXME inscription: pseudo doit être unique + char alphanumérique uniquement
             //FIXME inscription: email doit être unique
             if (!password.equals(confirmpass)) {
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");
