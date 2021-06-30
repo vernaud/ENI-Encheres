@@ -25,7 +25,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     private static final String SELECT_ALL_ENCHERES_OUVERTES = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
             "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
-            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= (GETDATE()+1);"; // modifier
+            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= GETDATE();"; // modifier
 
     private static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
 
@@ -52,6 +52,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
     private static final String SELECT_RETRAIT = "SELECT no_article, rue, code_postal, ville\n" +
             "FROM RETRAITS\n" +
             "WHERE RETRAITS.no_article = ?;";
+
+    private static final String UPDATE_ID_USER = "UPDATE ARTICLES_VENDUS SET no_utilisateur=? WHERE no_utilisateur=?;";
 
     private static final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_categorie=? WHERE no_article=?;";
 
@@ -525,10 +527,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
             throw new DALException("Problème à l'insertion de l'adresse de retrait en base de données.");
         }
     }
-
     /**
      * Récupère un Article en base par son id.
-     *
      * @param idArt
      * @return article
      */
@@ -635,4 +635,22 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
         }
 
     }
+    @Override
+    public void changeIdUtilisteur(int idUser) throws DALException {
+        final int userDeleted = -1;
+
+        try (
+                Connection cnx = ConnectionProvider.getConnection();
+                PreparedStatement pstt = cnx.prepareStatement(UPDATE_ID_USER);
+        ) {
+            /*"UPDATE ENCHERES SET no_utilisateur = ? WHERE no_utilisateur=?;"*/
+            pstt.setInt(1, userDeleted);
+            pstt.setInt(2,idUser);
+            pstt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DALException("Cet utilisateur n'a pas vendu d'articles.");
+        }
+    }
+
 }

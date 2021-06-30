@@ -1,17 +1,18 @@
 package fr.eni.bll;
 
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.DALException;
-import fr.eni.dal.DAOFactory;
-import fr.eni.dal.UtilisateurDAO;
+import fr.eni.dal.*;
 
 public class UtilisateurManager {
 
     UtilisateurDAO utilisateurDAO;
+    EnchereDAO enchereDAO;
+    ArticleVenduDAO articleDAO;
 
     public UtilisateurManager(){
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
-
+        enchereDAO = DAOFactory.getEnchereDAO();
+        articleDAO = DAOFactory.getArticleVenduDAO();
     }
 
     public void inscrireUtilisateur(Utilisateur utilisateur) throws BLLException {
@@ -128,13 +129,17 @@ public class UtilisateurManager {
 
     public void deleteProfil(int id, String mdp) throws BLLException{
         try {
-            Utilisateur userToDel = utilisateurDAO.selectById(id);
-            if (mdp.trim().isEmpty() || !(userToDel.getMotDePasse().equals(mdp)) ){
-                System.out.println("Saisie : " + mdp);
-                System.out.println("PassW DataB : " + userToDel.getMotDePasse() );
-                throw new BLLException("Erreur de saisie du mot de passe actuel!");
-            }
-            utilisateurDAO.deleteProfil(id);
+                Utilisateur userToDel = utilisateurDAO.selectById(id);
+                if (mdp.trim().isEmpty() || !(userToDel.getMotDePasse().equals(mdp)) ){
+                    /*System.out.println("Saisie : " + mdp);
+                    System.out.println("PassW DataB : " + userToDel.getMotDePasse() );*/
+                    throw new BLLException("Erreur de saisie du mot de passe actuel!");
+                }
+
+                enchereDAO.changeIdUtilisateur(id);
+                articleDAO.changeIdUtilisteur(id);
+                utilisateurDAO.deleteProfil(id);
+
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("BLL - La suppression a échoué");
