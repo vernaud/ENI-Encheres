@@ -30,7 +30,7 @@ public class EnchereServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("utf-8");
         HttpSession session = request.getSession();
         if (session.getAttribute("utilisateur") == null) {
             response.sendRedirect(request.getContextPath() + "/accueil");
@@ -71,6 +71,7 @@ public class EnchereServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
         int idArt = Integer.parseInt(request.getParameter("id"));
         ArticleVenduManager avManager = new ArticleVenduManager();
         EnchereManager enchereManager = new EnchereManager();

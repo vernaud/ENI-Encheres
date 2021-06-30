@@ -15,6 +15,7 @@ import java.io.IOException;
 @WebServlet("/profil")
 public class ProfilServlet extends HttpServlet {
 
+
     private UtilisateurManager utilisateurManager;
 
     @Override
@@ -24,7 +25,7 @@ public class ProfilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("utf-8");
         HttpSession session = request.getSession();
         if (session.getAttribute("utilisateur") == null) {
             response.sendRedirect(request.getContextPath()+"/accueil");
@@ -52,6 +53,6 @@ public class ProfilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("utf-8");
     }
 }

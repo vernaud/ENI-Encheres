@@ -25,6 +25,7 @@ public class MajProfilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
         HttpSession session = req.getSession();
         if (session.getAttribute("utilisateur") == null) {
             resp.sendRedirect(req.getContextPath()+"/accueil");
@@ -36,6 +37,7 @@ public class MajProfilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
         Integer id = Integer.valueOf(req.getParameter("id"));

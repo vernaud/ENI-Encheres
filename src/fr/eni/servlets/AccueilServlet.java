@@ -23,6 +23,7 @@ public class AccueilServlet extends HttpServlet {
 //        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
         //TODO Corriger le bug des boutons radio qui ne restent pas cocher
+        request.setCharacterEncoding("utf-8");
         String selecteur = request.getParameter("radio");
 
         int idUtilisateur;
@@ -50,7 +51,6 @@ public class AccueilServlet extends HttpServlet {
         request.setAttribute("CheckeBoxVentesNonDebutees", request.getParameter("CheckeBoxVentesNonDebutees"));
         request.setAttribute("CheckeBoxVentesTerminees", request.getParameter("CheckeBoxVentesTermineess"));
 
-        //TODO fix encoding UTF-8 en base
         if (request.getParameter("deconnect") != null) {
             request.getSession().setAttribute("utilisateur", null);
             request.getSession().setAttribute("connecte", false);
@@ -156,6 +156,7 @@ public class AccueilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
         // request.setAttribute("message", "j'entre dans le do post");
         /*
         CategorieManager categorieManager = new CategorieManager();

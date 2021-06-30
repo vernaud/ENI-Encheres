@@ -19,12 +19,14 @@ public class InscriptionServlet extends HttpServlet {
     private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
+        request.setCharacterEncoding("utf-8");
+        request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
         try {
             String pseudo = request.getParameter("pseudo");
             String nom = request.getParameter("nom");
