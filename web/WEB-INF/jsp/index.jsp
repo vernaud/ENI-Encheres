@@ -2,6 +2,7 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <title>ENI Enchères</title>
@@ -140,7 +141,9 @@
                         </c:if>
                         <ul class="card-text">
                             <li>Prix : ${article.prixVente}</li>
-                            <li>Fin de l'enchère : ${article.getDateFinEncheres()}</li>
+                            <fmt:parseDate value="${article.dateFinEncheres}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                            <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date" pattern="dd-MM-yyyy" />
+                            <li>Fin de l'enchère : <fmt:formatDate type="date" value="${parsedDate}" /> </li>
                             <li>Vendeur : <a class="card-link"
                                              href="${pageContext.request.contextPath}/profil?id_profil=${article.utilisateur.noUtilisateur}">
                                     ${article.utilisateur.pseudo}</a></li>

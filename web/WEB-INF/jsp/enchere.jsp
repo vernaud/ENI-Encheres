@@ -2,6 +2,7 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <title>Enchère</title>
@@ -35,7 +36,9 @@
                 <c:if test="${enchereTerminee != null}">
                     <li>Prix de vente : ${article.prixVente}</li>
                 </c:if>
-                <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
+                <fmt:parseDate value="${article.dateFinEncheres}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date" pattern="dd-MM-yyyy" />
+                <li>Fin de l'enchère : <fmt:formatDate type="date" value="${parsedDate}" /></li>
                 <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>
                 <li>Vendeur : <a href="${pageContext.request.contextPath}/profil?id_profil=${article.utilisateur.noUtilisateur}">${article.utilisateur.pseudo}</a></li>
 
