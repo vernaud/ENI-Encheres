@@ -29,11 +29,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     private static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
 
-    private static final String SELECT_ENCHERES_OUVERTES_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? AND date_fin_encheres >= GETDATE();";
+    private static final String SELECT_ENCHERES_OUVERTES_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? AND date_fin_encheres >= cast(GETDATE() as date);";
 
-    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_TOUTES_CATEGORIES = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND date_fin_encheres >= GETDATE();"; // TO DO
+    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_TOUTES_CATEGORIES = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND date_fin_encheres >= cast(GETDATE() as date);"; // TO DO
 
-    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_ET_CATEGORIE_SELECTIONNEE = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ? AND date_fin_encheres >= GETDATE();";
+    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_ET_CATEGORIE_SELECTIONNEE = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ? AND date_fin_encheres >= cast(GETDATE() as date);";
 
     private static final String SELECT_ARTICLES_BY_NAME_AND_CATEGORY = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ?";
     // SELECT * FROM mytable WHERE column1 LIKE '%word1%'
