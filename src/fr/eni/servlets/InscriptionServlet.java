@@ -37,6 +37,7 @@ public class InscriptionServlet extends HttpServlet {
             String confirmpass = request.getParameter("confirmpass");
             //FIXME inscription: pseudo doit être unique + char alphanumérique uniquement
             //FIXME inscription: email doit être unique
+            //FIXME inscription: tel [si vide exception -> problème, il peut être null en base] idem updateProfil
             if (!password.equals(confirmpass)) {
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");
                 request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);

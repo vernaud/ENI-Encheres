@@ -36,7 +36,7 @@
                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
                 <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>
                 <li>Vendeur : ${article.utilisateur.pseudo}</li>
-
+                <%//TODO pseudo cliquable%>
                 <%--afficher 'ENCHERIR' si login--%>
                 <c:if test="${connecte && (enchereMax.utilisateur.noUtilisateur != utilisateur.noUtilisateur) &&
                                 (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur) && enchereTerminee == null && enchereNonDebutee == null}">
