@@ -81,9 +81,6 @@ public class VendreArticleServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         try {
-            //FIXME vendreArticle: statut 500 NumberFormatException [saisie mise à prix négative]
-            //FIXME vendreArticle: statut 500 NumberFormatException [date de début antérieure à aujourd'hui]
-            //FIXME vendreArticle: statut 500 NumberFormatException [date de fin antérieure à début]
 
             String nom = req.getParameter("nom_art");
             String description = req.getParameter("description_art");
