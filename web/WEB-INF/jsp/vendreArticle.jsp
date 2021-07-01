@@ -30,8 +30,8 @@
                         <input class="form-control" type="text" id="nom_art" name="nom_art" value="${article.nomArticle}" required>
                     </div>
                     <div class="form-floating pb-2" style="min-height: 5rem">
+                        <textarea name="description_art" class="form-control" id="description_art" style="min-height: 10rem" required>${article.description}</textarea>
                         <label for="description_art" class="floatingTextarea">Description : </label>
-                        <textarea name="description_art" class="form-control" id="description_art" cols="30" rows="10" required>${article.description}</textarea>
                     </div>
                     <div class="form-floating pb-2">
                         <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="categorie_art">
