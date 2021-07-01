@@ -50,6 +50,8 @@ public class InscriptionServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/accueil");
             }
         } catch (BLLException e) {
+            boolean isException = true;
+            request.setAttribute("isException", isException);
             request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
 //            e.printStackTrace();

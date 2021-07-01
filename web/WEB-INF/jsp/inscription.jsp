@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Inscrition</title>
@@ -12,7 +13,11 @@
     </header>
     <main class="row">
         <h1 class="">Mon profil</h1>
-        <p>${message}</p>
+        <c:if test="${isException}">
+            <div class="alert alert-warning">
+                <p>${message}</p>
+            </div>
+        </c:if>
         <form action="${pageContext.request.contextPath}/inscription" method="post" class="row">
             <div class="row">
                 <div class="col input-group p-1">

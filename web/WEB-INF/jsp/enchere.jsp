@@ -48,7 +48,11 @@
                         </div>
 
                         <input type="submit" class="btn btn-primary" value="Enchérir">
-                        <p>${message}</p>
+                        <c:if test="${isException}">
+                            <div class="alert alert-warning">
+                                <p>${message}</p>
+                            </div>
+                        </c:if>
                     </form>
                 </c:if>
                 <c:if test="${enchereMax.utilisateur.noUtilisateur == utilisateur.noUtilisateur}">

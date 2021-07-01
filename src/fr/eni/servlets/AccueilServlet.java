@@ -152,10 +152,11 @@ public class AccueilServlet extends HttpServlet {
             }
             request.setAttribute("articleVenduList", listeAAfficher);
 
-        } catch (
-                BLLException e) {
+        } catch (BLLException e) {
+            boolean isException = true;
             request.setAttribute("message", e.getMessage());
-            request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
+            request.setAttribute("isException", isException);
+
         }
         request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
 

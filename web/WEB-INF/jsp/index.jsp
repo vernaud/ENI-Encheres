@@ -15,7 +15,11 @@
 </header>
 <main>
     <h1>Liste des enchères</h1>
-    <p>${message}</p
+    <c:if test="${isException}">
+        <div class="alert alert-warning">
+            <p>${message}</p>
+        </div>
+    </c:if>
     <label for="id"></label>
     <input type="text" id="id" name="id" value="${utilisateur.getNoUtilisateur()}" hidden>
 

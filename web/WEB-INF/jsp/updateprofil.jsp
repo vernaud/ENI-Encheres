@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
     <title>MajProfil</title>
@@ -12,7 +13,11 @@
     </header>
     <main class="row">
       <h1>Mon Profil</h1>
-      <p>${message}</p>
+      <c:if test="${isException}">
+        <div class="alert alert-warning">
+          <p>${message}</p>
+        </div>
+      </c:if>
       <form action="${pageContext.request.contextPath}/majprofil" method="post">
         <label for="oldPseudo"></label>
         <input type="text" id="oldPseudo" name="oldPseudo" value="${utilisateur.getPseudo()}" hidden>
@@ -73,12 +78,12 @@
 
         <div class="row">
           <div class="col input-group pb-2">
-            <label class="input-group-text col-4" for="confirmpass">Confirmation*</label>
-            <input class="form-control" type="password" id="confirmpass" name="confirmpass">
-          </div>
-          <div class="col input-group pb-2">
             <label class="input-group-text col-4" for="newpassword">Nouveau mot de passe*</label>
             <input class="form-control" type="password" id="newpassword" name="newpassword">
+          </div>
+          <div class="col input-group pb-2">
+            <label class="input-group-text col-4" for="confirmpass">Confirmation*</label>
+            <input class="form-control" type="password" id="confirmpass" name="confirmpass">
           </div>
         </div>
 
