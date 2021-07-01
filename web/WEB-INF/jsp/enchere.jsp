@@ -1,4 +1,5 @@
 <%@ page import="fr.eni.bo.Utilisateur" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -14,7 +15,8 @@
     </header>
     <main>
         <% Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");%>
-        <h1>Détail vente</h1>
+                <h1>
+            Détail vente</h1>
         <section>
             <%--IMAGE DE L'ARTICLE--<img src="" alt="">--%>
                 <h2>${article.nomArticle}</h2>
