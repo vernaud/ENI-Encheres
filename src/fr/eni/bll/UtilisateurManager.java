@@ -13,7 +13,7 @@ public class UtilisateurManager {
     ArticleVenduDAO articleDAO;
 
 
-    private static Pattern nomPattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(-[A-Za-z-âàêèéîôûù]*)*");
+    private static Pattern nomPattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù ]*+(- [A-Za-z-âàêèéîôûù ]*)*");
     private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
     private static Pattern mailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static Pattern telPattern = Pattern.compile("^(\\d{2}[- .]?){5}$");
@@ -81,8 +81,14 @@ public class UtilisateurManager {
                 }
             }
         } catch (DALException e) {
-            e.printStackTrace();
-            throw new BLLException("L'inscription utilisateur a échoué");
+            if (e.getMessage() == "Cette adresse email est déjà connue"){
+                throw new BLLException("Cette adresse email est déjà connue");
+            } else if (e.getMessage() == "Ce pseudo existe déjà") {
+                throw new BLLException("Ce pseudo existe déjà");
+            } else {
+                e.printStackTrace();
+                throw new BLLException("L'inscription utilisateur a échoué");
+            }
         }
 
     }
@@ -183,9 +189,14 @@ public class UtilisateurManager {
                 DAOFactory.getUtilisateurDAO().UpdateProfil(utilisateur);
             }
         } catch (DALException e) {
-            e.printStackTrace();
-            throw new BLLException("Erreur lors de la modification du profil");
-
+            if (e.getMessage() == "Cette adresse email est déjà connue"){
+                throw new BLLException("Cette adresse email est déjà connue");
+            } else if (e.getMessage() == "Ce pseudo existe déjà") {
+                throw new BLLException("Ce pseudo existe déjà");
+            } else {
+                e.printStackTrace();
+                throw new BLLException("L'inscription utilisateur a échoué");
+            }
         }
     }
 

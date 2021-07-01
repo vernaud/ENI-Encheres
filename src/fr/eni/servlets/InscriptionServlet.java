@@ -35,10 +35,9 @@ public class InscriptionServlet extends HttpServlet {
             String ville = request.getParameter("ville");
             String password = request.getParameter("password");
             String confirmpass = request.getParameter("confirmpass");
-            //FIXME inscription: pseudo doit être unique + char alphanumérique uniquement
-            //FIXME inscription: email doit être unique
             //FIXME inscription: tel [si vide exception -> problème, il peut être null en base] idem updateProfil
             if (!password.equals(confirmpass)) {
+                request.setAttribute("isException", true);
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");
                 request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
             } else {
@@ -51,8 +50,7 @@ public class InscriptionServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/accueil");
             }
         } catch (BLLException e) {
-            boolean isException = true;
-            request.setAttribute("isException", isException);
+            request.setAttribute("isException", true);
             request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/inscription.jsp").forward(request, response);
 //            e.printStackTrace();

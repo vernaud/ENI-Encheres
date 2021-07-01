@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 @WebServlet("/majprofil")
 public class MajProfilServlet extends HttpServlet {
 
-    private static Pattern nomPattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(-[A-Za-z-âàêèéîôûù]*)*");
+    private static Pattern nomPattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
     private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
     private static Pattern mailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static Pattern telPattern = Pattern.compile("^(\\d{2}[- .]?){5}$");
@@ -43,10 +43,11 @@ public class MajProfilServlet extends HttpServlet {
         Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
         Integer id = Integer.valueOf(req.getParameter("id"));
 //        System.out.println("delete userId " + id);
-
+        req.setAttribute("message", req.getAttribute("message"));
         // Récupère la valeur submit 'enregistrer' ou 'supprimer'
         String act = req.getParameter("act");
         String mdp = req.getParameter("oldpassword");
+
         // SUPPRIMER UN PROFIL
         if (act.equalsIgnoreCase("Supprimer mon compte")) {
             try {
@@ -63,7 +64,6 @@ public class MajProfilServlet extends HttpServlet {
 
         // MISE A JOUR DU PROFIL
         if (act.equalsIgnoreCase("Enregistrer")) {
-            // FIXME: msg update ne s'affiche pas contrairement à celui de suppression
             try {
 
                 String oldPseudo = req.getParameter("oldPseudo");
@@ -79,6 +79,7 @@ public class MajProfilServlet extends HttpServlet {
                 String newpassword = req.getParameter("newpassword");
                 String confirmpass = req.getParameter("confirmpass");
                 if (!(oldpassword.equals(utilisateur.getMotDePasse()))) {
+                    req.setAttribute("isException", true);
                     req.setAttribute("message", "le mot de passe actuel est incorrect.");
                     this.doGet(req, resp);
                 } else if (confirmpass.equals(newpassword)) {
@@ -90,12 +91,13 @@ public class MajProfilServlet extends HttpServlet {
                     session.setAttribute("connecte", true);
                     resp.sendRedirect(req.getContextPath() + "/accueil");
                 } else {
+                    req.setAttribute("isException", true);
                     req.setAttribute("message", "Le nouveau mot de passe et sa confirmation ne sont pas identitiques");
                     this.doGet(req, resp);
                 }
+
             } catch (BLLException e) {
-                boolean isException = true;
-                req.setAttribute("isException", isException);
+                req.setAttribute("isException", true);
                 req.setAttribute("message", e.getMessage());
                 this.doGet(req, resp);
                 e.printStackTrace();

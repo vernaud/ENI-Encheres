@@ -1,5 +1,7 @@
 package fr.eni.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerError;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import fr.eni.bo.Utilisateur;
 
 import java.sql.Connection;
@@ -97,6 +99,20 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             rs.close();
             cnx.commit();
 
+        } catch (SQLServerException sqlException) {
+            if (sqlException.getErrorCode() == 2627) {
+                if( sqlException.getMessage().contains("@")){
+                    sqlException.printStackTrace();
+                    throw new DALException("Cette adresse email est déjà connue");
+                } else {
+                    sqlException.printStackTrace();
+                    throw new DALException("Ce pseudo existe déjà");
+                }
+            } else {
+                System.out.println(sqlException.getErrorCode());
+                sqlException.printStackTrace();
+                throw new DALException("L'inscription a échouée");
+            }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             throw new DALException("L'inscription a échouée");
@@ -156,9 +172,23 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             pstt.executeUpdate();
             cnx.commit();
 
+        } catch (SQLServerException sqlException) {
+            if (sqlException.getErrorCode() == 2627) {
+                if( sqlException.getMessage().contains("@")){
+                    sqlException.printStackTrace();
+                    throw new DALException("Cette adresse email est déjà connue");
+                } else {
+                    sqlException.printStackTrace();
+                    throw new DALException("Ce pseudo existe déjà");
+                }
+            } else {
+                System.out.println(sqlException.getErrorCode());
+                sqlException.printStackTrace();
+                throw new DALException("Erreur updateProfil");
+            }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            throw new DALException("Erreur lors de la MAJ du profil");
+            throw new DALException("Erreur updateProfil");
         }
     }
 
