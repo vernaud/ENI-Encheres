@@ -55,7 +55,7 @@
                         </c:if>
                     </form>
                 </c:if>
-                <c:if test="${enchereMax.utilisateur.noUtilisateur == utilisateur.noUtilisateur}">
+                <c:if test="${enchereMax.utilisateur.noUtilisateur == utilisateur.noUtilisateur && enchereTerminee == null}">
                     <p>Vous avez déjà réalisé l'enchère maximum, vous ne pouvez pas renchérir pour le moment</p>
                 </c:if>
                 <c:if test="${enchereNonDebutee != null}">
