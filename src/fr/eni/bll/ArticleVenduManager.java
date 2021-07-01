@@ -380,7 +380,7 @@ public class ArticleVenduManager {
         List<ArticleVendu> listeMesEncheresEnCours = new ArrayList<>();
         for (ArticleVendu article : articleVenduList) {
             Boolean existEnchere = enchereManager.selectByidUserIdArticle(idUtilisateur, article.getNoArticle());
-            if (existEnchere) {
+            if (existEnchere && article.getDateFinEncheres().isAfter(LocalDate.now())) {
                 listeMesEncheresEnCours.add(article);
             }
         }

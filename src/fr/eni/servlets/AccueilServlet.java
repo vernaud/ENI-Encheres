@@ -48,10 +48,10 @@ public class AccueilServlet extends HttpServlet {
         request.setAttribute("ListeCategories", request.getParameter("ListeCategories"));
         request.setAttribute("CheckBoxEnchereOuverte", request.getParameter("CheckBoxEnchereOuverte"));
         request.setAttribute("CheckBoxEnchereEnCours", request.getParameter("CheckBoxEnchereEnCours"));
-        request.setAttribute("checkBoxEnchereRemportees", request.getParameter("checkBoxEnchereRemportees"));
+        request.setAttribute("checkBoxEnchereRemportes", request.getParameter("checkBoxEnchereRemportes"));
         request.setAttribute("CheckBoxVentesEnCours", request.getParameter("CheckBoxVentesEnCours"));
         request.setAttribute("CheckeBoxVentesNonDebutees", request.getParameter("CheckeBoxVentesNonDebutees"));
-        request.setAttribute("CheckeBoxVentesTerminees", request.getParameter("CheckeBoxVentesTermineess"));
+        request.setAttribute("CheckeBoxVentesTerminees", request.getParameter("CheckeBoxVentesTerminees"));
 
         if (request.getParameter("deconnect") != null) {
             request.getSession().setAttribute("utilisateur", null);
@@ -94,7 +94,9 @@ public class AccueilServlet extends HttpServlet {
                 //Affichage des encheres en cours
                 if (request.getParameter("CheckBoxEnchereEnCours") != null) {
                     //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
-                    listeAAfficher = articleVenduManager.afficherMesEncheresEnCours(idUtilisateur, listeAAfficher);
+                    if(!check){
+                        listeAAfficher = articleVenduManager.afficherMesEncheresEnCours(idUtilisateur, listeAAfficher);
+                    }
                     check = true;
                 }
 

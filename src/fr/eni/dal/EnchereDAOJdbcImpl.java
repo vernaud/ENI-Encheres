@@ -12,7 +12,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
     public static final String INSERT_ENCHERE = "INSERT INTO ENCHERES VALUES (?,?,?,?);";
     public static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET montant_enchere = ?, date_enchere=? WHERE no_utilisateur=? AND no_article=?;";
     private static final String UPDATE_ID_USER = "UPDATE ENCHERES SET no_utilisateur=? WHERE no_utilisateur=?;";
-    public static final String SELECT_ALL_BY_ARTICLE_UTILISATEUR = "SELECT * FROM ENCHERES e WHERE e.no_utilisateur=? AND e.no_article=? ";
+    public static final String SELECT_ALL_NOT_FINISHED_BY_ARTICLE_UTILISATEUR = "SELECT * FROM ENCHERES e WHERE e.no_utilisateur=? AND e.no_article=? ";
     //  public static final String SELECT_MONTANT_ENCHERE_MAX_BY_ARTICLE = "SELECT MAX(e.montant_enchere) as montant FROM ENCHERES e WHERE e.no_article=?;";
     public static final String SELECT_ALL_BY_ARTICLE = "SELECT * FROM ENCHERES e WHERE e.no_article=? ORDER BY e.montant_enchere DESC;";
     public static final String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?;";
@@ -20,7 +20,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
     @Override
     public Enchere insertEnchere(Enchere enchere) throws DALException {
         try (Connection cnx = ConnectionProvider.getConnection();
-             PreparedStatement pstt1 = cnx.prepareStatement(SELECT_ALL_BY_ARTICLE_UTILISATEUR);
+             PreparedStatement pstt1 = cnx.prepareStatement(SELECT_ALL_NOT_FINISHED_BY_ARTICLE_UTILISATEUR);
              PreparedStatement pstt2 = cnx.prepareStatement(INSERT_ENCHERE);
              PreparedStatement pstt3 = cnx.prepareStatement(UPDATE_ENCHERE)) {
 
@@ -148,7 +148,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
         Boolean existEnchere = false;
         try (
                 Connection cnx = ConnectionProvider.getConnection();
-                PreparedStatement pstt = cnx.prepareStatement(SELECT_ALL_BY_ARTICLE_UTILISATEUR);
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_ALL_NOT_FINISHED_BY_ARTICLE_UTILISATEUR);
         ) {
 
             pstt.setInt(1, idUtilisateur);

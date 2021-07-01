@@ -71,7 +71,7 @@
                             <input type="checkbox" value="remportees" id="checkBoxEnchereRemportees"
                                    name="checkBoxEnchereRemportes"
                                    <c:if test="${radio == \"mesVentes\"}">disabled </c:if>
-                                   <c:if test="${checkBoxEnchereRemportees != null}">checked </c:if>>
+                                   <c:if test="${checkBoxEnchereRemportes != null}">checked </c:if>>
                             <label for="checkBoxEnchereRemportees">enchères remportées</label>
                         </div>
                     </div>
