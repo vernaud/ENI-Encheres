@@ -114,7 +114,6 @@
     </form>
     <section id="articles" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
 
-        <% //FIXME card->lienProfil bloqué s'il s'agit de l'utilisateur id=-1 %>
 
         <c:forEach items="${articleVenduList}" var="article">
             <div class="">
