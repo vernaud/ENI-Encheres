@@ -53,6 +53,8 @@ public class MajProfilServlet extends HttpServlet {
                 utilisateurManager.deleteProfil(id, mdp);
                 resp.sendRedirect(req.getContextPath() + "/accueil?deconnect=1");
             } catch (BLLException e) {
+                boolean isException = true;
+                req.setAttribute("isException", isException);
                 req.setAttribute("message", e.getMessage());
                 this.doGet(req, resp);
                 e.printStackTrace();
@@ -61,7 +63,7 @@ public class MajProfilServlet extends HttpServlet {
 
         // MISE A JOUR DU PROFIL
         if (act.equalsIgnoreCase("Enregistrer")) {
-
+            // FIXME: msg update ne s'affiche pas contrairement à celui de suppression
             try {
 
                 String oldPseudo = req.getParameter("oldPseudo");

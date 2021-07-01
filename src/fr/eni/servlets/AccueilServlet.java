@@ -88,6 +88,8 @@ public class AccueilServlet extends HttpServlet {
                     }
 
                 } catch (BLLException e) {
+                    boolean isException = true;
+                    request.setAttribute("isException", isException);
                     request.setAttribute("message", e.getMessage());
                 }
 
@@ -148,12 +150,11 @@ public class AccueilServlet extends HttpServlet {
 
         } catch (BLLException e) {
             boolean isException = true;
-            request.setAttribute("isException", isException);
             request.setAttribute("message", e.getMessage());
+            request.setAttribute("isException", isException);
 
-        } finally {
-            request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
         }
+            request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
     }
 
 

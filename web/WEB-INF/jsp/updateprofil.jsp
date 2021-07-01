@@ -78,12 +78,12 @@
 
         <div class="row">
           <div class="col input-group pb-2">
-            <label class="input-group-text col-4" for="confirmpass">Confirmation*</label>
-            <input class="form-control" type="password" id="confirmpass" name="confirmpass">
-          </div>
-          <div class="col input-group pb-2">
             <label class="input-group-text col-4" for="newpassword">Nouveau mot de passe*</label>
             <input class="form-control" type="password" id="newpassword" name="newpassword">
+          </div>
+          <div class="col input-group pb-2">
+            <label class="input-group-text col-4" for="confirmpass">Confirmation*</label>
+            <input class="form-control" type="password" id="confirmpass" name="confirmpass">
           </div>
         </div>
 
