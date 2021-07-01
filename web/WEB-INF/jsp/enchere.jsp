@@ -35,8 +35,8 @@
                 </c:if>
                 <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
                 <li>Retrait : <p>${retrait.rue}<br>${retrait.codePostal} ${retrait.ville}</p></li>
-                <li>Vendeur : ${article.utilisateur.pseudo}</li>
-                <%//TODO pseudo cliquable%>
+                <li>Vendeur : <a href="${pageContext.request.contextPath}/profil?id_profil=${article.utilisateur.noUtilisateur}">${article.utilisateur.pseudo}</a></li>
+
                 <%--afficher 'ENCHERIR' si login--%>
                 <c:if test="${connecte && (enchereMax.utilisateur.noUtilisateur != utilisateur.noUtilisateur) &&
                                 (utilisateur.noUtilisateur!=article.utilisateur.noUtilisateur) && enchereTerminee == null && enchereNonDebutee == null}">
