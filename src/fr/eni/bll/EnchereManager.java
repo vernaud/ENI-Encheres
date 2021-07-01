@@ -3,6 +3,7 @@ package fr.eni.bll;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Enchere;
 import fr.eni.bo.Utilisateur;
+import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.dal.DALException;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.EnchereDAO;
@@ -14,6 +15,7 @@ import java.util.List;
 public class EnchereManager {
 
     EnchereDAO enchereDAO;
+    ArticleVenduDAO articleVenduDAO = DAOFactory.getArticleVenduDAO();
 
     public EnchereManager() {
         enchereDAO = DAOFactory.getEnchereDAO();
@@ -35,10 +37,13 @@ public class EnchereManager {
                 throw new BLLException("Le montant de votre enchère doit être supérieure à l'enchère maximum en cours soit : " + String.valueOf(enchereMax.getMontantEnchere()) + " points");
             } else if (enchere.getMontantEnchere()<= articleVendu.getPrixInitial()) {
                 throw new BLLException("Vous devez faire une offre supérieure au prix de vente initial pour enchérir.");
-            } else if (enchereMax != null && enchereMax.getUtilisateur().getNoUtilisateur() == enchere.getUtilisateur().getNoUtilisateur()) {
+            } else if (enchereMax != null && enchereMax.getUtilisateur().getNoUtilisateur() == enchere.getUtilisateur().getNoUtilisateur()
+                    && articleVendu.getDateFinEncheres().isAfter(LocalDate.now())) {
                 throw new BLLException("Vous avez déjà fait l'enchère maximum! Veuillez attendre que quelqu'un d'autre renchérisse.");
             } else {
                 enchereInsert = enchereDAO.insertEnchere(enchere);
+                articleVendu.setPrixVente(enchere.getMontantEnchere());
+                articleVenduDAO.updateArticle(articleVendu.getNoArticle(), articleVendu);
                 //débiter l'utilisteur qui vient de faire l'enchère
                 enchereDAO.debiterUtilisateur(utilisateur, enchere);
                 //Créditer l'utilisateur qui a la précédente enchère maximum précédente

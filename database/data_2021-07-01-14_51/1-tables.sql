@@ -15,10 +15,10 @@ create table dbo.UTILISATEURS
     no_utilisateur int identity
         constraint PK_UTILISATEUR
             primary key,
-    pseudo         varchar(30) not null,
+    pseudo         varchar(30) not null UNIQUE,
     nom            varchar(50) not null,
     prenom         varchar(50) not null,
-    email          varchar(100) not null,
+    email          varchar(100) not null UNIQUE,
     telephone      varchar(15),
     rue            varchar(100) not null,
     code_postal    varchar(10) not null,
