@@ -25,7 +25,7 @@ public class AccueilServlet extends HttpServlet {
         int idCategorieSelect = 0;
         int idUtilisateur;
         String nomArticleRecherche = "";
-        if(request.getParameter("nomArticle") != null) {
+        if (request.getParameter("nomArticle") != null) {
             nomArticleRecherche = request.getParameter("nomArticle");
         }
 
@@ -65,98 +65,95 @@ public class AccueilServlet extends HttpServlet {
             // articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect); (ancienne méthode de Florentin)
             // articleVenduList = articleVenduManager.AfficherArticlesParNomEtCategorie(nomArticleRecherche, idCategorieSelect); // (nouvelle méthode de Matthieu)
 
-                if (nomArticleRecherche.equals("")) {
-                    if (idCategorieSelect == 0) {
-                        articleVenduList = articleVenduManager.AfficherTouslesArticlesEnCours();
-                    } else {
-                        articleVenduList = articleVenduManager.AfficherEncheresOuvertesParCategorie(idCategorieSelect); // affiche tous les articles en enchères pour une catégorie
-                    }
+            if (nomArticleRecherche.equals("")) {
+                if (idCategorieSelect == 0) {
+                    articleVenduList = articleVenduManager.AfficherTouslesArticles();
                 } else {
-                    if (idCategorieSelect == 0) {
-                        articleVenduList = articleVenduManager.AfficherEncheresOuvertesAvecNomArticleContientToutesCategories(nomArticleRecherche);
-                    } else {
-                        articleVenduList = articleVenduManager.AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
-                        // DONE !!!
-                    }
+                    articleVenduList = articleVenduManager.AfficherEncheresOuvertesParCategorie(idCategorieSelect); // affiche tous les articles en enchères pour une catégorie
                 }
-
-                //Si achat sélectionné
-                if (selecteur != null && selecteur.equals("achat")) {
-                    articleVenduList = articleVenduManager.afficherAchats(idUtilisateur, articleVenduList);
-
-                    if (request.getParameter("CheckBoxEnchereOuverte") != null) {
-                        //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherVentesEnCours(articleVenduList);
-                        for (ArticleVendu article : listeprovisoire) {
-                            listeAAfficher.add(article);
-                        }
-                        articleVenduList = listeAAfficher;
-                    }
-                    //Affichage des encheres en cours
-                    if (request.getParameter("CheckBoxEnchereEnCours") != null) {
-                        //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
-                        listeprovisoire = articleVenduManager.afficherMesEncheresEnCours(idUtilisateur, articleVenduList);
-                        for (ArticleVendu article : listeprovisoire) {
-                            listeAAfficher.add(article);
-                        }
-                        articleVenduList = listeAAfficher;
-                    }
-
-                    //Affichage des encheres remportées
-                    if (request.getParameter("checkBoxEnchereRemportes") != null) {
-                        //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
-                        listeprovisoire = articleVenduManager.afficherMesEncheresremportees(idUtilisateur, articleVenduList);
-                        for (ArticleVendu article : listeprovisoire) {
-                            listeAAfficher.add(article);
-                        }
-                        articleVenduList = listeAAfficher;
-                    }
+            } else {
+                if (idCategorieSelect == 0) {
+                    articleVenduList = articleVenduManager.AfficherEncheresOuvertesAvecNomArticleContientToutesCategories(nomArticleRecherche);
+                } else {
+                    articleVenduList = articleVenduManager.AfficherEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
                 }
-
-                if (selecteur != null && selecteur.equals("mesVentes")) {
-                    //Récupération de l'id Utilisateur
-                    articleVenduList = articleVenduManager.afficherventes(idUtilisateur, articleVenduList);
-
-                    if (request.getParameter("CheckBoxVentesEnCours") != null) {
-                        //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherVentesEnCours(articleVenduList);
-                        for (ArticleVendu article : listeprovisoire) {
-                            listeAAfficher.add(article);
-                        }
-                        articleVenduList = listeAAfficher;
-                    }
-                    if (request.getParameter("CheckeBoxVentesNonDebutees") != null) {
-                        //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherVentesNonDébutees(articleVenduList);
-
-                        for (ArticleVendu article : listeprovisoire) {
-                            listeAAfficher.add(article);
-                        }
-                        articleVenduList = listeAAfficher;
-
-                    }
-                    if (request.getParameter("CheckeBoxVentesTerminees") != null) {
-                        //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherVentesTerminees(articleVenduList);
-
-                        for (ArticleVendu article : listeprovisoire) {
-                            listeAAfficher.add(article);
-                        }
-                        articleVenduList = listeAAfficher;
-                    }
-                }
-                request.setAttribute("articleVenduList", articleVenduList);
-
-            } catch (BLLException e) {
-                request.setAttribute("message", e.getMessage());
-                request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
             }
+            List<ArticleVendu> listearticlefiltre = articleVenduList;
+
+            //Si achat sélectionné
+            if (selecteur != null && selecteur.equals("achat")) {
+                List<ArticleVendu> listeAchats = articleVenduManager.afficherAchats(idUtilisateur, listearticlefiltre);
+                articleVenduList = listeAchats;
+
+                if (request.getParameter("CheckBoxEnchereOuverte") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeAAfficher = articleVenduManager.afficherEncheresEnCours(listeAchats);
+                    articleVenduList = listeAAfficher;
+                }
+                //Affichage des encheres en cours
+                if (request.getParameter("CheckBoxEnchereEnCours") != null) {
+                    //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
+                    listeAAfficher = articleVenduManager.afficherMesEncheresEnCours(idUtilisateur, listeAchats);
+                    articleVenduList = listeAAfficher;
+                }
+
+                //Affichage des encheres remportées
+                if (request.getParameter("checkBoxEnchereRemportes") != null) {
+                    //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
+                    listeprovisoire = articleVenduManager.afficherMesEncheresremportees(idUtilisateur, listeAchats);
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
+                }
+
+            }
+
+            if (selecteur != null && selecteur.equals("mesVentes")) {
+                //Récupération de l'id Utilisateur
+                List<ArticleVendu> listeVentes = articleVenduManager.afficherventes(idUtilisateur, listearticlefiltre);
+                articleVenduList = listeVentes;
+
+                if (request.getParameter("CheckBoxVentesEnCours") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeAAfficher = articleVenduManager.afficherEncheresEnCours(listeVentes);
+                    articleVenduList = listeAAfficher;
+                }
+                if (request.getParameter("CheckeBoxVentesNonDebutees") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeprovisoire = articleVenduManager.afficherVentesNonDébutees(listeVentes);
+
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
+                }
+
+                if (request.getParameter("CheckeBoxVentesTerminees") != null) {
+                    //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
+                    listeprovisoire = articleVenduManager.afficherVentesTerminees(listeVentes);
+
+                    for (ArticleVendu article : listeprovisoire) {
+                        listeAAfficher.add(article);
+                    }
+                    articleVenduList = listeAAfficher;
+                }
+            }
+            request.setAttribute("articleVenduList", articleVenduList);
+
+        } catch (
+                BLLException e) {
+            request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
+        }
+        request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
+
     }
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         // request.setAttribute("message", "j'entre dans le do post");
         /*

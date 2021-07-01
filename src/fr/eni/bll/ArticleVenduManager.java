@@ -2,7 +2,6 @@ package fr.eni.bll;
 
 import fr.eni.bo.Enchere;
 import fr.eni.bo.Retrait;
-import fr.eni.bo.Utilisateur;
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.dal.DALException;
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.StringBuffer;
-import java.lang.System;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,7 +77,7 @@ public class ArticleVenduManager {
         return idArticle;
     }
 
-    public List<ArticleVendu> AfficherTouslesArticlesEnCours() throws BLLException {
+    public List<ArticleVendu> AfficherTouslesArticles() throws BLLException {
         List<ArticleVendu> articleVenduList = null;
         try {
             articleVenduList = this.articleVenduDAO.selectAll(); // modifier
@@ -91,7 +89,7 @@ public class ArticleVenduManager {
         return articleVenduList;
     }
 
-    public List<ArticleVendu> AfficherEncheresOuvertes() throws BLLException {
+    public List<ArticleVendu> AfficherArticleEncours() throws BLLException {
         List<ArticleVendu> articleVenduList = null;
         try {
             articleVenduList = this.articleVenduDAO.selectAllEncheresOuvertes();
@@ -106,7 +104,7 @@ public class ArticleVenduManager {
     public List<ArticleVendu> AfficherEncheresOuvertesParCategorie(int idCategorie) throws BLLException {
         List<ArticleVendu> articleVenduList = null;
         try {
-            articleVenduList = this.articleVenduDAO.selectEncheresOuvertesParCategorie(idCategorie);
+            articleVenduList = this.articleVenduDAO.selectArticleEncoursParCategorie(idCategorie);
             //Si la liste est vide
             if (articleVenduList.isEmpty()) {
                 throw new BLLException("Il n'existe pas d'enchères ouvertes pour cette catégorie");
@@ -123,7 +121,7 @@ public class ArticleVenduManager {
         List<ArticleVendu> listeArticlesVendus = null;
 
         try {
-            listeArticlesVendus = this.articleVenduDAO.selectEncheresOuvertesAvecNomArticleContientToutesCategories(nomArticleRecherche);
+            listeArticlesVendus = this.articleVenduDAO.selectArticleEnCoursAvecNomArticleContientToutesCategories(nomArticleRecherche);
 
             if (listeArticlesVendus.isEmpty()) {
                 throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot, toutes catégories confondues.");
@@ -141,7 +139,7 @@ public class ArticleVenduManager {
         List<ArticleVendu> listeArticlesVendus = null;
 
         try {
-            listeArticlesVendus = this.articleVenduDAO.selectEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
+            listeArticlesVendus = this.articleVenduDAO.selectArticleEnCoursAvecNomArticleContientEtCategorieSelectionnee(nomArticleRecherche, idCategorieSelect);
             if (listeArticlesVendus.isEmpty()) {
                 throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot et correspondant à cette catégorie");
             }
@@ -193,7 +191,7 @@ public class ArticleVenduManager {
     }
 
 
-    public List<ArticleVendu> afficherVentesEnCours(List<ArticleVendu> articleVenduList) {
+    public List<ArticleVendu> afficherEncheresEnCours(List<ArticleVendu> articleVenduList) {
         List<ArticleVendu> listeEncheresEnCours = new ArrayList<>();
         for (ArticleVendu articlevendu : articleVenduList) {
             if ((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) <= 0) && (articlevendu.getDateFinEncheres().compareTo(LocalDate.now()) >= 0)) {

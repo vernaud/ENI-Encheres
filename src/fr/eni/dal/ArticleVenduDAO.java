@@ -12,9 +12,9 @@ public interface ArticleVenduDAO {
     public List<ArticleVendu> selectAll() throws DALException;
 
     public List<ArticleVendu> selectAllEncheresOuvertes() throws DALException;
-    public List<ArticleVendu> selectEncheresOuvertesParCategorie(int idCategorie) throws DALException;
-    public List<ArticleVendu> selectEncheresOuvertesAvecNomArticleContientToutesCategories(String nomArticleRecherche) throws DALException;
-    public List<ArticleVendu> selectEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws DALException;
+    public List<ArticleVendu> selectArticleEncoursParCategorie(int idCategorie) throws DALException;
+    public List<ArticleVendu> selectArticleEnCoursAvecNomArticleContientToutesCategories(String nomArticleRecherche) throws DALException;
+    public List<ArticleVendu> selectArticleEnCoursAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws DALException;
 
     public List<ArticleVendu> selectByCategorieId(int idCategorie) throws DALException;
     List<ArticleVendu> selectAchats(int idUtilisateur) throws DALException;
