@@ -46,7 +46,11 @@ public class VendreArticleServlet extends HttpServlet {
             try {
                 Retrait retrait = new Retrait();
                 req.setAttribute("liste_categories", categorieManager.selectAll());
-                if (req.getParameter("id") != null) {
+                String id = req.getParameter("id");
+                if (id == ""){
+                    id=null;
+                }
+                if (id != null) {
                     int idArt = Integer.valueOf(req.getParameter("id"));
                     ArticleVendu article = new ArticleVendu();
                     article = articleVenduManager.selectById(idArt);

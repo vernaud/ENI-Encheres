@@ -22,7 +22,6 @@ public class AccueilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
 //        request.getSession().setAttribute("modeConnecte", modeConnecte);
-        //TODO Corriger le bug des boutons radio qui ne restent pas cocher
         request.setCharacterEncoding("utf-8");
         String selecteur = request.getParameter("radio");
 
@@ -113,7 +112,6 @@ public class AccueilServlet extends HttpServlet {
             }
 
             if (selecteur != null && selecteur.equals("mesVentes")) {
-                //TODO Créer une méthode selectionAchat et selection ventes
                 //Récupération de l'id Utilisateur
                 List<ArticleVendu> listeVentes = articleVenduManager.afficherventes(idUtilisateur);
                 articleVenduList = listeVentes;

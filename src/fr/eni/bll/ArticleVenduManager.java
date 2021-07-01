@@ -39,31 +39,36 @@ public class ArticleVenduManager {
             if (articleVendu.getNomArticle().trim().isEmpty()) {
                 sb.append("Le nom de l'article est obligatoire. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getNomArticle().trim().length() > 30) {
+            }
+            if (articleVendu.getNomArticle().trim().length() > 30) {
                 sb.append("Le nom de l'article ne doit pas dépasser 30 caractères. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getDescription().trim().isEmpty()) {
+            }
+            if (articleVendu.getDescription().trim().isEmpty()) {
                 sb.append("La description est obligatoire. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getDescription().trim().length() > 300) {
+            }
+            if (articleVendu.getDescription().trim().length() > 300) {
                 sb.append("La description ne doit pas dépasser 300 caractères. <br/>");
                 erreur_saisie = true;
-            } else if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
+            }
+            if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
                 sb.append("La date de début des enchères doit être supérieure ou égale à la date du jour. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
+            }
+            if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
                 sb.append("La date de début des enchères doit être inférieure ou égale à la date de fin. <br/>");
                 //sb.append(Character.LINE_SEPARATOR);
                 erreur_saisie = true;
-            } else if (articleVendu.getPrixInitial() < 0 || !prixMatcher.matches()) {
+            }
+            if (articleVendu.getPrixInitial() < 0 || !prixMatcher.matches()) {
                 sb.append("La mise à prix est invalide, veuillez saisir un nombre positif");
                 erreur_saisie = true;
-            } else {
-
-                idArticle = articleVenduDAO.insert(articleVendu);
             }
             if (erreur_saisie == true) {
                 throw new BLLException(sb.toString());
+            } else {
+                idArticle = articleVenduDAO.insert(articleVendu);
             }
         } catch (DALException e) {
             throw new BLLException("L'ajout d'un article à vendre a échoué");
@@ -246,18 +251,29 @@ public class ArticleVenduManager {
     public void insertAdresseRetrait(int idArticle, Retrait adresse) throws BLLException {
         Matcher cpMatcher = cpPattern.matcher(adresse.getCodePostal());
         Matcher villeMatcher = villePattern.matcher(adresse.getVille());
+        boolean erreur_saisie = false;
+        StringBuffer sb = new StringBuffer();
         try {
-            if(adresse.getRue().isEmpty()){
-                throw new BLLException("Nom invalide");
-            } else if (adresse.getCodePostal().isEmpty() || !cpMatcher.matches()){
-                throw new BLLException("Code Postal invalide");
-            } else if (adresse.getVille().isEmpty() || !villeMatcher.matches()){
-                throw new BLLException("Nom de ville invalide");
+            if (adresse.getRue().isEmpty()) {
+                sb.append("Nom de rue invalide");
+                erreur_saisie = true;
+            }
+            if (adresse.getCodePostal().isEmpty() || !cpMatcher.matches()) {
+                sb.append("Code Postal invalide");
+                erreur_saisie = true;
+            }
+            if (adresse.getVille().isEmpty() || !villeMatcher.matches()) {
+                sb.append("Nom de ville invalide");
+                erreur_saisie = true;
+            }
+            if (erreur_saisie == true) {
+                throw new BLLException(sb.toString());
             } else {
                 articleVenduDAO.insertAdresseRetrait(idArticle, adresse);
             }
         } catch (DALException e) {
             e.printStackTrace();
+            throw new BLLException("Erreur lors de l'ajout de l'adresse de retrait");
         }
     }
 
@@ -293,30 +309,36 @@ public class ArticleVenduManager {
             if (articleVendu.getNomArticle().trim().isEmpty()) {
                 sb.append("Le nom de l'article est obligatoire. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getNomArticle().trim().length() > 30) {
+            }
+            if (articleVendu.getNomArticle().trim().length() > 30) {
                 sb.append("Le nom de l'article ne doit pas dépasser 30 caractères. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getDescription().trim().isEmpty()) {
+            }
+            if (articleVendu.getDescription().trim().isEmpty()) {
                 sb.append("La description est obligatoire. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getDescription().trim().length() > 300) {
+            }
+            if (articleVendu.getDescription().trim().length() > 300) {
                 sb.append("La description ne doit pas dépasser 300 caractères. <br/>");
                 erreur_saisie = true;
-            } else if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
+            }
+            if (LocalDate.now().isAfter(articleVendu.getDateDebutEncheres())) {
                 sb.append("La date de début des enchères doit être supérieure ou égale à la date du jour. <br/>");
                 erreur_saisie = true;
-            } else if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
+            }
+            if (articleVendu.getDateDebutEncheres().compareTo(articleVendu.getDateFinEncheres()) > 0) {
                 sb.append("La date de début des enchères doit être inférieure ou égale à la date de fin. <br/>");
                 //sb.append(Character.LINE_SEPARATOR);
                 erreur_saisie = true;
-            } else if (articleVendu.getPrixInitial() < 0 || !prixMatcher.matches()) {
+            }
+            if (articleVendu.getPrixInitial() < 0 || !prixMatcher.matches()) {
                 sb.append("La mise à prix est invalide, veuillez saisir un nombre positif");
                 erreur_saisie = true;
-            } else {
-                articleVenduDAO.updateArticle(idArticleAModifier, articleVendu);
             }
             if (erreur_saisie == true) {
                 throw new BLLException(sb.toString());
+            } else {
+                articleVenduDAO.updateArticle(idArticleAModifier, articleVendu);
             }
 
         } catch (DALException e) {
@@ -329,13 +351,23 @@ public class ArticleVenduManager {
     public void updateRetrait(int idArt, Retrait adresse) throws BLLException {
         Matcher cpMatcher = cpPattern.matcher(adresse.getCodePostal());
         Matcher villeMatcher = villePattern.matcher(adresse.getVille());
+        boolean erreur_saisie = false;
+        StringBuffer sb = new StringBuffer();
         try {
-            if(adresse.getRue().isEmpty()){
-                throw new BLLException("Nom invalide");
-            } else if (adresse.getCodePostal().isEmpty() || !cpMatcher.matches()){
-                throw new BLLException("Code Postal invalide");
-            } else if (adresse.getVille().isEmpty() || !villeMatcher.matches()){
-                throw new BLLException("Nom de ville invalide");
+            if (adresse.getRue().isEmpty()) {
+                sb.append("Nom de rue invalide");
+                erreur_saisie = true;
+            }
+            if (adresse.getCodePostal().isEmpty() || !cpMatcher.matches()) {
+                sb.append("Code Postal invalide");
+                erreur_saisie = true;
+            }
+            if (adresse.getVille().isEmpty() || !villeMatcher.matches()) {
+                sb.append("Nom de ville invalide");
+                erreur_saisie = true;
+            }
+            if (erreur_saisie == true) {
+                throw new BLLException(sb.toString());
             } else {
                 articleVenduDAO.updateRetrait(idArt, adresse);
             }
