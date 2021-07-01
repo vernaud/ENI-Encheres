@@ -4,6 +4,9 @@ de seconde main sans échanges financiers.
 La valeur des articles sera déterminée par un système d'enchères
 basée sur un nombre de points. Les points sont gagnés en vendant
 des objets, puis peuvent être utilisés pour acquérir d'autres objets.
+<br>
+------------------------------------------------------------
+
 
 #Itération 1
 Rendre fonctionnel l'application :
@@ -12,6 +15,9 @@ Rendre fonctionnel l'application :
 - faire une enchère, remporter une enchère
 - affichage des profils utilisateurs et détails articles
 
+#Insertion des jeux de données de tests
+- dossier 'database' à la racine du projet
+- suivre la numérotation pour l'exécution
 
 #Configuration
 - jdk-8u291-windows-x64.exe
