@@ -92,6 +92,8 @@ public class MajProfilServlet extends HttpServlet {
                     this.doGet(req, resp);
                 }
             } catch (BLLException e) {
+                boolean isException = true;
+                req.setAttribute("isException", isException);
                 req.setAttribute("message", e.getMessage());
                 this.doGet(req, resp);
                 e.printStackTrace();

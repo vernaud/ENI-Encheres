@@ -101,6 +101,8 @@ public class EnchereServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/accueil");
             }
         } catch (BLLException e) {
+            boolean isException = true;
+            request.setAttribute("isException", isException);
             request.setAttribute("message", e.getMessage());
             request.setAttribute("id", idArt);
             this.doGet(request, response);

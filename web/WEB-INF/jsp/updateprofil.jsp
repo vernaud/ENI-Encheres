@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
     <title>MajProfil</title>
@@ -12,7 +13,11 @@
     </header>
     <main class="row">
       <h1>Mon Profil</h1>
-      <p>${message}</p>
+      <c:if test="${isException}">
+        <div class="alert alert-warning">
+          <p>${message}</p>
+        </div>
+      </c:if>
       <form action="${pageContext.request.contextPath}/majprofil" method="post">
         <label for="oldPseudo"></label>
         <input type="text" id="oldPseudo" name="oldPseudo" value="${utilisateur.getPseudo()}" hidden>

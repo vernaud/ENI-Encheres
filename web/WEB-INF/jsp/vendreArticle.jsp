@@ -16,7 +16,11 @@
         </header>
         <h1>Nouvelle vente</h1>
         <main>
-            <p>${message_erreur}</p>
+            <c:if test="${isException}">
+                <div class="alert alert-warning">
+                    <p>${message_erreur}</p>
+                </div>
+            </c:if>
 
             <form action="${pageContext.request.contextPath}/vendreArticle" method="post" class="row">
                 <div class="col-4">

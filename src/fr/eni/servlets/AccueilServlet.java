@@ -147,6 +147,8 @@ public class AccueilServlet extends HttpServlet {
             request.setAttribute("articleVenduList", articleVenduList);
 
         } catch (BLLException e) {
+            boolean isException = true;
+            request.setAttribute("isException", isException);
             request.setAttribute("message", e.getMessage());
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
         }

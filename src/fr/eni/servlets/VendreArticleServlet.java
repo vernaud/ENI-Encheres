@@ -122,6 +122,8 @@ public class VendreArticleServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/accueil");
 
         } catch (BLLException | DALException e) {
+            boolean isException = true;
+            req.setAttribute("isException", isException);
             req.setAttribute("message_erreur", e.getMessage());
             doGet(req, resp);
         }
