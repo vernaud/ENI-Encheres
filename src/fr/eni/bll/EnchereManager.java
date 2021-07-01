@@ -68,4 +68,15 @@ public class EnchereManager {
         }
         return enchereMax;
     }
+
+    public Boolean selectByidUserIdArticle(int idUtilisateur, int noArticle) throws BLLException {
+        Boolean existEnchere = null;
+        try {
+            existEnchere = enchereDAO.selectEnchereByIdUserIdArticle(idUtilisateur, noArticle);
+        } catch (DALException e) {
+            e.printStackTrace();
+            throw new BLLException("Problème lors de l'affichage de l'enchère");
+        }
+        return existEnchere;
+    }
 }

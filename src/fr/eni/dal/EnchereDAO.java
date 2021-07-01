@@ -18,4 +18,6 @@ public interface EnchereDAO {
     void crediterUtilisateur(Enchere enchere) throws DALException;
 
     void changeIdUtilisateur(int id) throws DALException;
+
+    Boolean selectEnchereByIdUserIdArticle(int idUtilisateur, int noArticle) throws DALException;
 }

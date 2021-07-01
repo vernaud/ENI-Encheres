@@ -132,12 +132,38 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
         ) {
             /*"UPDATE ENCHERES SET no_utilisateur = ? WHERE no_utilisateur=?;"*/
             pstt.setInt(1, userDeleted);
-            pstt.setInt(2,idUser);
+            pstt.setInt(2, idUser);
             pstt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DALException("Cet utilisateur n'a pas fait d'enchères.");
         }
 
+    }
+
+    @Override
+    public Boolean selectEnchereByIdUserIdArticle(int idUtilisateur, int noArticle) throws DALException {
+//       SELECT_ALL_BY_ARTICLE_UTILISATEUR = "SELECT * FROM ENCHERES e WHERE e.no_utilisateur=? AND e.no_article=? ";
+
+        Boolean existEnchere = false;
+        try (
+                Connection cnx = ConnectionProvider.getConnection();
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_ALL_BY_ARTICLE_UTILISATEUR);
+        ) {
+
+            pstt.setInt(1, idUtilisateur);
+            pstt.setInt(2, noArticle);
+            ResultSet rs = pstt.executeQuery();
+
+            if (rs.next()) {
+                existEnchere = true;
+            }
+            rs.close();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            throw new DALException("Erreur lors de la recherche d'article par utilisateur");
+        }
+
+        return existEnchere;
     }
 }

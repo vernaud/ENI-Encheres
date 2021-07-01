@@ -5,13 +5,11 @@ import fr.eni.bll.BLLException;
 import fr.eni.bll.CategorieManager;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.DALException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,29 +82,44 @@ public class AccueilServlet extends HttpServlet {
 
                 //Si achat sélectionné
                 if (selecteur != null && selecteur.equals("achat")) {
-                    List<ArticleVendu> listeAchats = articleVenduManager.afficherAchats(idUtilisateur);
-                    articleVenduList = listeAchats;
+                    articleVenduList = articleVenduManager.afficherAchats(idUtilisateur, articleVenduList);
 
                     if (request.getParameter("CheckBoxEnchereOuverte") != null) {
                         //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherEncheresOuvertes(articleVenduList);
+                        listeprovisoire = articleVenduManager.afficherVentesEnCours(articleVenduList);
                         for (ArticleVendu article : listeprovisoire) {
                             listeAAfficher.add(article);
                         }
                         articleVenduList = listeAAfficher;
                     }
-                    //TODO Ajouter mes enchères en cours
-                    //TODO Ajouter mes enchères remportées
+                    //Affichage des encheres en cours
+                    if (request.getParameter("CheckBoxEnchereEnCours") != null) {
+                        //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
+                        listeprovisoire = articleVenduManager.afficherMesEncheresEnCours(idUtilisateur, articleVenduList);
+                        for (ArticleVendu article : listeprovisoire) {
+                            listeAAfficher.add(article);
+                        }
+                        articleVenduList = listeAAfficher;
+                    }
+
+                    //Affichage des encheres remportées
+                    if (request.getParameter("checkBoxEnchereRemportes") != null) {
+                        //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
+                        listeprovisoire = articleVenduManager.afficherMesEncheresremportees(idUtilisateur, articleVenduList);
+                        for (ArticleVendu article : listeprovisoire) {
+                            listeAAfficher.add(article);
+                        }
+                        articleVenduList = listeAAfficher;
+                    }
                 }
 
                 if (selecteur != null && selecteur.equals("mesVentes")) {
                     //Récupération de l'id Utilisateur
-                    List<ArticleVendu> listeVentes = articleVenduManager.afficherventes(idUtilisateur);
-                    articleVenduList = listeVentes;
+                    articleVenduList = articleVenduManager.afficherventes(idUtilisateur, articleVenduList);
 
                     if (request.getParameter("CheckBoxVentesEnCours") != null) {
                         //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherEncheresOuvertes(listeVentes);
+                        listeprovisoire = articleVenduManager.afficherVentesEnCours(articleVenduList);
                         for (ArticleVendu article : listeprovisoire) {
                             listeAAfficher.add(article);
                         }
@@ -114,7 +127,7 @@ public class AccueilServlet extends HttpServlet {
                     }
                     if (request.getParameter("CheckeBoxVentesNonDebutees") != null) {
                         //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherEncheresNonDébutees(listeVentes);
+                        listeprovisoire = articleVenduManager.afficherVentesNonDébutees(articleVenduList);
 
                         for (ArticleVendu article : listeprovisoire) {
                             listeAAfficher.add(article);
@@ -124,7 +137,7 @@ public class AccueilServlet extends HttpServlet {
                     }
                     if (request.getParameter("CheckeBoxVentesTerminees") != null) {
                         //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
-                        listeprovisoire = articleVenduManager.afficherEncheresTerminees(listeVentes);
+                        listeprovisoire = articleVenduManager.afficherVentesTerminees(articleVenduList);
 
                         for (ArticleVendu article : listeprovisoire) {
                             listeAAfficher.add(article);

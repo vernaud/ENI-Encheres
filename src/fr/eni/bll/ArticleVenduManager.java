@@ -1,5 +1,6 @@
 package fr.eni.bll;
 
+import fr.eni.bo.Enchere;
 import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
 import fr.eni.dal.ArticleVenduDAO;
@@ -22,6 +23,7 @@ public class ArticleVenduManager {
 
 
     ArticleVenduDAO articleVenduDAO;
+    EnchereManager enchereManager = new EnchereManager();
 
     public ArticleVenduManager() {
         articleVenduDAO = DAOFactory.getArticleVenduDAO();
@@ -191,7 +193,7 @@ public class ArticleVenduManager {
     }
 
 
-    public List<ArticleVendu> afficherEncheresOuvertes(List<ArticleVendu> articleVenduList) {
+    public List<ArticleVendu> afficherVentesEnCours(List<ArticleVendu> articleVenduList) {
         List<ArticleVendu> listeEncheresEnCours = new ArrayList<>();
         for (ArticleVendu articlevendu : articleVenduList) {
             if ((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) <= 0) && (articlevendu.getDateFinEncheres().compareTo(LocalDate.now()) >= 0)) {
@@ -202,31 +204,29 @@ public class ArticleVenduManager {
 
     }
 
-    public List<ArticleVendu> afficherAchats(int idUtilisateur) throws BLLException {
+    public List<ArticleVendu> afficherAchats(int idUtilisateur, List<ArticleVendu> articleVenduList) throws BLLException {
         List<ArticleVendu> listeAchats = new ArrayList<>();
-        try {
-            listeAchats = articleVenduDAO.selectAchats(idUtilisateur);
-        } catch (DALException e) {
-            e.printStackTrace();
-            throw new BLLException("Aucun article correspondant");
-        }
 
+        for (ArticleVendu article : articleVenduList) {
+            if (article.getUtilisateur().getNoUtilisateur() != idUtilisateur) {
+                listeAchats.add(article);
+            }
+        }
         return listeAchats;
     }
 
-    public List<ArticleVendu> afficherventes(int idUtilisateur) throws BLLException {
+    public List<ArticleVendu> afficherventes(int idUtilisateur, List<ArticleVendu> articleVenduList) throws BLLException {
         List<ArticleVendu> listeAchats = new ArrayList<>();
-        try {
-            listeAchats = articleVenduDAO.selectVentes(idUtilisateur);
-        } catch (DALException e) {
-            e.printStackTrace();
-            throw new BLLException("Aucun article correspondant");
-        }
 
+        for (ArticleVendu article : articleVenduList) {
+            if (article.getUtilisateur().getNoUtilisateur() == idUtilisateur) {
+                listeAchats.add(article);
+            }
+        }
         return listeAchats;
     }
 
-    public List<ArticleVendu> afficherEncheresNonDébutees(List<ArticleVendu> articleVenduList) throws BLLException {
+    public List<ArticleVendu> afficherVentesNonDébutees(List<ArticleVendu> articleVenduList) {
         List<ArticleVendu> listeEncheresNonDebutees = new ArrayList<>();
         for (ArticleVendu articlevendu : articleVenduList) {
             if ((articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) > 0)) {
@@ -237,7 +237,7 @@ public class ArticleVenduManager {
         return listeEncheresNonDebutees;
     }
 
-    public List<ArticleVendu> afficherEncheresTerminees(List<ArticleVendu> articleVenduList) {
+    public List<ArticleVendu> afficherVentesTerminees(List<ArticleVendu> articleVenduList) {
         List<ArticleVendu> listeEnchereTerminees = new ArrayList<>();
         for (ArticleVendu articlevendu : articleVenduList) {
             if ((articlevendu.getDateFinEncheres().compareTo(LocalDate.now()) < 0)) {
@@ -376,5 +376,27 @@ public class ArticleVenduManager {
             throw new BLLException("Erreur lors de la mise à jour du retrait");
 
         }
+    }
+
+    public List<ArticleVendu> afficherMesEncheresEnCours(int idUtilisateur, List<ArticleVendu> articleVenduList) throws BLLException {
+        List<ArticleVendu> listeMesEncheresEnCours = new ArrayList<>();
+        for (ArticleVendu article : articleVenduList) {
+            Boolean existEnchere = enchereManager.selectByidUserIdArticle(idUtilisateur, article.getNoArticle());
+            if (existEnchere) {
+                listeMesEncheresEnCours.add(article);
+            }
+        }
+        return listeMesEncheresEnCours;
+    }
+
+    public List<ArticleVendu> afficherMesEncheresremportees(int idUtilisateur, List<ArticleVendu> articleVenduList) throws BLLException {
+        List<ArticleVendu> listeMesEncheresRemportees = new ArrayList<>();
+        for (ArticleVendu article : articleVenduList) {
+            Enchere enchereMax = enchereManager.getEnchereMax(article);
+            if (enchereMax != null && enchereMax.getUtilisateur().getNoUtilisateur() == idUtilisateur && article.getDateFinEncheres().isBefore(LocalDate.now())) {
+                listeMesEncheresRemportees.add(article);
+            }
+        }
+        return listeMesEncheresRemportees;
     }
 }
