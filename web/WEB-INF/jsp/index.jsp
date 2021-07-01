@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -139,7 +140,7 @@
                         </c:if>
                         <ul class="card-text">
                             <li>Prix : ${article.prixVente}</li>
-                            <li>Fin de l'enchère : ${article.dateFinEncheres}</li>
+                            <li>Fin de l'enchère : ${article.getDateFinEncheres()}</li>
                             <li>Vendeur : <a class="card-link"
                                              href="${pageContext.request.contextPath}/profil?id_profil=${article.utilisateur.noUtilisateur}">
                                     ${article.utilisateur.pseudo}</a></li>
