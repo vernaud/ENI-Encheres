@@ -25,15 +25,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     private static final String SELECT_ALL_ENCHERES_OUVERTES = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
             "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
-            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= GETDATE();"; // modifier
+            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= cast(GETDATE() as date);"; // modifier
 
     private static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
 
-    private static final String SELECT_ENCHERES_OUVERTES_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? AND date_fin_encheres >= GETDATE();";
+    private static final String SELECT_ENCHERES_OUVERTES_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ?;";
 
-    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_TOUTES_CATEGORIES = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND date_fin_encheres >= GETDATE();"; // TO DO
+    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_TOUTES_CATEGORIES = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ?;"; // TO DO
 
-    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_ET_CATEGORIE_SELECTIONNEE = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ? AND date_fin_encheres >= GETDATE();";
+    private static final String SELECT_ENCHERES_OUVERTES_NOM_CONTIENT_ET_CATEGORIE_SELECTIONNEE = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ?;";
 
     private static final String SELECT_ARTICLES_BY_NAME_AND_CATEGORY = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie= ?";
     // SELECT * FROM mytable WHERE column1 LIKE '%word1%'
@@ -231,7 +231,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
     }
 
     @Override
-    public List<ArticleVendu> selectEncheresOuvertesParCategorie(int idCategorie) throws DALException {
+    public List<ArticleVendu> selectArticleEncoursParCategorie(int idCategorie) throws DALException {
 
         List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
         try (
@@ -279,7 +279,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
     }
 
     @Override
-    public List<ArticleVendu> selectEncheresOuvertesAvecNomArticleContientToutesCategories(String nomArticleRecherche) throws DALException {
+    public List<ArticleVendu> selectArticleEnCoursAvecNomArticleContientToutesCategories(String nomArticleRecherche) throws DALException {
 
         List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
         try (
@@ -322,7 +322,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
     }
 
     @Override
-    public List<ArticleVendu> selectEncheresOuvertesAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws DALException {
+    public List<ArticleVendu> selectArticleEnCoursAvecNomArticleContientEtCategorieSelectionnee(String nomArticleRecherche, int idCategorieSelect) throws DALException {
 
         List<ArticleVendu> listeArticlesVendus = new ArrayList<>();
         try (
