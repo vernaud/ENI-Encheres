@@ -25,7 +25,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
     private static final String SELECT_ALL_ENCHERES_OUVERTES = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, " +
             "a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie  " +
-            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= GETDATE();"; // modifier
+            "FROM ARTICLES_VENDUS a WHERE a.date_fin_encheres >= cast(GETDATE() as date);"; // modifier
 
     private static final String SELECT_ARTICLE_BY_ID_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie= ? ;";
 
