@@ -150,9 +150,10 @@ public class AccueilServlet extends HttpServlet {
             boolean isException = true;
             request.setAttribute("isException", isException);
             request.setAttribute("message", e.getMessage());
+
+        } finally {
             request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
     }
 
 
