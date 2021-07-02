@@ -23,7 +23,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " +
             "FROM UTILISATEURS WHERE no_utilisateur=?";
 
-    private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE no_utilisateur=?;";
+    private static final String UPDATE_UTILISATEUR = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=?, credit=? WHERE no_utilisateur=?;";
 
     private static String DELETE_UTILISATEUR = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?;";
 
@@ -168,7 +168,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
             pstt.setString(9, utilisateur.getMotDePasse());
 //            pstt.setInt(10, utilisateur.getCredit());
 ////            pstt.setBoolean(11, utilisateur.isAdministrateur());
-            pstt.setInt(10, utilisateur.getNoUtilisateur());
+            pstt.setInt(10, utilisateur.getCredit());
+            pstt.setInt(11, utilisateur.getNoUtilisateur());
 
             pstt.executeUpdate();
             cnx.commit();
