@@ -68,7 +68,7 @@ public class AccueilServlet extends HttpServlet {
                 idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));  // récupère l'id de la catégorie sélectionnée (0 <=> toutes les catégories)// récupère le nom recherché
             }
 
-            // récupération de la liste d'article à afficher en fonction du champs de recherch et de la catégorie
+            // récupération de la liste d'article à afficher en fonction du champs de recherche et de la catégorie
             if (nomArticleRecherche.equals("")) {
                 if (idCategorieSelect == 0) {
                     listearticlefiltre = articleVenduManager.AfficherTouslesArticles();
@@ -89,7 +89,7 @@ public class AccueilServlet extends HttpServlet {
                 List<ArticleVendu> listeAchats = articleVenduManager.afficherAchats(idUtilisateur, listearticlefiltre);
                 listeAAfficher = listeAchats;
                 Boolean check = false;
-
+                //Affichage des enchères ouvertes
                 if (request.getParameter("CheckBoxEnchereOuverte") != null) {
                     //Extraire la liste des article pour lesquels date début<=localdate.now et date de fin >=localdate.now
                     listeAAfficher = articleVenduManager.afficherEncheresEnCours(listeAchats);
@@ -97,7 +97,7 @@ public class AccueilServlet extends HttpServlet {
                 }
                 //Affichage des encheres en cours
                 if (request.getParameter("CheckBoxEnchereEnCours") != null) {
-                    //Extraire la liste des article pour lesquels l'utilisateur connecté a fait une enchère
+                   //checkboxEnchereOuverte n'est pas cochée, on ne fait rien
                     if(!check){
                         listeAAfficher = articleVenduManager.afficherMesEncheresEnCours(idUtilisateur, listeAAfficher);
                     }
