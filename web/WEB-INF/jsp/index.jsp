@@ -140,7 +140,7 @@
                             </c:if>
                         </c:if>
                         <ul class="card-text">
-                            <li>Prix : ${article.prixVente}</li>
+                            <li>Prix : ${article.prixVente} points</li>
                             <fmt:parseDate value="${article.dateFinEncheres}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
                             <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date" pattern="dd-MM-yyyy" />
                             <li>Fin de l'enchère : <fmt:formatDate type="date" value="${parsedDate}" /> </li>
