@@ -47,6 +47,12 @@ public class AccueilServlet extends HttpServlet {
         if (request.getParameter("nomArticle") != null) {
             request.setAttribute("nomArticle", request.getParameter("nomArticle"));
         }
+
+        if (request.getParameter("deconnect") != null) {
+            request.getSession().setAttribute("utilisateur", null);
+            request.getSession().setAttribute("connecte", false);
+        }
+        //Renvoi des valeurs des boutons radio et checkbox pour conservation de l'affichage après validation du formulaire
         request.setAttribute("ListeCategories", request.getParameter("ListeCategories"));
         request.setAttribute("CheckBoxEnchereOuverte", request.getParameter("CheckBoxEnchereOuverte"));
         request.setAttribute("CheckBoxEnchereEnCours", request.getParameter("CheckBoxEnchereEnCours"));
@@ -55,17 +61,12 @@ public class AccueilServlet extends HttpServlet {
         request.setAttribute("CheckeBoxVentesNonDebutees", request.getParameter("CheckeBoxVentesNonDebutees"));
         request.setAttribute("CheckeBoxVentesTerminees", request.getParameter("CheckeBoxVentesTerminees"));
 
-        if (request.getParameter("deconnect") != null) {
-            request.getSession().setAttribute("utilisateur", null);
-            request.getSession().setAttribute("connecte", false);
-        }
         try {
+
             request.setAttribute("listeCategories", categorieManager.selectAll());
             if (request.getParameter("ListeCategories") != null) {
                 idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));  // récupère l'id de la catégorie sélectionnée (0 <=> toutes les catégories)// récupère le nom recherché
             }
-            // articleVenduList = articleVenduManager.AfficherArticlesParCategorie(idCategorieSelect); (ancienne méthode de Florentin)
-            // articleVenduList = articleVenduManager.AfficherArticlesParNomEtCategorie(nomArticleRecherche, idCategorieSelect); // (nouvelle méthode de Matthieu)
 
             if (nomArticleRecherche.equals("")) {
                 if (idCategorieSelect == 0) {
