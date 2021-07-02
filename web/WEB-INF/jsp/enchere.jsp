@@ -34,7 +34,7 @@
                     <c:if test="${enchereMax!=null}"> ${enchereMax.montantEnchere} pts par ${enchereMax.getUtilisateur().getPseudo()}</c:if></li>
                 <li>Mise à prix : ${article.prixInitial} points</li>
                 <c:if test="${enchereTerminee != null}">
-                    <li>Prix de vente : ${article.prixVente}</li>
+                    <li>Prix de vente : ${article.prixVente} points</li>
                 </c:if>
                 <fmt:parseDate value="${article.dateFinEncheres}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
                 <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date" pattern="dd-MM-yyyy" />
