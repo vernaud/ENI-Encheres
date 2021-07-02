@@ -35,7 +35,7 @@ public class InscriptionServlet extends HttpServlet {
             String ville = request.getParameter("ville");
             String password = request.getParameter("password");
             String confirmpass = request.getParameter("confirmpass");
-            //FIXME inscription: tel [si vide exception -> problème, il peut être null en base] idem updateProfil
+
             if (!password.equals(confirmpass)) {
                 request.setAttribute("isException", true);
                 request.setAttribute("message", "Les mots de passe ne correspondent pas");

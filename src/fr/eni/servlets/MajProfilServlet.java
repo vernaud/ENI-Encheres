@@ -17,13 +17,6 @@ import java.util.regex.Pattern;
 @WebServlet("/majprofil")
 public class MajProfilServlet extends HttpServlet {
 
-    private static Pattern nomPattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
-    private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
-    private static Pattern mailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    private static Pattern telPattern = Pattern.compile("^(\\d{2}[- .]?){5}$");
-    private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
-
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
