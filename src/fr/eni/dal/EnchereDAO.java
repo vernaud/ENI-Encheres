@@ -12,11 +12,6 @@ public interface EnchereDAO {
 
     public List<Enchere> selectAllByIdArticle(ArticleVendu articleVendu) throws DALException ;
 
-
-    void debiterUtilisateur(Utilisateur utilisateur, Enchere enchere) throws DALException;
-
-    void crediterUtilisateur(Enchere enchere) throws DALException;
-
     void changeIdUtilisateur(int id) throws DALException;
 
     Boolean selectEnchereByIdUserIdArticle(int idUtilisateur, int noArticle) throws DALException;

@@ -29,7 +29,6 @@
                         <li>Rue : ${userprofil.rue}</li>
                         <li>Code postal : ${userprofil.codePostal}</li>
                         <li>Ville : ${userprofil.ville}</li>
-                        <%//FIXME Ajouter requête en base pour afficher le crédit en temps réel%>
                         <c:if test="${userprofil.noUtilisateur == utilisateur.noUtilisateur}">
                             <li>Crédit : ${utilisateur.credit} points</li>
                         </c:if>

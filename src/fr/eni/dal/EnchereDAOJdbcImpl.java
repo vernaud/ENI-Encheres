@@ -84,45 +84,6 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
         return listeEnchere;
     }
 
-    @Override
-    public void debiterUtilisateur(Utilisateur utilisateur, Enchere enchere) throws DALException {
-        // Crédit actuel de l'utilisateur :
-        int credit = utilisateur.getCredit();
-        int montantADebiter = enchere.getMontantEnchere();
-        if (credit < montantADebiter) {
-            throw new DALException("Credit insuffisant");
-        } else {
-            credit = credit - montantADebiter;
-            try (Connection cnx = ConnectionProvider.getConnection();
-                 PreparedStatement pstt = cnx.prepareStatement(UPDATE_CREDIT)) {
-                pstt.setInt(1, credit);
-                pstt.setInt(2, utilisateur.getNoUtilisateur());
-                pstt.executeUpdate();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                throw new DALException("problème update credit utilisateur");
-            }
-        }
-    }
-
-    @Override
-    public void crediterUtilisateur(Enchere enchere) throws DALException {
-        // Crédit actuel de l'utilisateur :
-        Utilisateur utilisateur =enchere.getUtilisateur();
-        int credit = utilisateur.getCredit();
-        int montantACrediter = enchere.getMontantEnchere();
-        credit = credit + montantACrediter;
-        try (Connection cnx = ConnectionProvider.getConnection();
-             PreparedStatement pstt = cnx.prepareStatement(UPDATE_CREDIT)) {
-            pstt.setInt(1, credit);
-            pstt.setInt(2, enchere.getUtilisateur().getNoUtilisateur());
-            pstt.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            throw new DALException("problème update credit utilisateur");
-        }
-
-    }
 
     @Override
     public void changeIdUtilisateur(int idUser) throws DALException {
