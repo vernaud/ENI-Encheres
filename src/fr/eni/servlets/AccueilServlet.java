@@ -18,28 +18,30 @@ public class AccueilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        Boolean modeConnecte = (Boolean) request.getSession().getAttribute("connecte");
-//        request.getSession().setAttribute("modeConnecte", modeConnecte);
+
         request.setCharacterEncoding("utf-8");
         String selecteur = request.getParameter("radio");
         int idCategorieSelect = 0;
         int idUtilisateur;
         String nomArticleRecherche = "";
-        if (request.getParameter("nomArticle") != null) {
-            nomArticleRecherche = request.getParameter("nomArticle");
-        }
-
-        if (request.getSession().getAttribute("utilisateur") != null) {
-            Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
-            idUtilisateur = utilisateur.getNoUtilisateur();
-        } else {
-            idUtilisateur = 0;
-        }
         CategorieManager categorieManager = new CategorieManager();
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
         List<ArticleVendu> listearticlefiltre = null;
         List<ArticleVendu> listeAAfficher = new ArrayList<>();
         List<ArticleVendu> listeprovisoire = new ArrayList<>();
+        // Vérification de la connexion utilisateur et intialisation idUtilisateur
+        if (request.getSession().getAttribute("utilisateur") != null) {
+            Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+            idUtilisateur = utilisateur.getNoUtilisateur();
+        }
+        else {
+            idUtilisateur = 0;
+        }
+
+        // Récupération des valeurs des champs du formulaire
+        if (request.getParameter("nomArticle") != null) {
+            nomArticleRecherche = request.getParameter("nomArticle");
+        }
 
         request.setAttribute("radio", request.getParameter("radio"));
         if (request.getParameter("nomArticle") != null) {

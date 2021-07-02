@@ -22,7 +22,7 @@
             <%--IMAGE DE L'ARTICLE--<img src="" alt="">--%>
                 <h2>${article.nomArticle}</h2>
             <ul>
-                <c:if test="${userWiner != null && utilisateur.noUtilisateur != userWiner.noUtilisateur}">
+                <c:if test="${userWiner != null && userWiner.noUtilisateur != -1 && utilisateur.noUtilisateur != userWiner.noUtilisateur}">
                 <h2>${userWiner.getPseudo()} a remporté l'enchère</h2>
                 </c:if>
                 <c:if test="${userWiner != null && utilisateur.noUtilisateur == userWiner.noUtilisateur}">
