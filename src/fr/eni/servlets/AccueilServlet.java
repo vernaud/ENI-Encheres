@@ -68,6 +68,7 @@ public class AccueilServlet extends HttpServlet {
                 idCategorieSelect = Integer.parseInt(request.getParameter("ListeCategories"));  // récupère l'id de la catégorie sélectionnée (0 <=> toutes les catégories)// récupère le nom recherché
             }
 
+            // récupération de la liste d'article à afficher en fonction du champs de recherch et de la catégorie
             if (nomArticleRecherche.equals("")) {
                 if (idCategorieSelect == 0) {
                     listearticlefiltre = articleVenduManager.AfficherTouslesArticles();
