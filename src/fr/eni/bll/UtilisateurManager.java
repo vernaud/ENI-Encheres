@@ -13,10 +13,10 @@ public class UtilisateurManager {
     ArticleVenduDAO articleDAO;
 
 
-    private static Pattern nomPattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù ]*+(- [A-Za-z-âàêèéîôûù ]*)*");
-    private static Pattern villePattern = Pattern.compile("[A-Z]+[A-Za-z-âàêèéîôûù]*+(- [A-Za-z-âàêèéîôûù]*)*");
+    private static Pattern nomPattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+(- [A-ZÀ-Ýa-zà-ý ]*)*");
+    private static Pattern villePattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+(- [A-ZÀ-Ýa-zà-ý ]*)*");
     private static Pattern mailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    private static Pattern telPattern = Pattern.compile("^(\\d{2}[- .]?){5}$"); //FIXME telephone peut être null
+    private static Pattern telPattern = Pattern.compile("^(\\d{2}[- .]?){5}$|(^$)");
     private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
 
 
@@ -45,7 +45,7 @@ public class UtilisateurManager {
             } else if (!(mailMatcher.matches())) {
                 sb.append("Email invalide <br/>");
                 erreur_saisie = true;
-            } else if (!(telMatcher.matches())) {
+            } else if ( !(telMatcher.matches()) ) {
                 sb.append("Numéro de téléphone invalide <br/>");
                 erreur_saisie = true;
             } else if (!(cpMatcher.matches())) {
@@ -129,7 +129,7 @@ public class UtilisateurManager {
             } else if (!(mailMatcher.matches())) {
                 sb.append("Email invalide <br/>");
                 erreur_saisie = true;
-            } else if (!(telMatcher.matches())) {
+            } else if ( !(telMatcher.matches()) ) {
                 sb.append("Numéro de téléphone invalide <br/>");
                 erreur_saisie = true;
             } else if (!(cpMatcher.matches())) {
