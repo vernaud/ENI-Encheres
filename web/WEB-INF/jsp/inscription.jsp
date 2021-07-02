@@ -22,21 +22,21 @@
             <div class="row">
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Pseudo*</span>
-                    <input class="form-control" type="text" id="pseudo" name="pseudo" required>
+                    <input class="form-control" type="text" id="pseudo" name="pseudo" placeholder="pseudo" required>
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Nom*</span>
-                    <input class="form-control" type="text" id="nom" name="nom" required>
+                    <input class="form-control" type="text" id="nom" name="nom" placeholder="Nom" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Prénom*</span>
-                    <input class="form-control" type="text" id="prenom" name="prenom" required>
+                    <input class="form-control" type="text" id="prenom" name="prenom" placeholder="Prénom" required>
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Email*</span>
-                    <input class="form-control" type="email" id="email" name="email" required>
+                    <input class="form-control" type="email" id="email" name="email" placeholder="monemail@mail.com" required>
                 </div>
             </div>
             <div class="row">
@@ -46,17 +46,17 @@
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Rue*</span>
-                    <input class="form-control" type="text" id="rue" name="rue" required>
+                    <input class="form-control" type="text" id="rue" name="rue" placeholder="n° de ma rue" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Code postal*</span>
-                    <input class="form-control" type="text" id="codepostal" name="codepostal" required>
+                    <input class="form-control" type="text" id="codepostal" name="codepostal" placeholder="00000" required>
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Ville*</span>
-                    <input class="form-control" type="text" id="ville" name="ville" required>
+                    <input class="form-control" type="text" id="ville" name="ville" placeholder="Ma Ville" required>
                 </div>
             </div>
             <div class="row">
