@@ -13,7 +13,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 
     private static final String SELECT_UTILISATEUR_CONNECT = "SELECT no_utilisateur, pseudo, nom, prenom, email, " +
             "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur     " +
-            "FROM UTILISATEURS WHERE pseudo=? AND mot_de_passe=?";
+            "FROM UTILISATEURS WHERE (pseudo=? OR email=?) AND mot_de_passe=?";
 
     private static final String INSERT_UTLISATEUR = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, " +
             "rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -34,8 +34,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
              PreparedStatement pstt = cnx.prepareStatement(SELECT_UTILISATEUR_CONNECT)) {
             //Paramétrage de la requête.
             pstt.setString(1, pseudoOuMail);
+            pstt.setString(2, pseudoOuMail);
             //pstt.setString(2, pseudoOuMail);
-            pstt.setString(2, motDePasse);
+            pstt.setString(3, motDePasse);
             //Execution de la requête
             ResultSet rs = pstt.executeQuery();
             //On se place sur la première ligne
