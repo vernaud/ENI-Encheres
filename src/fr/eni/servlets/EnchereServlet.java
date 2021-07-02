@@ -78,8 +78,11 @@ public class EnchereServlet extends HttpServlet {
         ArticleVenduManager avManager = new ArticleVenduManager();
         EnchereManager enchereManager = new EnchereManager();
         try {
+            // récupération de l'article & utilisateur
             ArticleVendu articleVendu = avManager.selectById(idArt);
             Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+
+            // Vérification du foramt de saisie de l'enchère
             String stringMontant = request.getParameter("proposition").trim();
             Matcher montantMatcher = montantPattern.matcher(stringMontant);
             if (!(montantMatcher.matches())) {
@@ -87,14 +90,17 @@ public class EnchereServlet extends HttpServlet {
                 request.setAttribute("id", idArt);
                 request.getRequestDispatcher("WEB-INF/jsp/enchere.jsp").forward(request, response);
             } else {
+
                 int montant = Integer.parseInt(request.getParameter("proposition").trim());
                 LocalDate dateEnchere = LocalDate.now();
+                //Création de l'enchère
                 Enchere enchere = new Enchere();
                 enchere.setUtilisateur(utilisateur);
                 enchere.setArticleVendu(articleVendu);
                 enchere.setDateEnchere(dateEnchere);
                 enchere.setMontantEnchere(montant);
 
+                // Insertion de l'enchère
                 enchere = enchereManager.ajouterEnchere(enchere);
                 System.out.println(enchere.getArticleVendu().getNoArticle());
 //                request.setAttribute("id", articleVendu.getNoArticle());

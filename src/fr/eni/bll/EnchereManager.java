@@ -26,6 +26,8 @@ public class EnchereManager {
         Utilisateur utilisateur = enchere.getUtilisateur();
         ArticleVendu articleVendu = enchere.getArticleVendu();
         Enchere enchereMax = enchereManager.getEnchereMax(articleVendu);
+
+        // Gestion des cas d'erreur
         try {
             if (utilisateur.getCredit() < enchere.getMontantEnchere()) {
                 throw new BLLException("Enchère impossible, vous ne disposez pas d'assez de crédit");
@@ -39,7 +41,9 @@ public class EnchereManager {
                     && articleVendu.getDateFinEncheres().isAfter(LocalDate.now())) {
                 throw new BLLException("Vous avez déjà fait l'enchère maximum! Veuillez attendre que quelqu'un d'autre renchérisse.");
             } else {
+                //Insertion de l'enchère
                 enchereInsert = enchereDAO.insertEnchere(enchere);
+                // Modif du prix de vente de l'article
                 articleVendu.setPrixVente(enchere.getMontantEnchere());
                 articleVenduDAO.updateArticle(articleVendu.getNoArticle(), articleVendu);
                 //débiter l'utilisteur qui vient de faire l'enchère

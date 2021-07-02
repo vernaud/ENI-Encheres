@@ -23,11 +23,12 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
              PreparedStatement pstt1 = cnx.prepareStatement(SELECT_ALL_BY_ARTICLE_UTILISATEUR);
              PreparedStatement pstt2 = cnx.prepareStatement(INSERT_ENCHERE);
              PreparedStatement pstt3 = cnx.prepareStatement(UPDATE_ENCHERE)) {
-
+            // recherche des enchères correspondant à idUtilisateur & idArticle
             pstt1.setInt(1, enchere.getUtilisateur().getNoUtilisateur());
             pstt1.setInt(2, enchere.getArticleVendu().getNoArticle());
 
             ResultSet rs = pstt1.executeQuery();
+            //Si une enchère existe on update l'enchère existante
             if (rs.next()) {
                 pstt3.setInt(1, enchere.getMontantEnchere());
                 pstt3.setDate(2, java.sql.Date.valueOf(enchere.getDateEnchere()));
@@ -35,6 +36,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
                 pstt3.setInt(4, enchere.getArticleVendu().getNoArticle());
                 pstt3.executeUpdate();
             } else {
+                // Sinon on insert une nouvelle enchère
                 pstt2.setInt(1, enchere.getUtilisateur().getNoUtilisateur());
                 pstt2.setInt(2, enchere.getArticleVendu().getNoArticle());
                 pstt2.setDate(3, java.sql.Date.valueOf(enchere.getDateEnchere()));
