@@ -13,8 +13,8 @@ public class UtilisateurManager {
     ArticleVenduDAO articleDAO;
 
     private static Pattern pseudoPattern = Pattern.compile("[a-zA-Z0-9]*");
-    private static Pattern nomPattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+(- [A-ZÀ-Ýa-zà-ý ]*)*");
-    private static Pattern villePattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+(- [A-ZÀ-Ýa-zà-ý ]*)*");
+    private static Pattern nomPattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+([- ]+[A-ZÀ-Ýa-zà-ý ]*)*");
+    private static Pattern villePattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+([- ][A-ZÀ-Ýa-zà-ý ]*)*");
     private static Pattern mailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static Pattern telPattern = Pattern.compile("^(\\d{2}[- .]?){5}$|(^$)");
     private static Pattern cpPattern = Pattern.compile("(\\d{2}[ ]?)+(\\d{3})");
