@@ -12,7 +12,7 @@ public class UtilisateurManager {
     EnchereDAO enchereDAO;
     ArticleVenduDAO articleDAO;
 
-    private static Pattern pseudoPattern = Pattern.compile("[a-zA-Z0-9]*");
+    private static Pattern pseudoPattern = Pattern.compile("[A-ZÀ-Ýa-zà-ý0-9]*");
     private static Pattern nomPattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+([- ]+[A-ZÀ-Ýa-zà-ý ]*)*");
     private static Pattern villePattern = Pattern.compile("[A-ZÀ-Ý]+[A-ZÀ-Ýa-zà-ý ]*+([- ][A-ZÀ-Ýa-zà-ý ]*)*");
     private static Pattern mailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -115,6 +115,7 @@ public class UtilisateurManager {
     }
 
     public void mettreAJourProfil(Utilisateur utilisateur, String oldPseudo, String ancienMdP) throws BLLException {
+        Matcher pseudoMatcher = pseudoPattern.matcher(utilisateur.getPseudo());
         Matcher nomMatcher = nomPattern.matcher(utilisateur.getNom());
         Matcher prenomMatcher = nomPattern.matcher(utilisateur.getPrenom());
         Matcher mailMatcher = mailPattern.matcher(utilisateur.getEmail());
@@ -124,7 +125,10 @@ public class UtilisateurManager {
         StringBuffer sb = new StringBuffer();
         boolean erreur_saisie = false;
         try {
-            if (!(nomMatcher.matches())) {
+            if (!(pseudoMatcher.matches())) {
+                sb.append("Pseudo invalide, veuillez saisir des caractères alphanumériques <br/>");
+                erreur_saisie = true;
+            } else if (!(nomMatcher.matches())) {
                 sb.append("Nom invalide <br/>");
                 erreur_saisie = true;
             } else if (!(prenomMatcher.matches())) {

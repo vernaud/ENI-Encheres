@@ -97,11 +97,11 @@ public class AccueilServlet extends HttpServlet {
                 }
                 //Affichage des encheres en cours
                 if (request.getParameter("CheckBoxEnchereEnCours") != null) {
-                   //checkboxEnchereOuverte n'est pas cochée, on ne fait rien
+                   //checkboxEnchereOuverte est cochée, on ne fait rien.
                     if(!check){
                         listeAAfficher = articleVenduManager.afficherMesEncheresEnCours(idUtilisateur, listeAAfficher);
                     }
-                    check = true;
+//                    check = true;
                 }
 
                 //Affichage des encheres remportées
