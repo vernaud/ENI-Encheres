@@ -108,7 +108,8 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
     @Override
     public void crediterUtilisateur(Enchere enchere) throws DALException {
         // Crédit actuel de l'utilisateur :
-        int credit = enchere.getUtilisateur().getCredit();
+        Utilisateur utilisateur =enchere.getUtilisateur();
+        int credit = utilisateur.getCredit();
         int montantACrediter = enchere.getMontantEnchere();
         credit = credit + montantACrediter;
         try (Connection cnx = ConnectionProvider.getConnection();
@@ -120,6 +121,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
             throwables.printStackTrace();
             throw new DALException("problème update credit utilisateur");
         }
+
     }
 
     @Override

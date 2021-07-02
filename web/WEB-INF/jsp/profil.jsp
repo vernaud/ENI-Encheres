@@ -30,9 +30,9 @@
                         <li>Code postal : ${userprofil.codePostal}</li>
                         <li>Ville : ${userprofil.ville}</li>
                         <%//FIXME Ajouter requête en base pour afficher le crédit en temps réel%>
-<%--                        <c:if test="${userprofil.noUtilisateur == utilisateur.noUtilisateur}">--%>
-<%--                            <li>Crédit : ${utilisateur.credit} points</li>--%>
-<%--                        </c:if>--%>
+                        <c:if test="${userprofil.noUtilisateur == utilisateur.noUtilisateur}">
+                            <li>Crédit : ${utilisateur.credit} points</li>
+                        </c:if>
                     </ul>
                 </article>
                 <c:if test="${!(userprofil.noUtilisateur == utilisateur.noUtilisateur)}">

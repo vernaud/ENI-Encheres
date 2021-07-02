@@ -3,10 +3,7 @@ package fr.eni.bll;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Enchere;
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.ArticleVenduDAO;
-import fr.eni.dal.DALException;
-import fr.eni.dal.DAOFactory;
-import fr.eni.dal.EnchereDAO;
+import fr.eni.dal.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ public class EnchereManager {
 
     EnchereDAO enchereDAO;
     ArticleVenduDAO articleVenduDAO = DAOFactory.getArticleVenduDAO();
+    UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO();
 
     public EnchereManager() {
         enchereDAO = DAOFactory.getEnchereDAO();
@@ -45,10 +43,13 @@ public class EnchereManager {
                 articleVendu.setPrixVente(enchere.getMontantEnchere());
                 articleVenduDAO.updateArticle(articleVendu.getNoArticle(), articleVendu);
                 //débiter l'utilisteur qui vient de faire l'enchère
-                enchereDAO.debiterUtilisateur(utilisateur, enchere);
+                utilisateur.setCredit(utilisateur.getCredit()-enchere.getMontantEnchere());
+                utilisateurDAO.UpdateProfil(utilisateur);
                 //Créditer l'utilisateur qui a la précédente enchère maximum précédente
                 if(enchereMax != null && enchereMax.getUtilisateur().getNoUtilisateur() != enchere.getUtilisateur().getNoUtilisateur()) {
-                    enchereDAO.crediterUtilisateur(enchereMax);
+                    Utilisateur utilisateurCredit = enchereMax.getUtilisateur();
+                    utilisateurCredit.setCredit(utilisateurCredit.getCredit()+enchereMax.getMontantEnchere());
+                    utilisateurDAO.UpdateProfil(utilisateurCredit);
                 }
             }
         } catch (DALException e) {
