@@ -144,7 +144,7 @@ public class ArticleVenduManager {
                 throw new BLLException("Il n'existe pas d'article en enchères contenant ce mot et correspondant à cette catégorie");
             }
 
-        } catch (DALException | BLLException e) {
+        } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException("Problème lors de la sélection d'articles par nom et categorie");
         }

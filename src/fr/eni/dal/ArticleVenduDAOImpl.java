@@ -357,7 +357,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
                 listeArticlesVendus.add(article);
             }
             rs.close();
-        } catch (SQLException | DALException sqlException) {
+        } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             throw new DALException("Erreur lors de la recherche d'article par nom et catégorie");
         }

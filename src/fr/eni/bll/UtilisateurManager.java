@@ -104,7 +104,7 @@ public class UtilisateurManager {
             utilisateur = this.utilisateurDAO.connecterUtilisateur(pseudoOuMail, mdp);
         } catch (DALException e) {
             e.printStackTrace();
-            throw new BLLException("Utilisateur introuvable ou mot de passe incorrecte");
+            throw new BLLException("Utilisateur introuvable ou mot de passe incorrect");
 
         }
         return utilisateur;
