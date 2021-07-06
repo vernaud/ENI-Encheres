@@ -35,6 +35,14 @@ public class InscriptionServlet extends HttpServlet {
             String ville = request.getParameter("ville");
             String password = request.getParameter("password");
             String confirmpass = request.getParameter("confirmpass");
+            request.setAttribute("pseudo", request.getParameter("pseudo"));
+            request.setAttribute("nom", request.getParameter("nom"));
+            request.setAttribute("prenom", request.getParameter("prenom"));
+            request.setAttribute("email", request.getParameter("email"));
+            request.setAttribute("tel", request.getParameter("tel"));
+            request.setAttribute("rue", request.getParameter("rue"));
+            request.setAttribute("codepostal", request.getParameter("codepostal"));
+            request.setAttribute("ville", request.getParameter("ville"));
 
             if (!password.equals(confirmpass)) {
                 request.setAttribute("isException", true);

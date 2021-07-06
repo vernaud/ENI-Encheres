@@ -22,41 +22,41 @@
             <div class="row">
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Pseudo*</span>
-                    <input class="form-control" type="text" id="pseudo" name="pseudo" placeholder="pseudo" required>
+                    <input class="form-control" type="text" id="pseudo" name="pseudo" value="${pseudo}" placeholder="pseudo" required>
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Nom*</span>
-                    <input class="form-control" type="text" id="nom" name="nom" placeholder="Nom" required>
+                    <input class="form-control" type="text" id="nom" name="nom" value="${nom}" placeholder="Nom" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Prénom*</span>
-                    <input class="form-control" type="text" id="prenom" name="prenom" placeholder="Prénom" required>
+                    <input class="form-control" type="text" id="prenom" name="prenom" value="${prenom}" placeholder="Prénom" required>
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Email*</span>
-                    <input class="form-control" type="email" id="email" name="email" placeholder="monemail@mail.com" required>
+                    <input class="form-control" type="email" id="email" name="email" value="${email}" placeholder="monemail@mail.com" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Téléphone</span>
-                    <input class="form-control" type="tel" id="tel" name="tel">
+                    <input class="form-control" type="tel" id="tel" value="${tel}" name="tel">
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Rue*</span>
-                    <input class="form-control" type="text" id="rue" name="rue" placeholder="n° de ma rue" required>
+                    <input class="form-control" type="text" id="rue" name="rue" value="${rue}" placeholder="n° de ma rue" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Code postal*</span>
-                    <input class="form-control" type="text" id="codepostal" name="codepostal" placeholder="00000" required>
+                    <input class="form-control" type="text" id="codepostal" name="codepostal" value="${codepostal}" placeholder="00000" required>
                 </div>
                 <div class="col input-group p-1">
                     <span class="col-md-3 input-group-text">Ville*</span>
-                    <input class="form-control" type="text" id="ville" name="ville" placeholder="Ma Ville" required>
+                    <input class="form-control" type="text" id="ville" name="ville" value="${ville}" placeholder="Ma Ville" required>
                 </div>
             </div>
             <div class="row">
