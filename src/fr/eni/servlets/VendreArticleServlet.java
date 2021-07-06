@@ -96,6 +96,7 @@ public class VendreArticleServlet extends HttpServlet {
                 Categorie categorie = categorieManager.selectById(noCategorie);
                 Utilisateur utilisateur = (Utilisateur) req.getSession().getAttribute("utilisateur");
                 ArticleVendu articleVendu = new ArticleVendu(nom, description, date_debut_enchere, date_fin_enchere, mise_a_prix, mise_a_prix, utilisateur, categorie);
+                req.setAttribute("article", articleVendu);
                 Retrait adresse = new Retrait(rue, codePostal, ville);
                 String idSrting = req.getParameter("id");
                 if (req.getParameter("id").isEmpty()) {
